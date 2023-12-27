@@ -2,6 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+h1 {
+  @apply text-2xl;
+  @apply font-bold;
+}
+
+h2 {
+  @apply text-lg;
+  @apply font-semibold;
+}
+
+.card {
+  @apply p-6;
+  @apply shadow-md;
+  @apply rounded-lg;
+}
+
 /* default style of tailwind */
 /* 
 :root {
