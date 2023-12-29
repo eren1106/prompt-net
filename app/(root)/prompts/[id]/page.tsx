@@ -7,12 +7,22 @@ import React, { ChangeEvent, useEffect, useState } from 'react'
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
   const [inputs, setInputs] = useState<string[]>([]);
+  const [inputValues, setInputValues] = useState<string[]>([]);
   const toast = useToast();
 
-  const handleInputChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+  const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setPromptValue(e.target.value)
     setInputs(getInputsFromPrompt(e.target.value));
   }
+
+  const handleInputChange = (index: number, value: string): void => {
+    // Create a copy of the inputValues array
+    const newInputValues: string[] = [...inputValues];
+    // Update the value at the specified index
+    newInputValues[index] = value;
+    // Update the state with the new array
+    setInputValues(newInputValues);
+  };
 
   const getInputsFromPrompt = (promptText: string): string[] => {
     const regex = /\{([^}]+)\}/g;
@@ -23,7 +33,7 @@ const PromptDetailPage = () => {
   }
 
   const handleCopyPromptText = (): void => {
-    if(promptValue.length < 1) {
+    if (promptValue.length < 1) {
       toast({
         title: 'Text is empty!',
         status: 'error',
@@ -31,14 +41,25 @@ const PromptDetailPage = () => {
       })
       return;
     }
-    
-    navigator.clipboard.writeText(promptValue);
+    navigator.clipboard.writeText(replacePlaceholders(promptValue, inputValues));
     toast({
       title: 'Text copied to clipboard!',
       status: 'success',
       duration: 2000,
     })
   }
+
+  // Function to replace placeholders with values
+  const replacePlaceholders = (promptText: string, inputTexts: string[]): string => {
+    let result = promptText;
+  
+    promptText.match(/{(.*?)}/g)?.forEach((match, index) => {
+      const replacement = inputTexts[index] || ""; // Use empty string if index is out of bounds
+      result = result.replace(match, replacement);
+    });
+  
+    return result;
+  };
 
   return (
     <div>
@@ -57,7 +78,7 @@ const PromptDetailPage = () => {
             <h2 className='mb-1'>Prompt</h2>
             <Textarea
               value={promptValue}
-              onChange={handleInputChange}
+              onChange={handlePromptChange}
               placeholder='Write prompt here'
               className='resize-none'
               minHeight={300}
@@ -68,7 +89,12 @@ const PromptDetailPage = () => {
               <h2 className='mb-1'>Inputs</h2>
               <div className='flex flex-col gap-2'>
                 {
-                  inputs.map((input, index) => <PromptInput label={input} key={index} />)
+                  inputs.map((input, index) =>
+                    <PromptInput
+                      label={input}
+                      key={index}
+                      onChange={(e) => handleInputChange(index, e.target.value)}
+                    />)
                 }
               </div>
             </div>

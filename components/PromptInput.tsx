@@ -4,9 +4,10 @@ import React from 'react'
 interface PromptInputProps {
   label: string;
   value?: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-const PromptInput: React.FC<PromptInputProps> = ({ label, value }) => {
+const PromptInput: React.FC<PromptInputProps> = ({ label, value, onChange }) => {
   return (
     <div>
       <InputGroup>
@@ -23,6 +24,7 @@ const PromptInput: React.FC<PromptInputProps> = ({ label, value }) => {
           maxH='unset'
           height='unset'
           minH={10}
+          onChange={onChange}
         />
       </InputGroup>
     </div>
