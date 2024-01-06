@@ -1,8 +1,10 @@
 'use client'
 
+import AutoResizeTextarea from '@/components/AutoResizeTextarea';
 import PromptInput from '@/components/PromptInput';
 import { Button, Textarea, useToast } from '@chakra-ui/react'
 import React, { ChangeEvent, useEffect, useState } from 'react'
+import ResizeTextarea from "react-textarea-autosize";
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
@@ -52,12 +54,12 @@ const PromptDetailPage = () => {
   // Function to replace placeholders with values
   const replacePlaceholders = (promptText: string, inputTexts: string[]): string => {
     let result = promptText;
-  
+
     promptText.match(/{(.*?)}/g)?.forEach((match, index) => {
       const replacement = inputTexts[index] || ""; // Use empty string if index is out of bounds
       result = result.replace(match, replacement);
     });
-  
+
     return result;
   };
 
@@ -76,12 +78,11 @@ const PromptDetailPage = () => {
         <div className='flex gap-5'>
           <div className='flex-1'>
             <h2 className='mb-1'>Prompt</h2>
-            <Textarea
+            <AutoResizeTextarea
               value={promptValue}
               onChange={handlePromptChange}
               placeholder='Write prompt here'
-              className='resize-none'
-              minHeight={300}
+              minH={300}
             />
           </div>
           {
