@@ -8,7 +8,6 @@ const AutoResizeTextarea = React.forwardRef<
 >((props, ref) => {
   return (
     <Textarea
-      minH="unset"
       overflow="hidden"
       w="100%"
       resize="none"
