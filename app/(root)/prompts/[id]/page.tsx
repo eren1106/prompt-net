@@ -2,9 +2,8 @@
 
 import AutoResizeTextarea from '@/components/AutoResizeTextarea';
 import PromptInput from '@/components/PromptInput';
-import { Button, Textarea, useToast } from '@chakra-ui/react'
-import React, { ChangeEvent, useEffect, useState } from 'react'
-import ResizeTextarea from "react-textarea-autosize";
+import { Button, useToast } from '@chakra-ui/react'
+import React, { ChangeEvent, useState } from 'react'
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
@@ -64,44 +63,57 @@ const PromptDetailPage = () => {
   };
 
   return (
-    <div>
-      <h1>Prompt Title</h1>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum illum eveniet tenetur recusandae vero sint sequi eligendi necessitatibus non! Dignissimos?</p>
-      <div className='card mt-2'>
-        <div className='flex justify-end'>
-          <Button
-            colorScheme='teal'
-            variant='outline'
-            onClick={handleCopyPromptText}
-          >Copy</Button>
-        </div>
-        <div className='flex gap-5'>
-          <div className='flex-1'>
-            <h2 className='mb-1'>Prompt</h2>
-            <AutoResizeTextarea
-              value={promptValue}
-              onChange={handlePromptChange}
-              placeholder='Write prompt here'
-              minH={300}
-            />
+    <div className='flex flex-col gap-3'>
+      <section>
+        <h1>Prompt Title</h1>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum illum eveniet tenetur recusandae vero sint sequi eligendi necessitatibus non! Dignissimos?</p>
+      </section>
+
+      <section>
+        <div className='card mt-2'>
+          <div className='flex justify-end'>
+            <Button
+              colorScheme='teal'
+              variant='outline'
+              onClick={handleCopyPromptText}
+            >Copy</Button>
           </div>
-          {
-            inputs.length > 0 && <div className='flex-1'>
-              <h2 className='mb-1'>Inputs</h2>
-              <div className='flex flex-col gap-2'>
-                {
-                  inputs.map((input, index) =>
-                    <PromptInput
-                      label={input}
-                      key={index}
-                      onChange={(e) => handleInputChange(index, e.target.value)}
-                    />)
-                }
-              </div>
+          <div className='flex gap-5'>
+            <div className='flex-1'>
+              <h2 className='mb-1'>Prompt</h2>
+              <AutoResizeTextarea
+                value={promptValue}
+                onChange={handlePromptChange}
+                placeholder='Write prompt here'
+                minH={300}
+              />
             </div>
-          }
+            {
+              inputs.length > 0 && <div className='flex-1'>
+                <h2 className='mb-1'>Inputs</h2>
+                <div className='flex flex-col gap-2'>
+                  {
+                    inputs.map((input, index) =>
+                      <PromptInput
+                        label={input}
+                        key={index}
+                        onChange={(e) => handleInputChange(index, e.target.value)}
+                      />)
+                  }
+                </div>
+              </div>
+            }
+          </div>
         </div>
-      </div>
+      </section>
+
+      <section>
+        <h1>Sample response</h1>
+        <div className='card'>
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex atque possimus quibusdam non nisi sequi blanditiis accusantium voluptas! Aut facere dolorum minus ea dolores nam? At quos alias rerum, impedit esse, cupiditate laudantium hic iste, ab magni ducimus minima sapiente. Pariatur fugit sequi amet illum odit ipsum veniam expedita possimus.
+        </div>
+      </section>
+
     </div>
   )
 }

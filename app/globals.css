@@ -18,6 +18,10 @@ h2 {
   @apply rounded-lg;
 }
 
+/* body {
+  background-color: #f0fdfa;
+} */
+
 /* default style of tailwind */
 /* 
 :root {

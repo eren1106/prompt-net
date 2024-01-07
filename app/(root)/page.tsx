@@ -1,6 +1,3 @@
-'use client'
-
-import PromptCard from '@/components/PromptCard'
 import React from 'react'
 
 const Home = () => {
