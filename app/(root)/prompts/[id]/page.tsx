@@ -1,15 +1,16 @@
 'use client'
 
-import AutoResizeTextarea from '@/components/AutoResizeTextarea';
+import AutoResizeTextarea from '@/components/ui/AutoResizeTextarea';
 import PromptInput from '@/components/PromptInput';
-import { Button, useToast } from '@chakra-ui/react'
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import React, { ChangeEvent, useState } from 'react'
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
   const [inputs, setInputs] = useState<string[]>([]);
   const [inputValues, setInputValues] = useState<string[]>([]);
-  const toast = useToast();
+  const { toast } = useToast();
 
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setPromptValue(e.target.value)
@@ -37,15 +38,14 @@ const PromptDetailPage = () => {
     if (promptValue.length < 1) {
       toast({
         title: 'Text is empty!',
-        status: 'error',
         duration: 2000,
+        variant: "destructive",
       })
       return;
     }
     navigator.clipboard.writeText(replacePlaceholders(promptValue, inputValues));
     toast({
       title: 'Text copied to clipboard!',
-      status: 'success',
       duration: 2000,
     })
   }
@@ -73,8 +73,6 @@ const PromptDetailPage = () => {
         <div className='card mt-2'>
           <div className='flex justify-end'>
             <Button
-              colorScheme='teal'
-              variant='outline'
               onClick={handleCopyPromptText}
             >Copy</Button>
           </div>
@@ -85,7 +83,7 @@ const PromptDetailPage = () => {
                 value={promptValue}
                 onChange={handlePromptChange}
                 placeholder='Write prompt here'
-                minH={300}
+                minRows={10}
               />
             </div>
             {
