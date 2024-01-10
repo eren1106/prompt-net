@@ -31,6 +31,6 @@ const generateMockPrompt = (): IPrompt => ({
   comments: Array.from({ length: 5 }, () => generateMockComment()),
 });
 
-export const mockUsers: IUser[] = Array.from({ length: 5 }, generateMockUser);
-export const mockComments: IComment[] = Array.from({ length: 5 }, generateMockComment);
-export const mockPrompts: IPrompt[] = Array.from({ length: 5 }, generateMockPrompt)
+export const mockUsers: IUser[] = Array.from({ length: 10 }, generateMockUser);
+export const mockComments: IComment[] = Array.from({ length: 10 }, generateMockComment);
+export const mockPrompts: IPrompt[] = Array.from({ length: 10 }, generateMockPrompt)

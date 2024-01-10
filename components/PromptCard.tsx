@@ -1,13 +1,18 @@
 import React from 'react'
 import Link from 'next/link';
 
-const PromptCard = () => {
+interface IPromptCardProps{
+  title: string;
+  description: string;
+}
+
+const PromptCard = ({title, description}: IPromptCardProps) => {
   return (
     <Link href='/prompts/123'>
       <div className='card cursor-pointer hover:transform hover:scale-105 transition-transform'>
-        <p className='font-bold text-xl'>Title</p>
+        <p className='font-bold text-xl'>{title}</p>
         <p>
-          Description Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+          {description}
         </p>
       </div>
     </Link>
