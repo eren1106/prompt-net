@@ -5,12 +5,26 @@ import PromptInput from '@/components/PromptInput';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import React, { ChangeEvent, useState } from 'react'
+import { Separator } from '@/components/ui/separator';
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
   const [inputs, setInputs] = useState<string[]>([]);
   const [inputValues, setInputValues] = useState<string[]>([]);
   const { toast } = useToast();
+  const [isEditSampleResponse, setIsEditSampleResponse] = useState<boolean>(false);
+  const [sampleResponseValue, setSampleResponseValue] = useState<string>(
+    `
+    Lorem ipsum dolor, sit amet consectetur
+    adipisicing elit. Ex atque possimus quibusdam
+    non nisi sequi blanditiis accusantium voluptas!
+    Aut facere dolorum minus ea dolores nam? At quos
+    alias rerum, impedit esse, cupiditate laudantium
+    hic iste, ab magni ducimus minima sapiente.
+    Pariatur fugit sequi amet illum odit ipsum
+    veniam expedita possimus.
+    `
+  );
 
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setPromptValue(e.target.value)
@@ -62,8 +76,16 @@ const PromptDetailPage = () => {
     return result;
   };
 
+  const handleToggleEditSampleResponse = (): void => {
+    setIsEditSampleResponse(!isEditSampleResponse);
+  }
+
+  const handleSampleResponseChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+    setSampleResponseValue(e.target.value);
+  }
+
   return (
-    <div className='flex flex-col gap-3'>
+    <div className='flex flex-col gap-4'>
       <section>
         <h1>Prompt Title</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum illum eveniet tenetur recusandae vero sint sequi eligendi necessitatibus non! Dignissimos?</p>
@@ -106,9 +128,37 @@ const PromptDetailPage = () => {
       </section>
 
       <section>
-        <h1>Sample response</h1>
         <div className='card'>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex atque possimus quibusdam non nisi sequi blanditiis accusantium voluptas! Aut facere dolorum minus ea dolores nam? At quos alias rerum, impedit esse, cupiditate laudantium hic iste, ab magni ducimus minima sapiente. Pariatur fugit sequi amet illum odit ipsum veniam expedita possimus.
+          <div className='flex justify-between'>
+            <h2>Sample response</h2>
+            {
+              isEditSampleResponse ?
+                <div className='flex gap-3'>
+                  <Button onClick={handleToggleEditSampleResponse}>
+                    Cancel
+                  </Button>
+                  <Button onClick={handleToggleEditSampleResponse}>
+                    Save
+                  </Button>
+                </div>
+                :
+                <Button onClick={handleToggleEditSampleResponse}>
+                  Edit
+                </Button>
+            }
+          </div>
+          <Separator className='my-3' />
+          {
+            isEditSampleResponse ?
+              <AutoResizeTextarea
+                value={sampleResponseValue}
+                onChange={handleSampleResponseChange}
+              />
+              :
+              <p>
+                {sampleResponseValue}
+              </p>
+          }
         </div>
       </section>
 
