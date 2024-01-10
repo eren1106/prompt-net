@@ -129,7 +129,7 @@ const PromptDetailPage = () => {
 
       <section>
         <div className='card'>
-          <div className='flex justify-between'>
+          <div className='flex justify-between items-end'>
             <h2>Sample response</h2>
             {
               isEditSampleResponse ?
