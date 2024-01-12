@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import React, { ChangeEvent, useState } from 'react'
 import { Separator } from '@/components/ui/separator';
+import { BookmarkIcon, StarIcon } from '@radix-ui/react-icons';
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
@@ -89,6 +90,14 @@ const PromptDetailPage = () => {
       <section>
         <h1>Prompt Title</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum illum eveniet tenetur recusandae vero sint sequi eligendi necessitatibus non! Dignissimos?</p>
+        <div className='flex items-center gap-3 mt-2'>
+          <Button variant="outline">
+            <StarIcon />
+          </Button>
+          <Button variant="outline">
+            <BookmarkIcon />
+          </Button>
+        </div>
       </section>
 
       <section>
