@@ -1,5 +1,5 @@
 import React from 'react'
-import AutoResizeTextarea from './ui/AutoResizeTextarea';
+import AutoResizeTextarea from './ui/custom/AutoResizeTextarea';
 
 interface PromptInputProps {
   label: string;

@@ -1,12 +1,14 @@
 'use client'
 
-import AutoResizeTextarea from '@/components/ui/AutoResizeTextarea';
+import AutoResizeTextarea from '@/components/ui/custom/AutoResizeTextarea';
 import PromptInput from '@/components/PromptInput';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import React, { ChangeEvent, useState } from 'react'
 import { Separator } from '@/components/ui/separator';
 import { BookmarkIcon, StarIcon } from '@radix-ui/react-icons';
+import { Card } from '@/components/ui/card';
+import BookmarkDropdown from '@/components/BookmarkDropdown';
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
@@ -94,14 +96,17 @@ const PromptDetailPage = () => {
           <Button variant="outline">
             <StarIcon />
           </Button>
-          <Button variant="outline">
+          <BookmarkDropdown>
             <BookmarkIcon />
-          </Button>
+          </BookmarkDropdown>
+          {/* <Button variant="outline">
+            <BookmarkIcon />
+          </Button> */}
         </div>
       </section>
 
       <section>
-        <div className='card mt-2'>
+        <Card className='mt-2 p-5'>
           <div className='flex justify-end'>
             <Button
               onClick={handleCopyPromptText}
@@ -133,11 +138,11 @@ const PromptDetailPage = () => {
               </div>
             }
           </div>
-        </div>
+        </Card>
       </section>
 
       <section>
-        <div className='card'>
+        <Card className='p-5'>
           <div className='flex justify-between items-end'>
             <h2>Sample response</h2>
             {
@@ -168,7 +173,7 @@ const PromptDetailPage = () => {
                 {sampleResponseValue}
               </p>
           }
-        </div>
+        </Card>
       </section>
 
     </div>
