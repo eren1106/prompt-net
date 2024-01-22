@@ -106,7 +106,7 @@ const PromptDetailPage = () => {
       </section>
 
       <section>
-        <Card className='mt-2 p-5'>
+        <Card className='mt-2'>
           <div className='flex justify-end'>
             <Button
               onClick={handleCopyPromptText}
@@ -142,7 +142,7 @@ const PromptDetailPage = () => {
       </section>
 
       <section>
-        <Card className='p-5'>
+        <Card>
           <div className='flex justify-between items-end'>
             <h2>Sample response</h2>
             {

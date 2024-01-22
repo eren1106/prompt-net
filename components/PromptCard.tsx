@@ -12,7 +12,7 @@ const PromptCard = ({ title, description }: IPromptCardProps) => {
   return (
     <Link href='/prompts/123'>
       <Card className='cursor-pointer hover:transform hover:scale-105 transition-transform'>
-        <div className='p-4 flex flex-col gap-1'>
+        <div className='flex flex-col gap-1'>
           <div className='flex justify-end'>
             <div className='p-1 bg-muted rounded-lg text-[10px]'>
               ChatGPT
