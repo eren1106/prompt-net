@@ -3,14 +3,16 @@ import Link from 'next/link';
 import { StarIcon } from '@radix-ui/react-icons';
 import { Card } from './ui/card';
 
-interface IPromptCardProps {
+interface PromptCardProps {
+  id: string;
   title: string;
   description: string;
 }
 
-const PromptCard = ({ title, description }: IPromptCardProps) => {
+const PromptCard = ({ id, title, description }: PromptCardProps) => {
+
   return (
-    <Link href='/prompts/123'>
+    <Link href={`/prompts/${id}`}>
       <Card className='cursor-pointer hover:transform hover:scale-105 transition-transform'>
         <div className='flex flex-col gap-1'>
           <div className='flex justify-end'>

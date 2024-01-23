@@ -2,7 +2,7 @@ import ListCard from '@/components/ListCard'
 import { Button } from '@/components/ui/button'
 import React from 'react'
 
-const Lists = () => {
+const ListsPage = () => {
   return (
     <div className='w-full'>
       <div className='flex justify-between mb-3'>
@@ -24,4 +24,4 @@ const Lists = () => {
   )
 }
 
-export default Lists
+export default ListsPage
