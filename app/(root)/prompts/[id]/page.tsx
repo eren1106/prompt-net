@@ -9,6 +9,7 @@ import { Separator } from '@/components/ui/separator';
 import { BookmarkIcon, StarIcon } from '@radix-ui/react-icons';
 import { Card } from '@/components/ui/card';
 import BookmarkDropdown from '@/components/BookmarkDropdown';
+import { TabsContainer } from '@/components/ui/custom/TabsContainer';
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
@@ -106,39 +107,58 @@ const PromptDetailPage = () => {
       </section>
 
       <section>
-        <Card className='mt-2'>
-          <div className='flex justify-end'>
-            <Button
-              onClick={handleCopyPromptText}
-            >Copy</Button>
-          </div>
-          <div className='flex gap-5'>
-            <div className='flex-1'>
-              <h2 className='mb-1'>Prompt</h2>
-              <AutoResizeTextarea
-                value={promptValue}
-                onChange={handlePromptChange}
-                placeholder='Write prompt here'
-                minRows={10}
-              />
-            </div>
+        <TabsContainer
+          tabs={[
             {
-              inputs.length > 0 && <div className='flex-1'>
-                <h2 className='mb-1'>Inputs</h2>
-                <div className='flex flex-col gap-2'>
-                  {
-                    inputs.map((input, index) =>
-                      <PromptInput
-                        label={input}
-                        key={index}
-                        onChange={(e) => handleInputChange(index, e.target.value)}
-                      />)
-                  }
+              value: "template",
+              title: "Template",
+              content: (
+                // TAB 1 CONTENT
+                <div className='mt-2'>
+                  <div className='flex justify-end mt-2'>
+                    <Button
+                      onClick={handleCopyPromptText}
+                    >Copy</Button>
+                  </div>
+                  <div className='flex gap-5'>
+                    <div className='flex-1'>
+                      <h2 className='mb-1'>Prompt</h2>
+                      <AutoResizeTextarea
+                        value={promptValue}
+                        onChange={handlePromptChange}
+                        placeholder='Write prompt here'
+                        minRows={10}
+                      />
+                    </div>
+                    {
+                      inputs.length > 0 && <div className='flex-1'>
+                        <h2 className='mb-1'>Inputs</h2>
+                        <div className='flex flex-col gap-2'>
+                          {
+                            inputs.map((input, index) =>
+                              <PromptInput
+                                label={input}
+                                key={index}
+                                onChange={(e) => handleInputChange(index, e.target.value)}
+                              />)
+                          }
+                        </div>
+                      </div>
+                    }
+                  </div>
                 </div>
-              </div>
-            }
-          </div>
-        </Card>
+              )
+            },
+            {
+              value: "prompt",
+              title: "Prompt",
+              content: (
+                // TAB 2 CONTENT
+                <h1>Whatever prompt</h1>
+              )
+            },
+          ]}
+        />
       </section>
 
       <section>
