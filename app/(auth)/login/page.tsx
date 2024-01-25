@@ -1,8 +1,11 @@
+import AuthForm from '@/components/auth/AuthForm'
 import React from 'react'
 
 const LoginPage = () => {
   return (
-    <div>LoginPage</div>
+    <div className='flex flex-col items-center flex-1 justify-center'>
+      <AuthForm />
+    </div>
   )
 }
 
