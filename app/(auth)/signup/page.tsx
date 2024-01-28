@@ -1,4 +1,4 @@
-import AuthForm from '@/components/auth/AuthForm'
+import SignupForm from '@/components/auth/SignupForm'
 import React from 'react'
 
 /**
@@ -9,7 +9,7 @@ import React from 'react'
 const SignUpPage = () => {
   return (
     <div className='flex flex-col items-center flex-1 justify-center'>
-      <AuthForm isSignup={true} />
+      <SignupForm />
     </div>
   )
 }
