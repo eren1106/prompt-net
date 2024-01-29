@@ -1,6 +1,8 @@
-import PromptCardList from '@/components/PromptCardList'
+import ListCard from '@/components/ListCard'
+import PromptCard from '@/components/PromptCard'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { mockPrompts } from '@/constants'
+import { IPrompt } from '@/models/i-prompt'
 import React from 'react'
 
 const ProfilePage = () => {
@@ -22,8 +24,28 @@ const ProfilePage = () => {
       {/* RIGHT */}
       <div className='flex flex-col gap-3 w-4/6'>
         <div>
-          <h1>Created Prompts</h1>
-          <PromptCardList list={mockPrompts} max={3} />
+          <h1 className='mb-2'>Created Prompts</h1>
+          <div className='flex gap-3'>
+            {
+              mockPrompts.slice(0, 3).map((prompt: IPrompt) =>
+                <PromptCard
+                  key={prompt.id}
+                  id={prompt.id}
+                  title={prompt.title}
+                  description={prompt.description}
+                />
+              )
+            }
+          </div>
+        </div>
+
+        <div>
+          <h1 className='mb-2'>Created Lists</h1>
+          <div className='flex flex-col gap-3'>
+            <ListCard />
+            <ListCard />
+            <ListCard />
+          </div>
         </div>
       </div>
     </div>
