@@ -13,7 +13,7 @@ const PromptCard = ({ id, title, description }: PromptCardProps) => {
 
   return (
     <Link href={`/prompts/${id}`}>
-      <Card className='cursor-pointer hover:transform hover:scale-105 transition-transform'>
+      <Card className='cursor-pointer hover:transform hover:scale-105 transition-transform w-72 h-60'>
         <div className='flex flex-col gap-1'>
           <div className='flex justify-end'>
             <div className='p-1 bg-muted rounded-lg text-[10px]'>
@@ -21,7 +21,7 @@ const PromptCard = ({ id, title, description }: PromptCardProps) => {
             </div>
           </div>
           <p className='font-bold text-xl'>{title}</p>
-          <p>
+          <p className='line-clamp-3'>
             {description}
           </p>
           <div className='flex items-center justify-between'>
