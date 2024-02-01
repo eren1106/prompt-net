@@ -1,0 +1,29 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Prompts {
+  id           Int      @id @default(autoincrement())
+  title        String
+  description  String
+  promptText   String
+  inputs       String[]
+  sampleOutput String
+}
+
+// title: string;
+//   description: string;
+//   promptText: string;
+//   inputs: string[];
+//   sampleOutput: string;
+//   author: IUser;
+//   starUsers: IUser[];
+//   comments: IComment[] 
