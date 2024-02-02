@@ -30,12 +30,16 @@ const nextResponse = (
     statusCode,
     extra,
   }: INextResponse
-) => NextResponse.json({
-  message: message,
-  data: data,
-  status: status || 'SUCCESS',
-  extra: extra || '',
-}, { status: statusCode || STATUS_CODES.OK });
+) => {
+  const res = {
+    message: message,
+    data: data,
+    status: status || 'SUCCESS',
+    extra: extra || '',
+  }
+  console.log(res);
+  return NextResponse.json(res, { status: statusCode || STATUS_CODES.OK });
+}
 
 export const getApiResponse = <T>(result: T) => {
   if (Array.isArray(result) && result.length === 0) {
