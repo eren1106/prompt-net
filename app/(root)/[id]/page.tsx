@@ -2,7 +2,7 @@ import ListCard from '@/components/ListCard'
 import PromptCard from '@/components/PromptCard'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { mockPrompts } from '@/constants'
-import { IPrompt } from '@/models/i-prompt'
+import { Prompt } from '@prisma/client'
 import React from 'react'
 
 const ProfilePage = () => {
@@ -27,7 +27,7 @@ const ProfilePage = () => {
           <h1 className='mb-2'>Created Prompts</h1>
           <div className='flex gap-3'>
             {
-              mockPrompts.slice(0, 3).map((prompt: IPrompt) =>
+              mockPrompts.slice(0, 3).map((prompt: Prompt) =>
                 <PromptCard
                   key={prompt.id}
                   id={prompt.id}

@@ -74,6 +74,6 @@ model SubComment {
 
 model Tag {
   id      Int      @id @default(autoincrement())
-  value   String
+  name    String   @unique
   prompts Prompt[]
 }

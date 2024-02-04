@@ -1,11 +1,20 @@
-import React from 'react'
-import { mockPrompts } from '@/constants'
+import React, { Suspense } from 'react'
 import PromptCardList from '@/components/PromptCardList'
 
-const PromptsPage = () => {
+const getPrompts = async () => {
+  const res = await fetch(`${process.env.SERVER_URL}/prompts`);
+  return res.json();
+}
+
+const PromptsPage = async () => {
+  const res = await getPrompts();
+  const prompts = res.data;
+
   return (
     <div className='flex flex-col'>
-      <PromptCardList list={mockPrompts} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <PromptCardList list={prompts} />
+      </Suspense>
     </div>
   )
 }

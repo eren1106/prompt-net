@@ -4,7 +4,7 @@ import { StarIcon } from '@radix-ui/react-icons';
 import { Card } from './ui/card';
 
 interface PromptCardProps {
-  id: string;
+  id: number;
   title: string;
   description: string;
 }
