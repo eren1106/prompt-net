@@ -10,20 +10,70 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Prompts {
-  id           Int      @id @default(autoincrement())
-  title        String
-  description  String
-  promptText   String
-  inputs       String[]
-  sampleOutput String
+model Prompt {
+  id              Int          @id @default(autoincrement())
+  title           String
+  description     String
+  promptText      String
+  inputs          String[]
+  sampleOutput    String
+  author          User         @relation("prompt_author", fields: [authorId], references: [id])
+  authorId        String
+  starUsers       User[]
+  inPromptLists   PromptList[]
+  tags            Tag[]
+  createdDatetime DateTime     @default(now())
+  updateDatetime  DateTime     @updatedAt
 }
 
-// title: string;
-//   description: string;
-//   promptText: string;
-//   inputs: string[];
-//   sampleOutput: string;
-//   author: IUser;
-//   starUsers: IUser[];
-//   comments: IComment[] 
+model PromptList {
+  id              Int      @id @default(autoincrement())
+  title           String
+  description     String
+  author          User     @relation(fields: [authorId], references: [id])
+  authorId        String
+  prompts         Prompt[]
+  createdDatetime DateTime @default(now())
+  updateDatetime  DateTime @updatedAt
+}
+
+model User {
+  id             String       @id @default(uuid())
+  username       String       @unique
+  email          String       @unique
+  fullname       String
+  bio            String?
+  profilePicUri  String?
+  createdPrompts Prompt[]     @relation("prompt_author")
+  starredPrompts Prompt[]
+  comments       Comment[]
+  subComments    SubComment[]
+  promptLists    PromptList[]
+}
+
+model Comment {
+  id              Int          @id @default(autoincrement())
+  author          User         @relation(fields: [authorId], references: [id])
+  authorId        String
+  value           String
+  createdDatetime DateTime     @default(now())
+  updateDatetime  DateTime     @updatedAt
+  subComments     SubComment[]
+}
+
+model SubComment {
+  id              Int      @id @default(autoincrement())
+  author          User     @relation(fields: [authorId], references: [id])
+  authorId        String
+  value           String
+  parentComment   Comment  @relation(fields: [commentId], references: [id])
+  commentId       Int
+  createdDatetime DateTime @default(now())
+  updateDatetime  DateTime @updatedAt
+}
+
+model Tag {
+  id      Int      @id @default(autoincrement())
+  value   String
+  prompts Prompt[]
+}
