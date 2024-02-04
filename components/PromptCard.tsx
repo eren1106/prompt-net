@@ -14,7 +14,7 @@ const PromptCard = ({ id, title, description }: PromptCardProps) => {
   return (
     <Link href={`/prompts/${id}`}>
       <Card className='cursor-pointer hover:transform hover:scale-105 transition-transform w-72 h-60'>
-        <div className='flex flex-col gap-1'>
+        <div className='flex flex-col gap-1 h-full'>
           <div className='flex justify-end'>
             <div className='p-1 bg-muted rounded-lg text-[10px]'>
               ChatGPT
@@ -24,7 +24,7 @@ const PromptCard = ({ id, title, description }: PromptCardProps) => {
           <p className='line-clamp-3'>
             {description}
           </p>
-          <div className='flex items-center justify-between'>
+          <div className='flex items-center justify-between mt-auto'>
             <p className='text-xs text-gray-500'>Last update: 06/09/2023</p>
             <div className='flex gap-1 items-center'>
               <StarIcon />
