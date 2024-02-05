@@ -150,11 +150,14 @@ const PromptDetailPage = () => {
               )
             },
             {
-              value: "prompt",
-              title: "Prompt",
+              value: "inspect",
+              title: "Inspect",
               content: (
                 // TAB 2 CONTENT
-                <h1>Whatever prompt</h1>
+                <div>
+                  <h2>Inspect prompt:</h2>
+                  <p>{replacePlaceholders(promptValue, inputValues)}</p>
+                </div>
               )
             },
           ]}
