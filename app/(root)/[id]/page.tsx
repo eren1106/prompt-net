@@ -1,6 +1,6 @@
 import ListCard from '@/components/ListCard'
 import PromptCard from '@/components/PromptCard'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import ProfileAvatar from '@/components/ui/custom/ProfileAvatar'
 import { mockPrompts } from '@/constants'
 import { Prompt } from '@prisma/client'
 import React from 'react'
@@ -10,10 +10,10 @@ const ProfilePage = () => {
     <div className='flex gap-12'>
       {/* LEFT */}
       <div className='flex flex-col gap-4 w-2/6'>
-        <Avatar className='w-44 h-auto'>
-          <AvatarImage src="https://github.com/shadcn.png" />
-          <AvatarFallback>Img</AvatarFallback>
-        </Avatar>
+        <ProfileAvatar
+          size="4xl"
+          src="https://github.com/shadcn.png"
+        />
         <div>
           <h1>Your Full Name</h1>
           <p className='bg-secondary rounded-xl px-3 py-1 w-min'>yourusername</p>

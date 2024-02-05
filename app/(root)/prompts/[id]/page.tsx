@@ -10,6 +10,7 @@ import { BookmarkIcon, StarIcon } from '@radix-ui/react-icons';
 import { Card } from '@/components/ui/card';
 import BookmarkDropdown from '@/components/BookmarkDropdown';
 import { TabsContainer } from '@/components/ui/custom/TabsContainer';
+import ProfileAvatar from '@/components/ui/custom/ProfileAvatar';
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
@@ -191,6 +192,17 @@ const PromptDetailPage = () => {
         </Card>
       </section>
 
+      {/* COMMENT SECTION */}
+      <section>
+        <h1 className='mb-2'>Comments</h1>
+        <div className='flex gap-4'>
+          <ProfileAvatar
+            size="md"
+            src="https://github.com/shadcn.png"
+          />
+          <AutoResizeTextarea minRows={3} />
+        </div>
+      </section>
     </div>
   )
 }
