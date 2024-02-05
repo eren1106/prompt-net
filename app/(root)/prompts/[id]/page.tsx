@@ -17,18 +17,7 @@ const PromptDetailPage = () => {
   const [inputValues, setInputValues] = useState<string[]>([]);
   const { toast } = useToast();
   const [isEditSampleResponse, setIsEditSampleResponse] = useState<boolean>(false);
-  const [sampleResponseValue, setSampleResponseValue] = useState<string>(
-    `
-    Lorem ipsum dolor, sit amet consectetur
-    adipisicing elit. Ex atque possimus quibusdam
-    non nisi sequi blanditiis accusantium voluptas!
-    Aut facere dolorum minus ea dolores nam? At quos
-    alias rerum, impedit esse, cupiditate laudantium
-    hic iste, ab magni ducimus minima sapiente.
-    Pariatur fugit sequi amet illum odit ipsum
-    veniam expedita possimus.
-    `
-  );
+  const [sampleResponseValue, setSampleResponseValue] = useState<string>("Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex atque possimus quibusdam non nisi sequi blanditiis accusantium voluptas! Aut facere dolorum minus ea dolores nam? At quos alias rerum, impedit esse, cupiditate laudantium hic iste, ab magni ducimus minima sapiente. Pariatur fugit sequi amet illum odit ipsum veniam expedita possimus.");
 
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setPromptValue(e.target.value)
@@ -89,7 +78,8 @@ const PromptDetailPage = () => {
   }
 
   return (
-    <div className='flex flex-col gap-4'>
+    <div className='flex flex-col gap-4 w-full'>
+      {/* TOP SECTION */}
       <section>
         <h1>Prompt Title</h1>
         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum illum eveniet tenetur recusandae vero sint sequi eligendi necessitatibus non! Dignissimos?</p>
@@ -106,6 +96,7 @@ const PromptDetailPage = () => {
         </div>
       </section>
 
+      {/* TEMPLATE SECTION */}
       <section>
         <TabsContainer
           tabs={[
@@ -164,6 +155,7 @@ const PromptDetailPage = () => {
         />
       </section>
 
+      {/* SAMPLE SECTION */}
       <section>
         <Card>
           <div className='flex justify-between items-end'>
