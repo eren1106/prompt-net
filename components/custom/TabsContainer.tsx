@@ -1,4 +1,3 @@
-import { Button } from "@/components/ui/button"
 import {
   Tabs,
   TabsContent,
@@ -8,17 +7,17 @@ import {
 import { ReactNode } from "react";
 import { Card } from "@/components/ui/card";
 
-interface TabsContainerProp {
-  tabs: ITabProp[];
+interface TabsContainerProps {
+  tabs: ITabProps[];
 }
 
-interface ITabProp {
+interface ITabProps {
   value: string;
   title: string;
   content: ReactNode;
 }
 
-export const TabsContainer = ({ tabs }: TabsContainerProp) => {
+export const TabsContainer = ({ tabs }: TabsContainerProps) => {
   return tabs.length < 1 ? <></> :
     (
       <Tabs defaultValue={tabs[0].value} className="">

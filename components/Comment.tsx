@@ -1,9 +1,9 @@
 import React from 'react'
-import Dot from '@/components/ui/custom/Dot'
+import Dot from '@/components/custom/Dot'
 import { AiOutlineLike } from 'react-icons/ai'
-import ProfileAvatar from '@/components/ui/custom/ProfileAvatar'
+import ProfileAvatar from '@/components/custom/ProfileAvatar'
 
-interface CommentProp {
+interface CommentProps {
   profilePicUri: string;
   name: string;
   text: string;
@@ -15,7 +15,7 @@ const Comment = ({
   name,
   text,
   likes,
-}: CommentProp) => {
+}: CommentProps) => {
   return (
     <div className='flex gap-4 pb-3 border-solid border-b border-secondary last:border-b-0'>
       <ProfileAvatar

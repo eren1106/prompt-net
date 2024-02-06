@@ -1,4 +1,4 @@
-import { STATUS_CODES } from "@/constants/status-codes";
+import { STATUS_CODES } from "@/constants";
 import { NextResponse } from "next/server";
 
 // const nextResponse = (

@@ -1,6 +1,6 @@
 import ListCard from '@/components/ListCard'
 import PromptCard from '@/components/PromptCard'
-import ProfileAvatar from '@/components/ui/custom/ProfileAvatar'
+import ProfileAvatar from '@/components/custom/ProfileAvatar'
 import { mockPrompts } from '@/constants'
 import { Prompt } from '@prisma/client'
 import React from 'react'

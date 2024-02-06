@@ -1,15 +1,14 @@
-import { cn } from '@/lib/utils';
 import React from 'react'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
-interface ProfileAvatarProp {
+interface ProfileAvatarProps {
   src: string;
   size?: "2xs" | "xs" | "sm" | "md" | "lg" | "xl" | "2xl" | "3xl" | "4xl";
   // className?: string;
   fallbackText?: string;
 }
 
-const ProfileAvatar = ({ src, size="md", fallbackText = 'Img' }: ProfileAvatarProp) => {
+const ProfileAvatar = ({ src, size="md", fallbackText = 'Img' }: ProfileAvatarProps) => {
   const sizeToClassName = (_size: string) => {
     switch (_size) {
       case "2xs":

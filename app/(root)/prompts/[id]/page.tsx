@@ -1,17 +1,19 @@
 'use client'
 
-import AutoResizeTextarea from '@/components/ui/custom/AutoResizeTextarea';
+import AutoResizeTextarea from '@/components/custom/AutoResizeTextarea';
 import PromptInput from '@/components/PromptInput';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
 import React, { ChangeEvent, useState } from 'react'
 import { Separator } from '@/components/ui/separator';
-import { BookmarkIcon, StarIcon } from '@radix-ui/react-icons';
+import { BookmarkIcon, PlusIcon, StarIcon } from '@radix-ui/react-icons';
 import { Card } from '@/components/ui/card';
 import BookmarkDropdown from '@/components/BookmarkDropdown';
-import { TabsContainer } from '@/components/ui/custom/TabsContainer';
-import ProfileAvatar from '@/components/ui/custom/ProfileAvatar';
+import { TabsContainer } from '@/components/custom/TabsContainer';
+import ProfileAvatar from '@/components/custom/ProfileAvatar';
 import Comment from '@/components/Comment';
+import MultipleSelectDropdown from '@/components/custom/MultipleSelectDropdown';
+import { mockDropdownItems } from '@/constants';
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
@@ -89,12 +91,17 @@ const PromptDetailPage = () => {
           <Button variant="outline">
             <StarIcon />
           </Button>
-          <BookmarkDropdown>
-            <BookmarkIcon />
-          </BookmarkDropdown>
-          {/* <Button variant="outline">
-            <BookmarkIcon />
-          </Button> */}
+          <MultipleSelectDropdown
+            buttonChild={<BookmarkIcon />}
+            items={mockDropdownItems}
+            label="Lists"
+            footerChild={
+              <>
+                <PlusIcon />
+                <p className="text-sm">Create List</p>
+              </>
+            }
+          />
         </div>
       </section>
 

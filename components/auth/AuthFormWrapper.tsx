@@ -1,17 +1,17 @@
 import React, { ReactNode } from 'react'
 import { Card } from '../ui/card'
-import SeparatorWithText from '../ui/custom/SeparatorWithText'
+import SeparatorWithText from '../custom/SeparatorWithText'
 import { Button } from '../ui/button'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import Link from 'next/link'
 
-interface AuthFormWrapperProp {
+interface AuthFormWrapperProps {
   isSignup?: boolean;
   children: ReactNode;
 }
 
-const AuthFormWrapper = ({isSignup=false, children}: AuthFormWrapperProp) => {
+const AuthFormWrapper = ({isSignup=false, children}: AuthFormWrapperProps) => {
   return (
     <Card className='w-96'>
       <h1 className='mb-3'>{isSignup ? 'Sign Up' : 'Log In'}</h1>

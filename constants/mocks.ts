@@ -1,9 +1,8 @@
-import { IComment } from "@/models/i-comment";
-import { IPrompt } from "@/models/i-prompt";
-import { IUser } from "@/models/i-user";
+import { IDropdownItem } from "@/models/dropdown-item.model";
 import { faker } from '@faker-js/faker';
+import { Comment, Prompt, User } from "@prisma/client";
 
-const generateMockUser = (): IUser => ({
+const generateMockUser = (): User => ({
   id: faker.string.uuid(),
   username: faker.internet.userName(),
   firstname: faker.person.firstName(),
@@ -13,13 +12,13 @@ const generateMockUser = (): IUser => ({
   profilePicUrl: faker.image.avatar(),
 });
 
-const generateMockComment = (): IComment => ({
+const generateMockComment = (): Comment => ({
   id: faker.string.uuid(),
   user: generateMockUser(),
   commentText: faker.lorem.paragraph(),
 });
 
-const generateMockPrompt = (): IPrompt => ({
+const generateMockPrompt = (): Prompt => ({
   id: faker.string.uuid(),
   title: faker.lorem.words(),
   description: faker.lorem.paragraph(),
@@ -31,6 +30,21 @@ const generateMockPrompt = (): IPrompt => ({
   comments: Array.from({ length: 5 }, () => generateMockComment()),
 });
 
-export const mockUsers: IUser[] = Array.from({ length: 10 }, generateMockUser);
-export const mockComments: IComment[] = Array.from({ length: 10 }, generateMockComment);
-export const mockPrompts: IPrompt[] = Array.from({ length: 10 }, generateMockPrompt)
+export const mockUsers: User[] = Array.from({ length: 10 }, generateMockUser);
+export const mockComments: Comment[] = Array.from({ length: 10 }, generateMockComment);
+export const mockPrompts: Prompt[] = Array.from({ length: 10 }, generateMockPrompt);
+
+export const mockDropdownItems: IDropdownItem[] = [
+  {
+    label: "Software Engineer",
+    key: "software-engineer"
+  },
+  {
+    label: "Cyber Security",
+    key: "cyber-security"
+  },
+  {
+    label: "AI",
+    key: "ai"
+  }
+] 
