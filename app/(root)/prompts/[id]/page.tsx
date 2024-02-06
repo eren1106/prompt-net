@@ -96,10 +96,13 @@ const PromptDetailPage = () => {
             items={mockDropdownItems}
             label="Lists"
             footerChild={
-              <>
+              <div
+                className="flex items-center gap-2 p-1 cursor-pointer"
+                onClick={() => { }}
+              >
                 <PlusIcon />
                 <p className="text-sm">Create List</p>
-              </>
+              </div>
             }
           />
         </div>
