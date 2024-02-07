@@ -236,6 +236,20 @@ const PromptDetailPage = () => {
             name='Your name'
             text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?'
             likes={100}
+            subComments={[
+              {
+                profilePicUri: 'https://github.com/shadcn.png',
+                name: 'Your name',
+                text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?',
+                likes: 100,
+              },
+              {
+                profilePicUri: 'https://github.com/shadcn.png',
+                name: 'Your name',
+                text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?',
+                likes: 100,
+              }
+            ]}
           />
           <Comment
             profilePicUri='https://github.com/shadcn.png'
