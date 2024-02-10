@@ -226,24 +226,28 @@ const PromptDetailPage = () => {
         {/* ALL COMMENTS */}
         <div className='flex flex-col gap-3 mt-10'>
           <Comment
+            id={1}
             profilePicUri='https://github.com/shadcn.png'
             name='Your name'
             text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?'
             likes={100}
           />
           <Comment
+            id={2}
             profilePicUri='https://github.com/shadcn.png'
             name='Your name'
             text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?'
             likes={100}
             subComments={[
               {
+                id: 3,
                 profilePicUri: 'https://github.com/shadcn.png',
                 name: 'Your name',
                 text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?',
                 likes: 100,
               },
               {
+                id: 4,
                 profilePicUri: 'https://github.com/shadcn.png',
                 name: 'Your name',
                 text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?',
@@ -252,6 +256,7 @@ const PromptDetailPage = () => {
             ]}
           />
           <Comment
+            id={5}
             profilePicUri='https://github.com/shadcn.png'
             name='Your name'
             text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?'

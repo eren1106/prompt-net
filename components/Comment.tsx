@@ -6,8 +6,10 @@ import { AiOutlineLike } from 'react-icons/ai'
 import ProfileAvatar from '@/components/custom/ProfileAvatar'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
+import { useReplyingCommentStore } from '@/lib/store'
 
 interface CommentProps {
+  id: number;
   profilePicUri: string;
   name: string;
   text: string;
@@ -17,6 +19,7 @@ interface CommentProps {
 }
 
 const Comment = ({
+  id,
   profilePicUri,
   name,
   text,
@@ -24,10 +27,21 @@ const Comment = ({
   isSub = false,
   subComments = [],
 }: CommentProps) => {
-  const [showReplyTextField, setShowReplyTextField] = useState<boolean>(false);
+  // const [showReplyTextField, setShowReplyTextField] = useState<boolean>(false);
+  const { replyingCommentId, setId: handleSetReplyId, resetId: handleResetReplyId } = useReplyingCommentStore();
 
-  const toggleShowReplyTextField = () => {
-    setShowReplyTextField(!showReplyTextField);
+  // const toggleShowReplyTextField = () => {
+  //   setShowReplyTextField(!showReplyTextField);
+  // }
+
+  const handleClickReply = () => {
+    if (replyingCommentId === id) handleResetReplyId();
+    else handleSetReplyId(id);
+  }
+
+  const handleSendReply = () => {
+    // TODO: SEND LOGIC
+    handleResetReplyId();
   }
 
   return (
@@ -43,7 +57,7 @@ const Comment = ({
           <div className='flex gap-2 items-center'>
             <p
               className='hover:underline cursor-pointer'
-              onClick={toggleShowReplyTextField}
+              onClick={handleClickReply}
             >Reply</p>
             <Dot />
             <p>{`${likes} likes`}</p>
@@ -52,12 +66,12 @@ const Comment = ({
 
           {/* REPLY TEXT FIELD */}
           {
-            showReplyTextField &&
+            (replyingCommentId === id) &&
             <div className='flex gap-1'>
               <Input placeholder={`Reply to ${name}...`} />
-              <Button onClick={toggleShowReplyTextField}>Send</Button>
+              <Button onClick={handleSendReply}>Send</Button>
               <Button
-                onClick={toggleShowReplyTextField}
+                onClick={handleResetReplyId}
                 variant="secondary"
               >Cancel</Button>
             </div>
@@ -70,6 +84,7 @@ const Comment = ({
               {
                 subComments.map((comment: CommentProps) =>
                   <Comment
+                    id={comment.id}
                     profilePicUri={comment.profilePicUri}
                     name={comment.name}
                     text={comment.text}
