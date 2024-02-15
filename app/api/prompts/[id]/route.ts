@@ -6,10 +6,13 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
   const { id } = params;
 
   try {
-    const prompt = await prisma.prompts.findUnique({
+    const prompt = await prisma.prompt.findUnique({
       where: {
         id: Number(id),
       },
+      include: {
+        tags: true,
+      }
     });
     return getApiResponse(prompt);
   }

@@ -4,7 +4,11 @@ import prisma from '@/lib/prisma';
 
 export const GET = async () => {
   try {
-    const prompts = await prisma.prompt.findMany();
+    const prompts = await prisma.prompt.findMany({
+      include: {
+        tags: true,
+      },
+    });
     return getApiResponse(prompts);
   }
   catch (err) {
@@ -14,9 +18,31 @@ export const GET = async () => {
 
 export const POST = async (req: NextRequest) => {
   try {
-    const body = await req.json();
+    const {
+      title,
+      description,
+      promptText,
+      inputs,
+      sampleOutput,
+      authorId,
+      tagIdList,
+      platform,
+    } = await req.json();
+
     const newPrompt = await prisma.prompt.create({
-      data: body,
+      data: {
+        title,
+        description,
+        promptText,
+        inputs,
+        sampleOutput,
+        authorId,
+        platform,
+        // pass in list of object with only id property instead of list of whole object
+        tags: {
+          connect: tagIdList.map((tagId: number) => ({ id: tagId })),
+        },
+      },
     })
     return postApiResponse(newPrompt, 'prompt');
   }
