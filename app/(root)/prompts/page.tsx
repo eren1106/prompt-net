@@ -6,13 +6,14 @@ import RadioSelectDropdown from '@/components/custom/RadioSelectDropdown';
 import { mockDropdownItems } from '@/constants';
 
 const getPrompts = async () => {
-  const res = await fetch(`${process.env.SERVER_URL}/prompts`);
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/prompts`, { cache: 'no-store' });
   return res.json();
 }
 
 const PromptsPage = async () => {
   const res = await getPrompts();
   const prompts = res.data;
+  console.log("PROMPTS", prompts);
 
   return (
     <div className='flex flex-col'>

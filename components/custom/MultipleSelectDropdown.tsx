@@ -60,6 +60,7 @@ const MultipleSelectDropdown: FC<MultipleSelectDropdownProps> = ({
               onCheckedChange={(_) => {
                 handleCheckedChange(item.key)
               }}
+              key={item.key}
             >
               {item.label}
             </DropdownMenuCheckboxItem>

@@ -7,7 +7,7 @@ interface PromptCardListProps {
   max?: number; 
 }
 
-const PromptCardList = ({ list, max }: PromptCardListProps) => {
+const PromptCardList: React.FC<PromptCardListProps> = ({ list, max }: PromptCardListProps) => {
   return (
     <div className='grid xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-5'>
       {

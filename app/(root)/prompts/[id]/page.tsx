@@ -14,6 +14,7 @@ import ProfileAvatar from '@/components/custom/ProfileAvatar';
 import Comment from '@/components/Comment';
 import MultipleSelectDropdown from '@/components/custom/MultipleSelectDropdown';
 import { mockDropdownItems } from '@/constants';
+import PromptForm from '@/components/PromptForm';
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
@@ -77,131 +78,13 @@ const PromptDetailPage = () => {
     setIsEditSampleResponse(!isEditSampleResponse);
   }
 
-  const handleSampleResponseChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    setSampleResponseValue(e.target.value);
-  }
+  // const handleSampleResponseChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
+  //   setSampleResponseValue(e.target.value);
+  // }
 
   return (
     <div className='flex flex-col gap-4 w-full'>
-      {/* TOP SECTION */}
-      <section>
-        <h1>Prompt Title</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum illum eveniet tenetur recusandae vero sint sequi eligendi necessitatibus non! Dignissimos?</p>
-        <div className='flex items-center gap-3 mt-2'>
-          <Button variant="outline">
-            <StarIcon />
-          </Button>
-          <MultipleSelectDropdown
-            buttonChild={<BookmarkIcon />}
-            items={mockDropdownItems}
-            label="Lists"
-            footerChild={
-              <div
-                className="flex items-center gap-2 p-1 cursor-pointer"
-                onClick={() => { }}
-              >
-                <PlusIcon />
-                <p className="text-sm">Create List</p>
-              </div>
-            }
-          />
-        </div>
-      </section>
-
-      {/* TEMPLATE SECTION */}
-      <section>
-        <TabsContainer
-          tabs={[
-            {
-              value: "template",
-              title: "Template",
-              content: (
-                // TAB 1 CONTENT
-                <div className='mt-2'>
-                  <div className='flex justify-end mt-2'>
-                    <Button
-                      onClick={handleCopyPromptText}
-                    >Copy</Button>
-                  </div>
-                  <div className='flex gap-5'>
-                    <div className='flex-1'>
-                      <h2 className='mb-1'>Prompt</h2>
-                      <AutoResizeTextarea
-                        value={promptValue}
-                        onChange={handlePromptChange}
-                        placeholder='Write prompt here'
-                        minRows={10}
-                      />
-                    </div>
-                    {
-                      inputs.length > 0 && <div className='flex-1'>
-                        <h2 className='mb-1'>Inputs</h2>
-                        <div className='flex flex-col gap-2'>
-                          {
-                            inputs.map((input, index) =>
-                              <PromptInput
-                                label={input}
-                                key={index}
-                                onChange={(e) => handleInputChange(index, e.target.value)}
-                              />)
-                          }
-                        </div>
-                      </div>
-                    }
-                  </div>
-                </div>
-              )
-            },
-            {
-              value: "inspect",
-              title: "Inspect",
-              content: (
-                // TAB 2 CONTENT
-                <div>
-                  <h2>Inspect prompt:</h2>
-                  <p>{replacePlaceholders(promptValue, inputValues)}</p>
-                </div>
-              )
-            },
-          ]}
-        />
-      </section>
-
-      {/* SAMPLE SECTION */}
-      <section>
-        <Card>
-          <div className='flex justify-between items-end'>
-            <h2>Sample response</h2>
-            {
-              isEditSampleResponse ?
-                <div className='flex gap-3'>
-                  <Button onClick={handleToggleEditSampleResponse}>
-                    Cancel
-                  </Button>
-                  <Button onClick={handleToggleEditSampleResponse}>
-                    Save
-                  </Button>
-                </div>
-                :
-                <Button onClick={handleToggleEditSampleResponse}>
-                  Edit
-                </Button>
-            }
-          </div>
-          <Separator className='my-3' />
-          {
-            isEditSampleResponse ?
-              <AutoResizeTextarea
-                value={sampleResponseValue}
-                onChange={handleSampleResponseChange}
-              />
-              :
-              <p>
-                {sampleResponseValue}
-              </p>
-          }
-        </Card>
-      </section>
+      <PromptForm />
 
       {/* COMMENT SECTION */}
       <section>
