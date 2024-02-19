@@ -7,31 +7,30 @@ import AutoResizeTextarea from '@/components/custom/AutoResizeTextarea';
 import PromptInput from '@/components/PromptInput';
 import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
-import { Separator } from '@/components/ui/separator';
-import { BookmarkIcon, PlusIcon, StarIcon } from '@radix-ui/react-icons';
 import { Card } from '@/components/ui/card';
-import { TabsContainer } from '@/components/custom/TabsContainer';
-import MultipleSelectDropdown from '@/components/custom/MultipleSelectDropdown';
-import { mockDropdownItems } from '@/constants';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from './ui/input';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
+import { platformSelectItems } from '@/constants';
 
 const PromptFormSchema = z.object({
-  // title: z.string().min(12),
-  // description: z.string().min(20),
-  promptValue: z.string().min(1),
+  title: z.string().min(12),
+  description: z.string().min(20),
+  promptValue: z.string().min(40),
   // inputValues: z.array(z.string()),
-  sampleResponseValue: z.string(),
-  // platform: z.string(),
+  sampleResponse: z.string(),
+  platform: z.string(),
   // tagIdList: z.array(z.number()).max(3),
 });
 
 const promptFormSchemaDefaultValue = {
-  // title: '',
-  // description: '',
+  title: '',
+  description: '',
   promptValue: '',
   // inputValues: [],
-  sampleResponseValue: '',
-  // platform: '',
+  sampleResponse: '',
+  platform: platformSelectItems[0].name,
   // tagIdList: [],
 }
 
@@ -52,10 +51,10 @@ const PromptForm = () => {
   const [inputs, setInputs] = useState<string[]>([]);
   const [inputValues, setInputValues] = useState<string[]>([]);
   const { toast } = useToast();
-  const [isEdit, setIsEdit] = useState<boolean>(false);
-  // const [sampleResponseValue, setSampleResponseValue] = useState<string>("Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex atque possimus quibusdam non nisi sequi blanditiis accusantium voluptas! Aut facere dolorum minus ea dolores nam? At quos alias rerum, impedit esse, cupiditate laudantium hic iste, ab magni ducimus minima sapiente. Pariatur fugit sequi amet illum odit ipsum veniam expedita possimus.");
+  // const [isEdit, setIsEdit] = useState<boolean>(false);
+  // const [sampleResponse, setSampleResponseValue] = useState<string>("Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex atque possimus quibusdam non nisi sequi blanditiis accusantium voluptas! Aut facere dolorum minus ea dolores nam? At quos alias rerum, impedit esse, cupiditate laudantium hic iste, ab magni ducimus minima sapiente. Pariatur fugit sequi amet illum odit ipsum veniam expedita possimus.");
 
-  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm({
+  const form = useForm({
     resolver: zodResolver(PromptFormSchema),
     defaultValues: promptFormSchemaDefaultValue,
   });
@@ -63,7 +62,7 @@ const PromptForm = () => {
   // useEffect(() => {
   //   register('promptValue');
   //   // register('inputValues.*');
-  //   register('sampleResponseValue');
+  //   register('sampleResponse');
   // }, [register]);
 
   const onSubmit = async (data: z.infer<typeof PromptFormSchema>) => {
@@ -78,7 +77,7 @@ const PromptForm = () => {
       description: "mock description",
       promptText: data.promptValue,
       inputs: [],
-      sampleOutput: data.sampleResponseValue,
+      sampleOutput: data.sampleResponse,
       authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80',
       platform: 'ChatGPT',
       tagIdList: [1],
@@ -88,7 +87,7 @@ const PromptForm = () => {
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     // setPromptValue(e.target.value)
     setInputs(getInputsFromPrompt(e.target.value));
-    setValue('promptValue', e.target.value);
+    form.setValue('promptValue', e.target.value);
   }
 
   const handleInputChange = (index: number, value: string): void => {
@@ -111,7 +110,7 @@ const PromptForm = () => {
   }
 
   // Watch the promptValue field
-  const promptValue = watch('promptValue');
+  const promptValue = form.watch('promptValue');
 
   const handleCopyPromptText = (): void => {
     if (promptValue.length < 1) {
@@ -142,16 +141,143 @@ const PromptForm = () => {
 
   // const handleSampleResponseChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
   //   setSampleResponseValue(e.target.value);
-  //   setValue('sampleResponseValue', e.target.value);
+  //   setValue('sampleResponse', e.target.value);
   // }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className='flex flex-col gap-4 w-full'>
-        <section>
-          <h1>Prompt Title</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum illum eveniet tenetur recusandae vero sint sequi eligendi necessitatibus non! Dignissimos?</p>
-          <div className='flex items-center gap-3 mt-2'>
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
+        <div className='flex flex-col gap-4 w-full'>
+          <section className='space-y-4'>
+            {/* <h1>Prompt Title</h1>
+          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum illum eveniet tenetur recusandae vero sint sequi eligendi necessitatibus non! Dignissimos?</p> */}
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='text-md'>Title*</FormLabel>
+                  <FormControl>
+                    <Input placeholder="title" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='text-md'>Description*</FormLabel>
+                  <FormControl>
+                    <AutoResizeTextarea
+                      placeholder="description"
+                      minRows={2}
+                      {...field}
+                    />
+                    {/* <Input placeholder="description" {...field} /> */}
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="platform"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Platform</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a platform" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {
+                        platformSelectItems.map((item) =>
+                          <SelectItem value={item.name} key={item.name}>{item.label}</SelectItem>
+                        )
+                      }
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <Card>
+              {/* <div className='flex justify-end mt-2'>
+                <Button onClick={handleCopyPromptText}>Copy</Button>
+              </div> */}
+              <div className='flex gap-5'>
+                <div className='flex-1'>
+                  <FormField
+                    control={form.control}
+                    name="promptValue"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className='text-md'>Prompt*</FormLabel>
+                        <FormControl>
+                          <AutoResizeTextarea
+                            placeholder='Write prompt here'
+                            minRows={10}
+                            // {...field}
+                            {...form.register('promptValue', { onChange: handlePromptChange })}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  {/* <h2 className='mb-1'>Prompt</h2>
+                  <AutoResizeTextarea
+                    value={promptValue}
+                    // onChange={handlePromptChange}
+                    placeholder='Write prompt here'
+                    minRows={10}
+                    {...form.register('promptValue', { onChange: handlePromptChange })}
+                  /> */}
+                </div>
+                {inputs.length > 0 && (
+                  <div className='flex-1'>
+                    <h2 className='mb-1'>Inputs</h2>
+                    <div className='flex flex-col gap-2'>
+                      {inputs.map((input, index) => (
+                        <PromptInput
+                          label={input}
+                          key={index}
+                          onChange={(e) => handleInputChange(index, e.target.value)}
+                        // {...register(`inputValues.${index}`, )}
+                        />
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            <FormField
+              control={form.control}
+              name="sampleResponse"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='text-md'>Sample Response</FormLabel>
+                  <FormControl>
+                    <AutoResizeTextarea
+                      placeholder="Sample Response"
+                      minRows={3}
+                      {...field}
+                    />
+                    {/* <Input placeholder="description" {...field} /> */}
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            {/* <div className='flex items-center gap-3 mt-2'>
             <Button variant="outline">
               <StarIcon />
             </Button>
@@ -169,10 +295,10 @@ const PromptForm = () => {
                 </div>
               }
             />
-          </div>
-        </section>
+          </div> */}
+          </section>
 
-        <section>
+          {/* <section>
           <TabsContainer
             tabs={[
               {
@@ -191,7 +317,7 @@ const PromptForm = () => {
                           // onChange={handlePromptChange}
                           placeholder='Write prompt here'
                           minRows={10}
-                          {...register('promptValue', { onChange: handlePromptChange })}
+                          {...form.register('promptValue', { onChange: handlePromptChange })}
                         />
                       </div>
                       {inputs.length > 0 && (
@@ -225,32 +351,24 @@ const PromptForm = () => {
               },
             ]}
           />
-        </section>
+        </section> */}
 
-        <section>
-          <Card>
-            <h2>Sample response</h2>
-            <Separator className='my-3' />
-            <AutoResizeTextarea
-              // value={sampleResponseValue}
-              // onChange={handleSampleResponseChange}
-              {...register('sampleResponseValue')}
-            />
-            {/* {isEdit ? (
+          {/* <section>
+            <Card>
+              <h2>Sample response</h2>
+              <Separator className='my-3' />
               <AutoResizeTextarea
-                // value={sampleResponseValue}
+                // value={sampleResponse}
                 // onChange={handleSampleResponseChange}
-                {...register('sampleResponseValue')}
+                {...form.register('sampleResponse')}
               />
-            ) : (
-              <p>{sampleResponseValue}</p>
-            )} */}
-          </Card>
-        </section>
+            </Card>
+          </section> */}
 
-        <Button type="submit">Submit</Button>
-      </div>
-    </form>
+          <Button type="submit">Submit</Button>
+        </div>
+      </form>
+    </Form>
   );
 };
 
