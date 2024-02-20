@@ -13,6 +13,7 @@ import { Input } from './ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from './ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { platformSelectItems } from '@/constants';
+import TagsSelector from './TagsSelector';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -79,7 +80,7 @@ const PromptForm = () => {
       inputs: [],
       sampleOutput: data.sampleResponse,
       authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80',
-      platform: 'ChatGPT',
+      platform: 0,
       tagIdList: [1],
     })
   };
@@ -207,6 +208,8 @@ const PromptForm = () => {
                 </FormItem>
               )}
             />
+
+            <TagsSelector />
 
             <Card>
               {/* <div className='flex justify-end mt-2'>
