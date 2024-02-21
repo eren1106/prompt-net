@@ -1,8 +1,11 @@
-import { getPromptTags } from '@/services/promptService';
+import { getAllPromptTags } from '@/services/promptService';
 import { Cross1Icon } from '@radix-ui/react-icons';
 import React, { ReactNode, Suspense } from 'react'
+import DropdownMenuButton from './custom/DropdownMenuButton';
+import { Tag } from '@prisma/client';
+import { Button } from './ui/button';
 
-interface TagProps {
+interface TagComponentProps {
   label: string;
 }
 
@@ -11,15 +14,19 @@ interface TagWrapperProps {
   children: ReactNode;
 }
 
-const TagWrapper = ({ pointer = false }: TagWrapperProps) => {
-  return (
-    <div className={`border rounded-3xl px-2 py-1 text-xs ${pointer && "cursor-pointer"}`}>
-      + Add Tag
-    </div>
-  )
+interface TagSelectorProps {
+  tags: Tag[];
 }
 
-const Tag = ({ label }: TagProps) => {
+// const TagWrapper = ({ pointer = false, children, ...props }: TagWrapperProps, ref) => {
+//   return (
+//     <div className={`border rounded-3xl px-2 py-1 text-xs ${pointer && "cursor-pointer"}`} {...props}>
+//       {children}
+//     </div>
+//   )
+// }
+
+const TagComponent = ({ label }: TagComponentProps) => {
   return (
     <div>
       <p>{label}</p>
@@ -28,19 +35,29 @@ const Tag = ({ label }: TagProps) => {
   )
 }
 
-
-
-const TagsSelector = async () => {
-  const tags = await getPromptTags();
+const TagsSelector = ({ tags }: TagSelectorProps) => {
+  // const tags: Tag[] = await getAllPromptTags();
+  const handleClickItem = (id: number) => {
+    // select tag logic
+  }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <div className='flex gap-2'>
-        <TagWrapper pointer>
-          + Add Tag
-        </TagWrapper>
-      </div>
-    </Suspense>
+    <div className='flex gap-2'>
+      <DropdownMenuButton
+        title="Tags"
+        items={
+          tags.map(tag => ({
+            label: tag.name,
+            key: tag.id,
+          }))
+        }
+        onClickItemById={handleClickItem}
+      >
+        <div className='border rounded-3xl px-2 py-1 text-xs cursor-pointer'>
+          <p>+ Add Tag</p>
+        </div>
+      </DropdownMenuButton>
+    </div>
   )
 }
 

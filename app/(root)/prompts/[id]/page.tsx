@@ -84,7 +84,7 @@ const PromptDetailPage = () => {
 
   return (
     <div className='flex flex-col gap-4 w-full'>
-      <PromptForm />
+      {/* <PromptForm /> */}
 
       {/* COMMENT SECTION */}
       <section>

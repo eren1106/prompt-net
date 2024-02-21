@@ -56,9 +56,9 @@ const MultipleSelectDropdown: FC<MultipleSelectDropdownProps> = ({
         {
           items.map((item: IDropdownItem) => (
             <DropdownMenuCheckboxItem
-              checked={isItemChecked(item.key)}
+              checked={isItemChecked(item.key as string)}
               onCheckedChange={(_) => {
-                handleCheckedChange(item.key)
+                handleCheckedChange(item.key as string)
               }}
               key={item.key}
             >

@@ -14,6 +14,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select';
 import { platformSelectItems } from '@/constants';
 import TagsSelector from './TagsSelector';
+import { Tag } from '@prisma/client';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -47,7 +48,10 @@ const submitPrompt = async (body: any) => {
   return res.json();
 }
 
-const PromptForm = () => {
+interface PromptFormProps {
+  tags: Tag[];
+}
+const PromptForm = ({tags}: PromptFormProps) => {
   // const [promptValue, setPromptValue] = useState<string>('');
   const [inputs, setInputs] = useState<string[]>([]);
   const [inputValues, setInputValues] = useState<string[]>([]);
@@ -113,21 +117,21 @@ const PromptForm = () => {
   // Watch the promptValue field
   const promptValue = form.watch('promptValue');
 
-  const handleCopyPromptText = (): void => {
-    if (promptValue.length < 1) {
-      toast({
-        title: 'Text is empty!',
-        duration: 2000,
-        variant: "destructive",
-      })
-      return;
-    }
-    navigator.clipboard.writeText(replacePlaceholders(promptValue, inputValues));
-    toast({
-      title: 'Text copied to clipboard!',
-      duration: 2000,
-    })
-  }
+  // const handleCopyPromptText = (): void => {
+  //   if (promptValue.length < 1) {
+  //     toast({
+  //       title: 'Text is empty!',
+  //       duration: 2000,
+  //       variant: "destructive",
+  //     })
+  //     return;
+  //   }
+  //   navigator.clipboard.writeText(replacePlaceholders(promptValue, inputValues));
+  //   toast({
+  //     title: 'Text copied to clipboard!',
+  //     duration: 2000,
+  //   })
+  // }
 
   const replacePlaceholders = (promptText: string, inputTexts: string[]): string => {
     let result = promptText;
@@ -209,7 +213,7 @@ const PromptForm = () => {
               )}
             />
 
-            <TagsSelector />
+            <TagsSelector tags={tags}/>
 
             <Card>
               {/* <div className='flex justify-end mt-2'>

@@ -3,7 +3,8 @@ export const getAllPrompts = async () => {
   return res.json();
 }
 
-export const getPromptTags = async () => {
+export const getAllPromptTags = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/prompts/tags`, { cache: 'no-store' });
-  return res.json();
+  const data = await res.json();
+  return data.data;
 }
