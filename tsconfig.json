@@ -8,7 +8,7 @@
     "noEmit": true,
     "esModuleInterop": true,
     "module": "esnext",
-    "moduleResolution": "bundler",
+    "moduleResolution": "node", // changed from "bundler" to "node" so that autocomplete of types from prisma works properly
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",

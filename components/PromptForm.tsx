@@ -23,7 +23,7 @@ const PromptFormSchema = z.object({
   // inputValues: z.array(z.string()),
   sampleResponse: z.string(),
   platform: z.string(),
-  // tagIdList: z.array(z.number()).max(3),
+  tagIdList: z.array(z.number()).max(3),
 });
 
 const promptFormSchemaDefaultValue = {
@@ -33,10 +33,11 @@ const promptFormSchemaDefaultValue = {
   // inputValues: [],
   sampleResponse: '',
   platform: platformSelectItems[0].name,
-  // tagIdList: [],
+  tagIdList: [],
 }
 
 const submitPrompt = async (body: any) => {
+  console.log("SUBMITTED BODY", body);
   const res = await fetch(`/api/prompts`, {
     method: 'POST',
     headers: {
@@ -51,11 +52,12 @@ const submitPrompt = async (body: any) => {
 interface PromptFormProps {
   tags: Tag[];
 }
-const PromptForm = ({tags}: PromptFormProps) => {
+const PromptForm = ({ tags }: PromptFormProps) => {
   // const [promptValue, setPromptValue] = useState<string>('');
   const [inputs, setInputs] = useState<string[]>([]);
   const [inputValues, setInputValues] = useState<string[]>([]);
-  const { toast } = useToast();
+  // const [select]
+  // const { toast } = useToast();
   // const [isEdit, setIsEdit] = useState<boolean>(false);
   // const [sampleResponse, setSampleResponseValue] = useState<string>("Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex atque possimus quibusdam non nisi sequi blanditiis accusantium voluptas! Aut facere dolorum minus ea dolores nam? At quos alias rerum, impedit esse, cupiditate laudantium hic iste, ab magni ducimus minima sapiente. Pariatur fugit sequi amet illum odit ipsum veniam expedita possimus.");
 
@@ -71,21 +73,21 @@ const PromptForm = ({tags}: PromptFormProps) => {
   // }, [register]);
 
   const onSubmit = async (data: z.infer<typeof PromptFormSchema>) => {
-    const inspectValue = replacePlaceholders(promptValue, inputValues);
+    // const inspectValue = replacePlaceholders(promptValue, inputValues);
     console.log("FORM DATA", data);
     console.log("INPUTS", inputValues);
-    console.log("INSPECT VALUE", inspectValue);
+    // console.log("INSPECT VALUE", inspectValue);
 
     // Handle form submission
     await submitPrompt({
-      title: "mock title",
-      description: "mock description",
+      title: data.title,
+      description: data.description,
       promptText: data.promptValue,
-      inputs: [],
+      inputs: inputValues,
       sampleOutput: data.sampleResponse,
-      authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80',
-      platform: 0,
-      tagIdList: [1],
+      authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
+      platform: data.platform,
+      tagIdList: data.tagIdList,
     })
   };
 
@@ -114,8 +116,9 @@ const PromptForm = ({tags}: PromptFormProps) => {
     return [];
   }
 
-  // Watch the promptValue field
-  const promptValue = form.watch('promptValue');
+  // Watch form fields
+  const promptValue: string = form.watch('promptValue');
+  const tagIdList: number[] = form.watch('tagIdList');
 
   // const handleCopyPromptText = (): void => {
   //   if (promptValue.length < 1) {
@@ -143,6 +146,16 @@ const PromptForm = ({tags}: PromptFormProps) => {
 
     return result;
   };
+
+  const handleToggleTagItem = (id: number) => {
+    let newList: number[];
+    if (tagIdList.includes(id)) {
+      newList = tagIdList.filter((tagItemId: number) => tagItemId !== id);
+    }
+    else newList = [...tagIdList, id];
+    // @ts-ignore
+    form.setValue("tagIdList", newList);
+  }
 
   // const handleSampleResponseChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
   //   setSampleResponseValue(e.target.value);
@@ -213,7 +226,30 @@ const PromptForm = ({tags}: PromptFormProps) => {
               )}
             />
 
-            <TagsSelector tags={tags}/>
+            <FormField
+              control={form.control}
+              name="tagIdList"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='text-md'>Tags*</FormLabel>
+                  <FormControl>
+                    <TagsSelector
+                      tags={tags}
+                      selectedTagIdList={tagIdList}
+                      onToggleItem={handleToggleTagItem}
+                      // {...form.register('tagIdList')}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            {/* <TagsSelector
+              tags={tags}
+              selectedTagIdList={tagIdList}
+              onToggleItem={handleToggleTagItem}
+            /> */}
 
             <Card>
               {/* <div className='flex justify-end mt-2'>

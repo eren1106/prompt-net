@@ -1,21 +1,26 @@
 import { getAllPromptTags } from '@/services/promptService';
-import { Cross1Icon } from '@radix-ui/react-icons';
 import React, { ReactNode, Suspense } from 'react'
 import DropdownMenuButton from './custom/DropdownMenuButton';
 import { Tag } from '@prisma/client';
 import { Button } from './ui/button';
+import { Cross2Icon } from '@radix-ui/react-icons';
 
 interface TagComponentProps {
+  id: number;
   label: string;
+  onDeleteItemById: (id: number) => void;
 }
 
-interface TagWrapperProps {
-  pointer?: boolean;
-  children: ReactNode;
-}
+// interface TagWrapperProps {
+//   pointer?: boolean;
+//   children: ReactNode;
+// }
 
 interface TagSelectorProps {
   tags: Tag[];
+  selectedTagIdList: number[];
+  onToggleItem: (id: number) => void;
+  maxSelectedItem?: number;
 }
 
 // const TagWrapper = ({ pointer = false, children, ...props }: TagWrapperProps, ref) => {
@@ -26,37 +31,53 @@ interface TagSelectorProps {
 //   )
 // }
 
-const TagComponent = ({ label }: TagComponentProps) => {
+const TagComponent = ({ id, label, onDeleteItemById }: TagComponentProps) => {
   return (
-    <div>
+    <div className='border rounded-3xl px-2 py-1 text-xs flex gap-2'>
       <p>{label}</p>
-      <Cross1Icon />
+      <Cross2Icon className='cursor-pointer' onClick={() => { onDeleteItemById(id) }} />
     </div>
   )
 }
 
-const TagsSelector = ({ tags }: TagSelectorProps) => {
-  // const tags: Tag[] = await getAllPromptTags();
-  const handleClickItem = (id: number) => {
-    // select tag logic
-  }
-
+const TagsSelector = ({
+  tags,
+  selectedTagIdList,
+  onToggleItem,
+  maxSelectedItem = 3,
+}: TagSelectorProps) => {
   return (
     <div className='flex gap-2'>
-      <DropdownMenuButton
-        title="Tags"
-        items={
-          tags.map(tag => ({
-            label: tag.name,
-            key: tag.id,
-          }))
-        }
-        onClickItemById={handleClickItem}
-      >
-        <div className='border rounded-3xl px-2 py-1 text-xs cursor-pointer'>
-          <p>+ Add Tag</p>
-        </div>
-      </DropdownMenuButton>
+      {
+        selectedTagIdList.map((selectedTagId: number) => {
+          const tag = tags.find((tag: Tag) => tag.id === selectedTagId);
+          return tag ?
+            <TagComponent
+              label={tag.name}
+              id={tag.id}
+              onDeleteItemById={onToggleItem}
+            /> : <></>
+        })
+      }
+      {
+        selectedTagIdList.length < 3 && (
+          <DropdownMenuButton
+            title="Tags"
+            items={
+              tags.filter((tag: Tag) => !selectedTagIdList.includes(tag.id))
+                .map((tag: Tag) => ({
+                  label: tag.name,
+                  key: tag.id,
+                }))
+            }
+            onClickItemById={onToggleItem}
+          >
+            <div className='border rounded-3xl px-2 py-1 text-xs cursor-pointer'>
+              <p>+ Add Tag</p>
+            </div>
+          </DropdownMenuButton>
+        )
+      }
     </div>
   )
 }
