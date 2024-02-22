@@ -15,6 +15,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { platformSelectItems } from '@/constants';
 import TagsSelector from './TagsSelector';
 import { Tag } from '@prisma/client';
+import DialogButton from './custom/DialogButton';
+import { Eye } from 'lucide-react';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -237,7 +239,7 @@ const PromptForm = ({ tags }: PromptFormProps) => {
                       tags={tags}
                       selectedTagIdList={tagIdList}
                       onToggleItem={handleToggleTagItem}
-                      // {...form.register('tagIdList')}
+                    // {...form.register('tagIdList')}
                     />
                   </FormControl>
                   <FormMessage />
@@ -262,7 +264,22 @@ const PromptForm = ({ tags }: PromptFormProps) => {
                     name="promptValue"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className='text-md'>Prompt*</FormLabel>
+                        <div className='flex items-end'>
+                          <FormLabel className='text-md'>Prompt*</FormLabel>
+                          <DialogButton
+                            title="Inspect prompt"
+                            className="ml-auto"
+                            content={
+                              replacePlaceholders(promptValue, inputValues).length > 0 ?
+                              <p>
+                                {replacePlaceholders(promptValue, inputValues)}
+                              </p>
+                              : <p className='italic text-sm font-thin'>(Prompt is empty)</p>
+                            }
+                          >
+                            <Eye />
+                          </DialogButton>
+                        </div>
                         <FormControl>
                           <AutoResizeTextarea
                             placeholder='Write prompt here'
