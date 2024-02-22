@@ -15,6 +15,7 @@ import Comment from '@/components/Comment';
 import MultipleSelectDropdown from '@/components/custom/MultipleSelectDropdown';
 import { mockDropdownItems } from '@/constants';
 import PromptForm from '@/components/PromptForm';
+import PromptDetails from '@/components/PromptDetails';
 
 const PromptDetailPage = () => {
   const [promptValue, setPromptValue] = useState<string>('');
@@ -84,7 +85,8 @@ const PromptDetailPage = () => {
 
   return (
     <div className='flex flex-col gap-4 w-full'>
-      {/* <PromptForm /> */}
+      {/* PROMPT DETAILS SECTION */}
+      <PromptDetails />
 
       {/* COMMENT SECTION */}
       <section>

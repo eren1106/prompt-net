@@ -169,8 +169,6 @@ const PromptForm = ({ tags }: PromptFormProps) => {
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <div className='flex flex-col gap-4 w-full'>
           <section className='space-y-4'>
-            {/* <h1>Prompt Title</h1>
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Eum illum eveniet tenetur recusandae vero sint sequi eligendi necessitatibus non! Dignissimos?</p> */}
             <FormField
               control={form.control}
               name="title"
@@ -357,62 +355,6 @@ const PromptForm = ({ tags }: PromptFormProps) => {
             />
           </div> */}
           </section>
-
-          {/* <section>
-          <TabsContainer
-            tabs={[
-              {
-                value: "template",
-                title: "Template",
-                content: (
-                  <div className='mt-2'>
-                    <div className='flex justify-end mt-2'>
-                      <Button onClick={handleCopyPromptText}>Copy</Button>
-                    </div>
-                    <div className='flex gap-5'>
-                      <div className='flex-1'>
-                        <h2 className='mb-1'>Prompt</h2>
-                        <AutoResizeTextarea
-                          value={promptValue}
-                          // onChange={handlePromptChange}
-                          placeholder='Write prompt here'
-                          minRows={10}
-                          {...form.register('promptValue', { onChange: handlePromptChange })}
-                        />
-                      </div>
-                      {inputs.length > 0 && (
-                        <div className='flex-1'>
-                          <h2 className='mb-1'>Inputs</h2>
-                          <div className='flex flex-col gap-2'>
-                            {inputs.map((input, index) => (
-                              <PromptInput
-                                label={input}
-                                key={index}
-                                onChange={(e) => handleInputChange(index, e.target.value)}
-                              // {...register(`inputValues.${index}`, )}
-                              />
-                            ))}
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ),
-              },
-              {
-                value: "inspect",
-                title: "Inspect",
-                content: (
-                  <div>
-                    <h2>Inspect prompt:</h2>
-                    <p>{replacePlaceholders(promptValue, inputValues)}</p>
-                  </div>
-                ),
-              },
-            ]}
-          />
-        </section> */}
-
           {/* <section>
             <Card>
               <h2>Sample response</h2>
