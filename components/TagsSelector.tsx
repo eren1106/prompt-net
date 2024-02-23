@@ -4,6 +4,7 @@ import DropdownMenuButton from './custom/DropdownMenuButton';
 import { Tag } from '@prisma/client';
 import { Button } from './ui/button';
 import { Cross2Icon } from '@radix-ui/react-icons';
+import TagWrapper from './TagWrapper';
 
 interface TagComponentProps {
   id: number;
@@ -33,10 +34,12 @@ interface TagSelectorProps {
 
 const TagComponent = ({ id, label, onDeleteItemById }: TagComponentProps) => {
   return (
-    <div className='border rounded-3xl px-2 py-1 text-xs flex gap-2'>
-      <p>{label}</p>
-      <Cross2Icon className='cursor-pointer' onClick={() => { onDeleteItemById(id) }} />
-    </div>
+    <TagWrapper>
+      <div className='flex gap-2'>
+        <p>{label}</p>
+        <Cross2Icon className='cursor-pointer' onClick={() => { onDeleteItemById(id) }} />
+      </div>
+    </TagWrapper>
   )
 }
 

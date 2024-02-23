@@ -7,8 +7,7 @@ import { mockDropdownItems } from '@/constants';
 import { getAllPrompts } from '@/services/promptService';
 
 const PromptsPage = async () => {
-  const res = await getAllPrompts();
-  const prompts = res.data;
+  const prompts = await getAllPrompts();
   console.log("PROMPTS", prompts);
 
   return (
@@ -27,9 +26,7 @@ const PromptsPage = async () => {
         />
       </div>
 
-      <Suspense fallback={<div>Loading...</div>}>
-        <PromptCardList list={prompts} />
-      </Suspense>
+      <PromptCardList list={prompts} />
     </div>
   )
 }

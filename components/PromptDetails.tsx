@@ -1,12 +1,18 @@
+'use client'
+
 import React, { ChangeEvent, useState } from 'react'
 import AutoResizeTextarea from './custom/AutoResizeTextarea'
 import PromptInput from './PromptInput'
 import { Card } from './ui/card';
+import { Prompt } from '@/models/prompt.model';
+import { Tag } from '@prisma/client';
+import TagWrapper from './TagWrapper';
 
-const PromptDetails = () => {
-  const [inputs, setInputs] = useState<string[]>([]);
-  const [inputValues, setInputValues] = useState<string[]>([]);
+interface PromptDetailsProps {
+  promptData: Prompt;
+}
 
+const PromptDetails = ({promptData}: PromptDetailsProps) => {
   const getInputsFromPrompt = (promptText: string): string[] => {
     // match substrings within a string that are enclosed in curly braces {}.
     const regex = /\{([^}]+)\}/g;
@@ -31,19 +37,43 @@ const PromptDetails = () => {
     // setValue(`inputValues.${index}`, value);
   };
 
+  // const handleCopyPromptText = (): void => {
+  //   if (promptValue.length < 1) {
+  //     toast({
+  //       title: 'Text is empty!',
+  //       duration: 2000,
+  //       variant: "destructive",
+  //     })
+  //     return;
+  //   }
+  //   navigator.clipboard.writeText(replacePlaceholders(promptValue, inputValues));
+  //   toast({
+  //     title: 'Text copied to clipboard!',
+  //     duration: 2000,
+  //   })
+  // }
+
+  const [inputs, setInputs] = useState<string[]>(getInputsFromPrompt(promptData.promptText));
+  const [inputValues, setInputValues] = useState<string[]>(promptData.inputs);
+
   return (
-    <div>
-      <h1>Prompt Title</h1>
-      <p>Description Lorem ipsum dolor sit amet consectetur adipisicing elit. Labore provident ad possimus at porro praesentium.</p>
-      <div>tags</div>
+    <div className='flex flex-col gap-3'>
+      <h1>{promptData.title}</h1>
+      <p>{promptData.description}</p>
+      <div className='flex gap-2'>
+        {
+          promptData.tags.map((tag: Tag) => <TagWrapper>{tag.name}</TagWrapper>)
+        }
+      </div>
       <Card>
-        <h1>Prompt</h1>
+        <h1 className='mb-2'>Prompt</h1>
         <div className='flex gap-5'>
           <div className='flex-1'>
             <AutoResizeTextarea
               placeholder='Write prompt here'
               minRows={10}
               onChange={handlePromptChange}
+              defaultValue={promptData.promptText}
             />
           </div>
           {inputs.length > 0 && (
@@ -62,7 +92,7 @@ const PromptDetails = () => {
           )}
         </div>
       </Card>
-      <p>Sample output</p>
+      <p>{promptData.sampleOutput}</p>
     </div>
   )
 }
