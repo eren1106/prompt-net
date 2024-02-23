@@ -17,6 +17,7 @@ import { Tag } from '@prisma/client';
 import DialogButton from './custom/DialogButton';
 import { Eye } from 'lucide-react';
 import { replacePlaceholders } from '@/services/prompt.service';
+import { Prompt } from '@/models/prompt.model';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -27,16 +28,6 @@ const PromptFormSchema = z.object({
   platform: z.string(),
   tagIdList: z.array(z.number()).max(3),
 });
-
-const promptFormSchemaDefaultValue = {
-  title: '',
-  description: '',
-  promptValue: '',
-  // inputValues: [],
-  sampleResponse: '',
-  platform: platformSelectItems[0].name,
-  tagIdList: [],
-}
 
 const submitPrompt = async (body: any) => {
   console.log("SUBMITTED BODY", body);
@@ -50,11 +41,23 @@ const submitPrompt = async (body: any) => {
 }
 
 interface PromptFormProps {
+  promptData?: Prompt;
   tags: Tag[];
 }
-const PromptForm = ({ tags }: PromptFormProps) => {
+
+const PromptForm = ({ promptData, tags }: PromptFormProps) => {
   const [inputs, setInputs] = useState<string[]>([]);
   const [inputValues, setInputValues] = useState<string[]>([]);
+
+  const promptFormSchemaDefaultValue = {
+    title: promptData?.title ?? "",
+    description: promptData?.description ?? "",
+    promptValue: promptData?.promptText ?? "",
+    // inputValues: [],
+    sampleResponse: promptData?.sampleOutput ?? "",
+    platform: promptData?.platform ?? platformSelectItems[0].name,
+    tagIdList: promptData?.tags.map((tag) => tag.id) ?? [],
+  }
 
   const form = useForm({
     resolver: zodResolver(PromptFormSchema),

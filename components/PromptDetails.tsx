@@ -10,9 +10,10 @@ import TagWrapper from './TagWrapper';
 import { Button } from './ui/button';
 import { getPlatformByName, replacePlaceholders } from '@/services/prompt.service';
 import { useToast } from './ui/use-toast';
-import { Copy, Eye } from 'lucide-react';
+import { Copy, Eye, Pencil } from 'lucide-react';
 import DialogButton from './custom/DialogButton';
 import { Separator } from './ui/separator';
+import Link from 'next/link';
 
 interface PromptDetailsProps {
   promptData: Prompt;
@@ -75,7 +76,18 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
 
   return (
     <div className='flex flex-col gap-3'>
-      <h1>{promptData.title}</h1>
+      <div className='flex justify-between items-end'>
+        <h1>{promptData.title}</h1>
+        <Link href={`${promptData.id}/edit`}>
+          <Button
+            className='flex gap-2 items-center'
+            variant="secondary"
+          >
+            <Pencil size={16} />
+            Edit
+          </Button>
+        </Link>
+      </div>
       <p>{promptData.description}</p>
       <div className='flex gap-2'>
         {
