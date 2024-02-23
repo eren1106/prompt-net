@@ -1,8 +1,14 @@
 import prisma from "@/lib/prisma";
-import { errorResponse, getApiResponse } from "@/utils/api-response";
+import { errorResponse, getApiResponse, putApiResponse } from "@/utils/api-response";
 import { NextRequest } from "next/server";
 
-export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
+interface RequestParams {
+  params: {
+    id: string;
+  };
+}
+
+export const GET = async (req: NextRequest, { params }: RequestParams) => {
   const { id } = params;
 
   try {
@@ -21,19 +27,45 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
   }
 }
 
-// export const PUT = async (req: NextRequest, { params }: any) => {
-//   const { id } = params;
+export const PUT = async (req: NextRequest, { params }: any) => {
+  const { id } = params;
 
-//   try {
-//     await connectDB();
-//     const body = await req.json();
-//     const updatedNote = await Note.findByIdAndUpdate(id, {...body}, { new: true });
-//     return putApiResponse(updatedNote, 'note');
-//   }
-//   catch (err) {
-//     return errorResponse(err);
-//   }
-// }
+  try {
+    const {
+      title,
+      description,
+      promptText,
+      inputs,
+      sampleOutput,
+      authorId,
+      tagIdList,
+      platform,
+    } = await req.json();
+
+    const updatedPrompt = await prisma.prompt.update({
+      where: {
+        id: Number(id)
+      },
+      data: {
+        title,
+        description,
+        promptText,
+        inputs,
+        sampleOutput,
+        authorId,
+        platform,
+        // pass in list of object with only id property instead of list of whole object
+        tags: {
+          connect: tagIdList.map((tagId: number) => ({ id: tagId })),
+        },
+      },
+    })
+    return putApiResponse(updatedPrompt, 'prompt');
+  }
+  catch (err) {
+    return errorResponse(err);
+  }
+}
 
 // export const DELETE = async (req: NextRequest, { params }: any) => {
 //   const { id } = params;

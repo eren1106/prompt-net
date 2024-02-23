@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import PromptDetails from '@/components/PromptDetails';
-import { getPromptById } from '@/services/promptService';
+import { getPromptById } from '@/services/prompt.service';
 import CommentSection from '@/components/CommentSection';
 
 const PromptDetailPage = async ({ params }: any) => {

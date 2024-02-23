@@ -6,7 +6,6 @@ import { z } from 'zod';
 import AutoResizeTextarea from '@/components/custom/AutoResizeTextarea';
 import PromptInput from '@/components/PromptInput';
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
 import { Card } from '@/components/ui/card';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Input } from './ui/input';
@@ -17,6 +16,7 @@ import TagsSelector from './TagsSelector';
 import { Tag } from '@prisma/client';
 import DialogButton from './custom/DialogButton';
 import { Eye } from 'lucide-react';
+import { replacePlaceholders } from '@/services/prompt.service';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -40,45 +40,29 @@ const promptFormSchemaDefaultValue = {
 
 const submitPrompt = async (body: any) => {
   console.log("SUBMITTED BODY", body);
-  const res = await fetch(`/api/prompts`, {
+  await fetch(`/api/prompts`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
     },
     body: JSON.stringify(body),
   });
-
-  return res.json();
 }
 
 interface PromptFormProps {
   tags: Tag[];
 }
 const PromptForm = ({ tags }: PromptFormProps) => {
-  // const [promptValue, setPromptValue] = useState<string>('');
   const [inputs, setInputs] = useState<string[]>([]);
   const [inputValues, setInputValues] = useState<string[]>([]);
-  // const [select]
-  // const { toast } = useToast();
-  // const [isEdit, setIsEdit] = useState<boolean>(false);
-  // const [sampleResponse, setSampleResponseValue] = useState<string>("Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ex atque possimus quibusdam non nisi sequi blanditiis accusantium voluptas! Aut facere dolorum minus ea dolores nam? At quos alias rerum, impedit esse, cupiditate laudantium hic iste, ab magni ducimus minima sapiente. Pariatur fugit sequi amet illum odit ipsum veniam expedita possimus.");
 
   const form = useForm({
     resolver: zodResolver(PromptFormSchema),
     defaultValues: promptFormSchemaDefaultValue,
   });
 
-  // useEffect(() => {
-  //   register('promptValue');
-  //   // register('inputValues.*');
-  //   register('sampleResponse');
-  // }, [register]);
-
   const onSubmit = async (data: z.infer<typeof PromptFormSchema>) => {
-    // const inspectValue = replacePlaceholders(promptValue, inputValues);
     console.log("FORM DATA", data);
-    console.log("INPUTS", inputValues);
-    // console.log("INSPECT VALUE", inspectValue);
 
     // Handle form submission
     await submitPrompt({
@@ -94,17 +78,13 @@ const PromptForm = ({ tags }: PromptFormProps) => {
   };
 
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-    // setPromptValue(e.target.value)
     setInputs(getInputsFromPrompt(e.target.value));
     form.setValue('promptValue', e.target.value);
   }
 
   const handleInputChange = (index: number, value: string): void => {
-    // Create a copy of the inputValues array
     const newInputValues: string[] = [...inputValues];
-    // Update the value at the specified index
     newInputValues[index] = value;
-    // Update the state with the new array
     setInputValues(newInputValues);
     // setValue(`inputValues.${index}`, value);
   };
@@ -122,33 +102,6 @@ const PromptForm = ({ tags }: PromptFormProps) => {
   const promptValue: string = form.watch('promptValue');
   const tagIdList: number[] = form.watch('tagIdList');
 
-  // const handleCopyPromptText = (): void => {
-  //   if (promptValue.length < 1) {
-  //     toast({
-  //       title: 'Text is empty!',
-  //       duration: 2000,
-  //       variant: "destructive",
-  //     })
-  //     return;
-  //   }
-  //   navigator.clipboard.writeText(replacePlaceholders(promptValue, inputValues));
-  //   toast({
-  //     title: 'Text copied to clipboard!',
-  //     duration: 2000,
-  //   })
-  // }
-
-  const replacePlaceholders = (promptText: string, inputTexts: string[]): string => {
-    let result = promptText;
-
-    promptText.match(/{(.*?)}/g)?.forEach((match, index) => {
-      const replacement = inputTexts[index] || ""; // Use empty string if index is out of bounds
-      result = result.replace(match, replacement);
-    });
-
-    return result;
-  };
-
   const handleToggleTagItem = (id: number) => {
     let newList: number[];
     if (tagIdList.includes(id)) {
@@ -158,11 +111,6 @@ const PromptForm = ({ tags }: PromptFormProps) => {
     // @ts-ignore
     form.setValue("tagIdList", newList);
   }
-
-  // const handleSampleResponseChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
-  //   setSampleResponseValue(e.target.value);
-  //   setValue('sampleResponse', e.target.value);
-  // }
 
   return (
     <Form {...form}>
@@ -290,14 +238,6 @@ const PromptForm = ({ tags }: PromptFormProps) => {
                       </FormItem>
                     )}
                   />
-                  {/* <h2 className='mb-1'>Prompt</h2>
-                  <AutoResizeTextarea
-                    value={promptValue}
-                    // onChange={handlePromptChange}
-                    placeholder='Write prompt here'
-                    minRows={10}
-                    {...form.register('promptValue', { onChange: handlePromptChange })}
-                  /> */}
                 </div>
                 {inputs.length > 0 && (
                   <div className='flex-1'>
@@ -355,18 +295,6 @@ const PromptForm = ({ tags }: PromptFormProps) => {
             />
           </div> */}
           </section>
-          {/* <section>
-            <Card>
-              <h2>Sample response</h2>
-              <Separator className='my-3' />
-              <AutoResizeTextarea
-                // value={sampleResponse}
-                // onChange={handleSampleResponseChange}
-                {...form.register('sampleResponse')}
-              />
-            </Card>
-          </section> */}
-
           <Button type="submit">Submit</Button>
         </div>
       </form>

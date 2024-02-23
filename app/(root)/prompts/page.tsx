@@ -4,7 +4,7 @@ import { FaSort } from "react-icons/fa";
 import Searchbar from '@/components/custom/Searchbar';
 import RadioSelectDropdown from '@/components/custom/RadioSelectDropdown';
 import { mockDropdownItems } from '@/constants';
-import { getAllPrompts } from '@/services/promptService';
+import { getAllPrompts } from '@/services/prompt.service';
 
 const PromptsPage = async () => {
   const prompts = await getAllPrompts();

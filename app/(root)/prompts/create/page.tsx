@@ -1,5 +1,5 @@
 import PromptForm from '@/components/PromptForm'
-import { getAllPromptTags } from '@/services/promptService'
+import { getAllPromptTags } from '@/services/prompt.service'
 import React from 'react'
 
 const CreatePromptPage = async () => {
