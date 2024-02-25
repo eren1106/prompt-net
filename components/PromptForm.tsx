@@ -196,12 +196,6 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
               )}
             />
 
-            {/* <TagsSelector
-              tags={tags}
-              selectedTagIdList={tagIdList}
-              onToggleItem={handleToggleTagItem}
-            /> */}
-
             <Card>
               {/* <div className='flex justify-end mt-2'>
                 <Button onClick={handleCopyPromptText}>Copy</Button>

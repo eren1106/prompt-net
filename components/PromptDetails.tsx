@@ -10,10 +10,13 @@ import TagWrapper from './TagWrapper';
 import { Button } from './ui/button';
 import { getPlatformByName, replacePlaceholders } from '@/services/prompt.service';
 import { useToast } from './ui/use-toast';
-import { Copy, Eye, Pencil } from 'lucide-react';
+import { BookmarkIcon, Copy, Eye, Pencil, PlusIcon, StarIcon } from 'lucide-react';
 import DialogButton from './custom/DialogButton';
 import { Separator } from './ui/separator';
 import Link from 'next/link';
+import MultipleSelectDropdown from './custom/MultipleSelectDropdown';
+import { mockDropdownItems } from '@/constants';
+import { convertDateToTimeAgoStr } from '@/lib/utils';
 
 interface PromptDetailsProps {
   promptData: Prompt;
@@ -95,6 +98,31 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
         }
         <TagWrapper>{getPlatformByName(promptData.platform)?.label}</TagWrapper>
       </div>
+      <div className='flex items-center gap-3'>
+        <Button variant="outline">
+          <StarIcon size={16} />
+        </Button>
+        <MultipleSelectDropdown
+          buttonChild={<BookmarkIcon size={16} />}
+          items={mockDropdownItems}
+          label="Lists"
+          footerChild={
+            <div
+              className="flex items-center gap-2 p-1 cursor-pointer"
+              onClick={() => { }}
+            >
+              <PlusIcon size={16} />
+              <p className="text-sm">Create List</p>
+            </div>
+          }
+        />
+      </div>
+
+      <div className='flex items-center gap-3'>
+        <p className='text-sm'>69 stars</p>
+        <p className='text-sm'>{convertDateToTimeAgoStr(promptData.createdDatetime)}</p>
+      </div>
+
       <Card>
         <div className='flex justify-end mt-2 gap-2'>
           <DialogButton
