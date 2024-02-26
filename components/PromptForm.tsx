@@ -16,7 +16,7 @@ import TagsSelector from './TagsSelector';
 import { Tag } from '@prisma/client';
 import DialogButton from './custom/DialogButton';
 import { Eye } from 'lucide-react';
-import { getInputsFromPrompt, replacePlaceholders } from '@/services/prompt.service';
+import { createPrompt, getInputsFromPrompt, replacePlaceholders, updatePrompt } from '@/services/prompt.service';
 import { Prompt } from '@/models/prompt.model';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
 
@@ -29,17 +29,6 @@ const PromptFormSchema = z.object({
   platform: z.string(),
   tagIdList: z.array(z.number()).max(3),
 });
-
-const submitPrompt = async (body: any) => {
-  console.log("SUBMITTED BODY", body);
-  await fetch(`/api/prompts`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-}
 
 interface PromptFormProps {
   promptData?: Prompt;
@@ -68,16 +57,36 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
     console.log("FORM DATA", data);
 
     // Handle form submission
-    await submitPrompt({
-      title: data.title,
-      description: data.description,
-      promptText: data.promptValue,
-      inputs: inputValues,
-      sampleOutput: data.sampleResponse,
-      authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
-      platform: data.platform,
-      tagIdList: data.tagIdList,
-    })
+    try {
+      if (promptData) { // for update
+        await updatePrompt({
+          id: promptData.id,
+          title: data.title,
+          description: data.description,
+          promptText: data.promptValue,
+          inputs: inputValues,
+          sampleOutput: data.sampleResponse,
+          authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
+          platform: data.platform,
+          tagIdList: data.tagIdList,
+        });
+      }
+      else { // for create
+        await createPrompt({
+          title: data.title,
+          description: data.description,
+          promptText: data.promptValue,
+          inputs: inputValues,
+          sampleOutput: data.sampleResponse,
+          authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
+          platform: data.platform,
+          tagIdList: data.tagIdList,
+        })
+      }
+    }
+    catch (err) {
+      console.log("FORM ERROR: ", err)
+    }
   };
 
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -205,10 +214,10 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
                             className="ml-auto"
                             content={
                               replacePlaceholders(promptValue, inputValues).length > 0 ?
-                              <p>
-                                {replacePlaceholders(promptValue, inputValues)}
-                              </p>
-                              : <p className='italic text-sm font-thin'>(Prompt is empty)</p>
+                                <p>
+                                  {replacePlaceholders(promptValue, inputValues)}
+                                </p>
+                                : <p className='italic text-sm font-thin'>(Prompt is empty)</p>
                             }
                           >
                             <Eye />
