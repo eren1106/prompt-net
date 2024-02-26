@@ -20,6 +20,15 @@ export const getPlatformByName = (name: string): IPlatform | undefined => {
   return platformSelectItems.find(platform => platform.name === name);
 }
 
+export const getInputsFromPrompt = (promptText: string): string[] => {
+  // match substrings within a string that are enclosed in curly braces {}.
+  const regex = /\{([^}]+)\}/g;
+  const matches = promptText.match(regex);
+
+  if (matches) return matches.map(match => match.slice(1, -1).trim());
+  return [];
+}
+
 // === REST === //
 export const getAllPrompts = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/prompts`, { cache: 'no-store' });

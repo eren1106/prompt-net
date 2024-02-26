@@ -8,7 +8,7 @@ import { Prompt } from '@/models/prompt.model';
 import { Tag } from '@prisma/client';
 import TagWrapper from './TagWrapper';
 import { Button } from './ui/button';
-import { getPlatformByName, replacePlaceholders } from '@/services/prompt.service';
+import { getInputsFromPrompt, getPlatformByName, replacePlaceholders } from '@/services/prompt.service';
 import { useToast } from './ui/use-toast';
 import { BookmarkIcon, Copy, Eye, Pencil, PlusIcon, StarIcon } from 'lucide-react';
 import DialogButton from './custom/DialogButton';
@@ -17,6 +17,7 @@ import Link from 'next/link';
 import MultipleSelectDropdown from './custom/MultipleSelectDropdown';
 import { mockDropdownItems } from '@/constants';
 import { convertDateToTimeAgoStr } from '@/lib/utils';
+import usePromptData from '@/hooks/prompt-template.hook';
 
 interface PromptDetailsProps {
   promptData: Prompt;
@@ -24,15 +25,6 @@ interface PromptDetailsProps {
 
 const PromptDetails = ({ promptData }: PromptDetailsProps) => {
   const { toast } = useToast();
-
-  const getInputsFromPrompt = (promptText: string): string[] => {
-    // match substrings within a string that are enclosed in curly braces {}.
-    const regex = /\{([^}]+)\}/g;
-    const matches = promptText.match(regex);
-
-    if (matches) return matches.map(match => match.slice(1, -1).trim());
-    return [];
-  }
 
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setPromptValue(e.target.value)
@@ -73,9 +65,7 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
       .catch(error => console.log("Copy error: ", error));
   }
 
-  const [promptValue, setPromptValue] = useState<string>(promptData.promptText);
-  const [inputs, setInputs] = useState<string[]>(getInputsFromPrompt(promptData.promptText));
-  const [inputValues, setInputValues] = useState<string[]>(promptData.inputs);
+  const { promptValue, setPromptValue, inputs, setInputs, inputValues, setInputValues } = usePromptData(promptData);
 
   return (
     <div className='flex flex-col gap-3'>

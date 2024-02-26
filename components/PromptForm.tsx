@@ -16,8 +16,9 @@ import TagsSelector from './TagsSelector';
 import { Tag } from '@prisma/client';
 import DialogButton from './custom/DialogButton';
 import { Eye } from 'lucide-react';
-import { replacePlaceholders } from '@/services/prompt.service';
+import { getInputsFromPrompt, replacePlaceholders } from '@/services/prompt.service';
 import { Prompt } from '@/models/prompt.model';
+import usePromptData from '@/hooks/prompt-template.hook';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -46,8 +47,7 @@ interface PromptFormProps {
 }
 
 const PromptForm = ({ promptData, tags }: PromptFormProps) => {
-  const [inputs, setInputs] = useState<string[]>([]);
-  const [inputValues, setInputValues] = useState<string[]>([]);
+  const { inputs, setInputs, inputValues, setInputValues } = usePromptData(promptData);
 
   const promptFormSchemaDefaultValue = {
     title: promptData?.title ?? "",
@@ -91,15 +91,6 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
     setInputValues(newInputValues);
     // setValue(`inputValues.${index}`, value);
   };
-
-  const getInputsFromPrompt = (promptText: string): string[] => {
-    // match substrings within a string that are enclosed in curly braces {}.
-    const regex = /\{([^}]+)\}/g;
-    const matches = promptText.match(regex);
-
-    if (matches) return matches.map(match => match.slice(1, -1).trim());
-    return [];
-  }
 
   // Watch form fields
   const promptValue: string = form.watch('promptValue');
@@ -272,25 +263,6 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
                 </FormItem>
               )}
             />
-            {/* <div className='flex items-center gap-3 mt-2'>
-            <Button variant="outline">
-              <StarIcon />
-            </Button>
-            <MultipleSelectDropdown
-              buttonChild={<BookmarkIcon />}
-              items={mockDropdownItems}
-              label="Lists"
-              footerChild={
-                <div
-                  className="flex items-center gap-2 p-1 cursor-pointer"
-                  onClick={() => { }}
-                >
-                  <PlusIcon />
-                  <p className="text-sm">Create List</p>
-                </div>
-              }
-            />
-          </div> */}
           </section>
           <Button type="submit">Submit</Button>
         </div>

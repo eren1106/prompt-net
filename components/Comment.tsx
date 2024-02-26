@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Dot from '@/components/custom/Dot'
 import { AiOutlineLike } from 'react-icons/ai'
 import ProfileAvatar from '@/components/custom/ProfileAvatar'
@@ -27,12 +27,7 @@ const Comment = ({
   isSub = false,
   subComments = [],
 }: CommentProps) => {
-  // const [showReplyTextField, setShowReplyTextField] = useState<boolean>(false);
   const { replyingCommentId, setId: handleSetReplyId, resetId: handleResetReplyId } = useReplyingCommentStore();
-
-  // const toggleShowReplyTextField = () => {
-  //   setShowReplyTextField(!showReplyTextField);
-  // }
 
   const handleClickReply = () => {
     if (replyingCommentId === id) handleResetReplyId();
