@@ -17,7 +17,7 @@ import Link from 'next/link';
 import MultipleSelectDropdown from './custom/MultipleSelectDropdown';
 import { mockDropdownItems } from '@/constants';
 import { convertDateToTimeAgoStr } from '@/lib/utils';
-import usePromptData from '@/hooks/prompt-template.hook';
+import usePromptTemplateData from '@/hooks/prompt-template.hook';
 
 interface PromptDetailsProps {
   promptData: Prompt;
@@ -65,7 +65,7 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
       .catch(error => console.log("Copy error: ", error));
   }
 
-  const { promptValue, setPromptValue, inputs, setInputs, inputValues, setInputValues } = usePromptData(promptData);
+  const { promptValue, setPromptValue, inputs, setInputs, inputValues, setInputValues } = usePromptTemplateData(promptData);
 
   return (
     <div className='flex flex-col gap-3'>

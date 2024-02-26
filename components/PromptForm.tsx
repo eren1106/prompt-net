@@ -18,7 +18,7 @@ import DialogButton from './custom/DialogButton';
 import { Eye } from 'lucide-react';
 import { getInputsFromPrompt, replacePlaceholders } from '@/services/prompt.service';
 import { Prompt } from '@/models/prompt.model';
-import usePromptData from '@/hooks/prompt-template.hook';
+import usePromptTemplateData from '@/hooks/prompt-template.hook';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -47,7 +47,7 @@ interface PromptFormProps {
 }
 
 const PromptForm = ({ promptData, tags }: PromptFormProps) => {
-  const { inputs, setInputs, inputValues, setInputValues } = usePromptData(promptData);
+  const { inputs, setInputs, inputValues, setInputValues } = usePromptTemplateData(promptData);
 
   const promptFormSchemaDefaultValue = {
     title: promptData?.title ?? "",
