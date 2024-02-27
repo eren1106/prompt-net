@@ -21,6 +21,7 @@ import { Prompt } from '@/models/prompt.model';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
 import { useToast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
+import useLoading from '@/hooks/loading.hook';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -41,7 +42,7 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
   const { inputs, setInputs, inputValues, setInputValues } = usePromptTemplateData(promptData);
   const { toast } = useToast();
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>(false);
+  const { loading, setLoading, Loader } = useLoading();
 
   const promptFormSchemaDefaultValue = {
     title: promptData?.title ?? "",
@@ -301,7 +302,7 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
             />
           </section>
           <Button type="submit" disabled={loading}>
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {loading && <Loader />}
             Submit
           </Button>
         </div>

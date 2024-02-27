@@ -19,6 +19,7 @@ import { mockDropdownItems } from '@/constants';
 import { convertDateToTimeAgoStr } from '@/lib/utils';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
 import { useRouter } from 'next/navigation';
+import useLoading from '@/hooks/loading.hook';
 
 interface PromptDetailsProps {
   promptData: Prompt;
@@ -27,7 +28,7 @@ interface PromptDetailsProps {
 const PromptDetails = ({ promptData }: PromptDetailsProps) => {
   const { toast } = useToast();
   const router = useRouter();
-  const [loading, setLoading] = useState<boolean>();
+  const { loading, setLoading, Loader } = useLoading();
 
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setPromptValue(e.target.value)
@@ -113,7 +114,7 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
             onClick={handleDeletePrompt}
             disabled={loading}
           >
-            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            {loading && <Loader />}
             <Trash2 size={16} />
             Delete
           </Button>
