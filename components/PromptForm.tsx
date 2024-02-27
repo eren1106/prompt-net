@@ -15,10 +15,12 @@ import { platformSelectItems } from '@/constants';
 import TagsSelector from './TagsSelector';
 import { Tag } from '@prisma/client';
 import DialogButton from './custom/DialogButton';
-import { Eye } from 'lucide-react';
+import { Eye, Loader2 } from 'lucide-react';
 import { createPrompt, getInputsFromPrompt, replacePlaceholders, updatePrompt } from '@/services/prompt.service';
 import { Prompt } from '@/models/prompt.model';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
+import { useToast } from './ui/use-toast';
+import { useRouter } from 'next/navigation';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -37,6 +39,9 @@ interface PromptFormProps {
 
 const PromptForm = ({ promptData, tags }: PromptFormProps) => {
   const { inputs, setInputs, inputValues, setInputValues } = usePromptTemplateData(promptData);
+  const { toast } = useToast();
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>(false);
 
   const promptFormSchemaDefaultValue = {
     title: promptData?.title ?? "",
@@ -56,6 +61,8 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
   const onSubmit = async (data: z.infer<typeof PromptFormSchema>) => {
     console.log("FORM DATA", data);
 
+    setLoading(true);
+
     // Handle form submission
     try {
       if (promptData) { // for update
@@ -70,6 +77,13 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
           platform: data.platform,
           tagIdList: data.tagIdList,
         });
+
+        toast({
+          title: 'Prompt updated successfully',
+          duration: 2000,
+        });
+
+        router.push(`/prompts/${promptData.id}`);
       }
       else { // for create
         await createPrompt({
@@ -81,12 +95,26 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
           authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
           platform: data.platform,
           tagIdList: data.tagIdList,
-        })
+        });
+
+        toast({
+          title: 'Prompt created successfully',
+          duration: 2000,
+        });
+
+        router.push(`/prompts`);
       }
     }
     catch (err) {
-      console.log("FORM ERROR: ", err)
+      console.log("FORM ERROR: ", err);
+      toast({
+        title: "Failed: " + err,
+        duration: 2000,
+        variant: "destructive",
+      });
     }
+
+    setLoading(false);
   };
 
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
@@ -273,7 +301,10 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
               )}
             />
           </section>
-          <Button type="submit">Submit</Button>
+          <Button type="submit" disabled={loading}>
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            Submit
+          </Button>
         </div>
       </form>
     </Form>
