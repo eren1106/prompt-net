@@ -8,9 +8,9 @@ import { Prompt } from '@/models/prompt.model';
 import { Tag } from '@prisma/client';
 import TagWrapper from './TagWrapper';
 import { Button } from './ui/button';
-import { getInputsFromPrompt, getPlatformByName, replacePlaceholders } from '@/services/prompt.service';
+import { deletePrompt, getInputsFromPrompt, getPlatformByName, replacePlaceholders } from '@/services/prompt.service';
 import { useToast } from './ui/use-toast';
-import { BookmarkIcon, Copy, Eye, Pencil, PlusIcon, StarIcon } from 'lucide-react';
+import { BookmarkIcon, Copy, Eye, Loader2, Pencil, PlusIcon, StarIcon, Trash2 } from 'lucide-react';
 import DialogButton from './custom/DialogButton';
 import { Separator } from './ui/separator';
 import Link from 'next/link';
@@ -18,6 +18,7 @@ import MultipleSelectDropdown from './custom/MultipleSelectDropdown';
 import { mockDropdownItems } from '@/constants';
 import { convertDateToTimeAgoStr } from '@/lib/utils';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
+import { useRouter } from 'next/navigation';
 
 interface PromptDetailsProps {
   promptData: Prompt;
@@ -25,6 +26,8 @@ interface PromptDetailsProps {
 
 const PromptDetails = ({ promptData }: PromptDetailsProps) => {
   const { toast } = useToast();
+  const router = useRouter();
+  const [loading, setLoading] = useState<boolean>();
 
   const handlePromptChange = (e: ChangeEvent<HTMLTextAreaElement>): void => {
     setPromptValue(e.target.value)
@@ -65,21 +68,56 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
       .catch(error => console.log("Copy error: ", error));
   }
 
+  const handleDeletePrompt = async () => {
+    setLoading(true);
+
+    try {
+      await deletePrompt(promptData.id);
+      toast({
+        title: 'Prompt deleted successfully',
+        duration: 2000,
+      });
+
+      router.push('/prompts');
+    }
+    catch(err) {
+      toast({
+        title: 'Error: ' + err,
+        duration: 2000,
+        variant: "destructive",
+      })
+    }
+
+    setLoading(false);
+  }
+
   const { promptValue, setPromptValue, inputs, setInputs, inputValues, setInputValues } = usePromptTemplateData(promptData);
 
   return (
     <div className='flex flex-col gap-3'>
       <div className='flex justify-between items-end'>
         <h1>{promptData.title}</h1>
-        <Link href={`${promptData.id}/edit`}>
+        <div className='flex items-center gap-2'>
+          <Link href={`${promptData.id}/edit`}>
+            <Button
+              className='flex gap-2 items-center'
+              variant="secondary"
+            >
+              <Pencil size={16} />
+              Edit
+            </Button>
+          </Link>
           <Button
             className='flex gap-2 items-center'
             variant="secondary"
+            onClick={handleDeletePrompt}
+            disabled={loading}
           >
-            <Pencil size={16} />
-            Edit
+            {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+            <Trash2 size={16} />
+            Delete
           </Button>
-        </Link>
+        </div>
       </div>
       <p>{promptData.description}</p>
       <div className='flex gap-2'>

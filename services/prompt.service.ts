@@ -65,3 +65,12 @@ export const updatePrompt = async (body: any) => {
     body: JSON.stringify(body),
   });
 }
+
+export const deletePrompt = async (id: number) => {
+  await fetch(`/api/prompts/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}

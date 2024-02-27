@@ -106,7 +106,6 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
       }
     }
     catch (err) {
-      console.log("FORM ERROR: ", err);
       toast({
         title: "Failed: " + err,
         duration: 2000,

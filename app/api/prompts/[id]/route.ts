@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { errorResponse, getApiResponse, putApiResponse } from "@/utils/api-response";
+import { deleteApiResponse, errorResponse, getApiResponse, putApiResponse } from "@/utils/api-response";
 import { NextRequest } from "next/server";
 
 interface RequestParams {
@@ -67,15 +67,19 @@ export const PUT = async (req: NextRequest, { params }: any) => {
   }
 }
 
-// export const DELETE = async (req: NextRequest, { params }: any) => {
-//   const { id } = params;
+export const DELETE = async (req: NextRequest, { params }: any) => {
+  const { id } = params;
 
-//   try {
-//     await connectDB();
-//     const note = await Note.findByIdAndDelete(id);
-//     return deleteApiResponse(note, 'note');
-//   }
-//   catch (err) {
-//     return errorResponse(err);
-//   }
-// }
+  try {
+    const deletedPrompt = await prisma.prompt.delete({
+      where: {
+        id: Number(id),
+      },
+    })
+
+    return deleteApiResponse(deletedPrompt, 'prompt');
+  }
+  catch (err) {
+    return errorResponse(err);
+  }
+}
