@@ -29,7 +29,7 @@ export const getInputsFromPrompt = (promptText: string): string[] => {
   return [];
 }
 
-// === REST === //
+// ======================== REST ======================== //
 export const getAllPrompts = async () => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/prompts`, { cache: 'no-store' });
   return getResponseData(res);

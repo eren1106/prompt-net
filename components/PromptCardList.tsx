@@ -1,6 +1,6 @@
 import React from 'react'
 import PromptCard from './PromptCard';
-import { Prompt } from '@prisma/client';
+import { Prompt } from '@/models/prompt.model';
 
 interface PromptCardListProps {
   list: Prompt[];
@@ -14,9 +14,7 @@ const PromptCardList: React.FC<PromptCardListProps> = ({ list, max }: PromptCard
         list.slice(0, max || list.length).map((prompt: Prompt) =>
           <PromptCard
             key={prompt.id}
-            id={prompt.id}
-            title={prompt.title}
-            description={prompt.description}
+            promptData={prompt}
           />
         )
       }

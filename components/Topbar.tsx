@@ -1,10 +1,13 @@
 import React from 'react'
 import { ModeToggle } from './ModeToggle'
+import Link from 'next/link'
 
 const Topbar = () => {
   return (
     <div className='d border-b border-gray p-3 flex justify-between items-center'>
-      <h1 className='text-xl font-extrabold'>PromptNet</h1>
+      <Link href="/prompts">
+        <h1 className='text-xl font-extrabold'>PromptNet</h1>
+      </Link>
       <ModeToggle />
     </div>
   )
