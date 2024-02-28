@@ -10,7 +10,7 @@ import TagWrapper from './TagWrapper';
 import { Button } from './ui/button';
 import { deletePrompt, getInputsFromPrompt, getPlatformByName, replacePlaceholders } from '@/services/prompt.service';
 import { useToast } from './ui/use-toast';
-import { BookmarkIcon, Copy, Eye, Loader2, Pencil, PlusIcon, StarIcon, Trash2 } from 'lucide-react';
+import { BookmarkIcon, Copy, Eye, Loader2, Pencil, PlusIcon, RotateCcw, StarIcon, Trash2 } from 'lucide-react';
 import DialogButton from './custom/DialogButton';
 import { Separator } from './ui/separator';
 import Link from 'next/link';
@@ -81,7 +81,7 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
 
       router.push('/prompts');
     }
-    catch(err) {
+    catch (err) {
       toast({
         title: 'Error: ' + err,
         duration: 2000,
@@ -92,10 +92,21 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
     setLoading(false);
   }
 
+  const handleRestoreDefaultValue = () => {
+    setPromptValue(promptData.promptText);
+    setInputs(getInputsFromPrompt(promptData.promptText));
+    setInputValues(promptData.inputs);
+  }
+
+  const checkIsPromptDefault = (): boolean => {
+    return promptData.promptText === promptValue && promptData.inputs === inputValues;
+  }
+
   const { promptValue, setPromptValue, inputs, setInputs, inputValues, setInputValues } = usePromptTemplateData(promptData);
 
   return (
     <div className='flex flex-col gap-3'>
+      {/* TITLE & EDIT BUTTON */}
       <div className='flex justify-between items-end'>
         <h1>{promptData.title}</h1>
         <div className='flex items-center gap-2'>
@@ -120,13 +131,19 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
           </Button>
         </div>
       </div>
+
+      {/* DESCRIPTION */}
       <p>{promptData.description}</p>
+
+      {/* TAGS */}
       <div className='flex gap-2'>
         {
           promptData.tags.map((tag: Tag) => <TagWrapper>{tag.name}</TagWrapper>)
         }
         <TagWrapper>{getPlatformByName(promptData.platform)?.label}</TagWrapper>
       </div>
+
+      {/* STARS & BOOKMARK */}
       <div className='flex items-center gap-3'>
         <Button variant="outline">
           <StarIcon size={16} />
@@ -147,29 +164,46 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
         />
       </div>
 
+      {/* STARS & TIME */}
       <div className='flex items-center gap-3'>
         <p className='text-sm'>69 stars</p>
         <p className='text-sm'>{convertDateToTimeAgoStr(promptData.createdDatetime)}</p>
       </div>
 
+      {/* PROMPT TEMPLATE */}
       <Card>
-        <div className='flex justify-end mt-2 gap-2'>
-          <DialogButton
-            title="Inspect prompt"
-            content={
-              replacePlaceholders(promptValue, inputValues).length > 0 ?
-                <p>
-                  {replacePlaceholders(promptValue, inputValues)}
-                </p>
-                : <p className='italic text-sm font-thin'>(Prompt is empty)</p>
-            }
-          >
-            <Eye />
-          </DialogButton>
-          <Button variant="outline" onClick={handleCopyPromptText}><Copy size={16} /></Button>
-          <Button variant="secondary" onClick={handleClickCopyAndOpenChat}>
-            Copy & Open ChatGPT
-          </Button>
+        <div className='flex items-center justify-between mb-2'>
+          {
+            !checkIsPromptDefault() &&
+            (
+              <Button
+                variant='outline'
+                className='flex items-center gap-2'
+                onClick={handleRestoreDefaultValue}
+              >
+                <RotateCcw size={16} />
+                Restore default value
+              </Button>
+            )
+          }
+          <div className='flex items-center gap-2 justify-end w-full'>
+            <DialogButton
+              title="Inspect prompt"
+              content={
+                replacePlaceholders(promptValue, inputValues).length > 0 ?
+                  <p>
+                    {replacePlaceholders(promptValue, inputValues)}
+                  </p>
+                  : <p className='italic text-sm font-thin'>(Prompt is empty)</p>
+              }
+            >
+              <Eye />
+            </DialogButton>
+            <Button variant="outline" onClick={handleCopyPromptText}><Copy size={16} /></Button>
+            <Button variant="secondary" onClick={handleClickCopyAndOpenChat}>
+              Copy & Open ChatGPT
+            </Button>
+          </div>
         </div>
         <h1 className='mb-2'>Prompt</h1>
         <div className='flex gap-5'>
@@ -178,7 +212,7 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
               placeholder='Write prompt here'
               minRows={10}
               onChange={handlePromptChange}
-              defaultValue={promptData.promptText}
+              value={promptValue}
             />
           </div>
           {inputs.length > 0 && (
@@ -198,6 +232,8 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
           )}
         </div>
       </Card>
+
+      {/* SAMPLE OUTPUT */}
       <Card>
         <h2>Sample response</h2>
         <Separator className='my-3' />
