@@ -302,7 +302,7 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
             />
           </section>
           <Button type="submit" disabled={loading}>
-            {loading && <Loader />}
+            <Loader />
             Submit
           </Button>
         </div>

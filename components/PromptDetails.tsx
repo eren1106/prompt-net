@@ -114,7 +114,7 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
             onClick={handleDeletePrompt}
             disabled={loading}
           >
-            {loading && <Loader />}
+            <Loader />
             <Trash2 size={16} />
             Delete
           </Button>
