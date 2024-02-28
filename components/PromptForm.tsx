@@ -272,6 +272,7 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
                         <PromptInput
                           label={input}
                           key={index}
+                          value={inputValues[index]}
                           onChange={(e) => handleInputChange(index, e.target.value)}
                         // {...register(`inputValues.${index}`, )}
                         />

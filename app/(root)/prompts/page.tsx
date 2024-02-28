@@ -8,7 +8,6 @@ import { getAllPrompts } from '@/services/prompt.service';
 
 const PromptsPage = async () => {
   const prompts = await getAllPrompts();
-  console.log("PROMPTS", prompts);
 
   return (
     <div className='flex flex-col'>
