@@ -31,11 +31,13 @@ model PromptList {
   id              Int      @id @default(autoincrement())
   title           String
   description     String
-  author          User     @relation(fields: [authorId], references: [id])
+  author          User     @relation("user_create_list", fields: [authorId], references: [id])
   authorId        String
   prompts         Prompt[]
+  starUsers       User[]   @relation("user_star_list")
   createdDatetime DateTime @default(now())
   updateDatetime  DateTime @updatedAt
+  userId          String?
 }
 
 model User {
@@ -48,7 +50,8 @@ model User {
   createdPrompts  Prompt[]          @relation("prompt_author")
   starredPrompts  Prompt[]
   comments        Comment[]
-  promptLists     PromptList[]
+  promptLists     PromptList[]      @relation("user_create_list")
+  starredLists    PromptList[]      @relation("user_star_list")
   UserLikeComment UserLikeComment[]
 }
 
