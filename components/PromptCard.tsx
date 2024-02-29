@@ -4,7 +4,7 @@ import { StarIcon } from '@radix-ui/react-icons';
 import { Card } from './ui/card';
 import { Prompt } from '@/models/prompt.model';
 import { getPlatformByName } from '@/services/prompt.service';
-import { convertDateToTimeAgoStr } from '@/lib/utils';
+import { convertDateToTimeAgoStr, convertIdTitleToSlug } from '@/lib/utils';
 import { Tag } from '@prisma/client';
 import TagWrapper from './TagWrapper';
 
@@ -15,7 +15,7 @@ interface PromptCardProps {
 const PromptCard = ({ promptData }: PromptCardProps) => {
 
   return (
-    <Link href={`/prompts/${promptData.id}`}>
+    <Link href={`/prompts/${convertIdTitleToSlug(promptData.id, promptData.title)}`}>
       <Card className='cursor-pointer hover:transform hover:scale-105 transition-transform w-72 h-56'>
         <div className='flex flex-col gap-1 h-full'>
           {/* TAGS SECTION */}

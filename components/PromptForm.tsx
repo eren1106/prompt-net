@@ -22,6 +22,7 @@ import usePromptTemplateData from '@/hooks/prompt-template.hook';
 import { useToast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
 import useLoading from '@/hooks/loading.hook';
+import { convertIdTitleToSlug } from '@/lib/utils';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
@@ -84,7 +85,7 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
           duration: 2000,
         });
 
-        router.push(`/prompts/${promptData.id}`);
+        router.push(`/prompts/${convertIdTitleToSlug(promptData.id, promptData.title)}`);
       }
       else { // for create
         await createPrompt({

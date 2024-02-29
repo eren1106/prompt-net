@@ -16,7 +16,7 @@ import { Separator } from './ui/separator';
 import Link from 'next/link';
 import MultipleSelectDropdown from './custom/MultipleSelectDropdown';
 import { mockDropdownItems } from '@/constants';
-import { convertDateToTimeAgoStr } from '@/lib/utils';
+import { convertDateToTimeAgoStr, convertIdTitleToSlug } from '@/lib/utils';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
 import { useRouter } from 'next/navigation';
 import useLoading from '@/hooks/loading.hook';
@@ -110,7 +110,7 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
       <div className='flex justify-between items-end'>
         <h1>{promptData.title}</h1>
         <div className='flex items-center gap-2'>
-          <Link href={`${promptData.id}/edit`}>
+          <Link href={`${convertIdTitleToSlug(promptData.id, promptData.title)}/edit`}>
             <Button
               className='flex gap-2 items-center'
               variant="secondary"

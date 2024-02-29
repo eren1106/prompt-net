@@ -36,3 +36,23 @@ export const convertDateToTimeAgoStr = (date: Date | string): string => {
   return "just now";
 }
 
+export const convertIdTitleToSlug = (id: number, title: string) => {
+  const slug = `${id}-${title}`
+    .toString() // Convert to string
+    .toLowerCase() // Convert to lowercase
+    .replace(/\s+/g, '-') // Replace spaces with -
+    .replace(/[^\w\-]+/g, '') // Remove all non-word characters except -
+    .replace(/\-\-+/g, '-') // Replace multiple - with single -
+    .replace(/^-+/, '') // Trim - from start of text
+    .replace(/-+$/, ''); // Trim - from end of text
+  return slug;
+}
+
+export const extractIdFromSlug = (slug: string) => {
+  const parts = slug.split('-');
+  if (parts.length < 2) return null;
+  const id = Number(parts[0]);
+  if (isNaN(id)) return null;
+  return id;
+}
+

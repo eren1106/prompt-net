@@ -1,10 +1,12 @@
 import PromptForm from '@/components/PromptForm';
+import { extractIdFromSlug } from '@/lib/utils';
 import { getAllPromptTags, getPromptById } from '@/services/prompt.service';
 import React from 'react'
 
 const EditPromptPage = async ({ params }: any) => {
   const { id } = params;
-  const prompt = await getPromptById(Number(id));
+  const promptId = extractIdFromSlug(id);
+  const prompt = await getPromptById(Number(promptId));
   const tags = await getAllPromptTags();
 
   return (
