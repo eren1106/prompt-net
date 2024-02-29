@@ -85,6 +85,15 @@ export const deleteApiResponse = <T>(result: T, name?: string) => {
   });
 }
 
+export const customApiResponse = <T>(result: T, message?: string) => {
+  if(!result) return noResultResponse();
+  return nextResponse({
+    message: message || 'Success',
+    data: result,
+    extra: '',
+  });
+}
+
 const noResultResponse = () => {
   return nextResponse({
     message: 'Data not found',
