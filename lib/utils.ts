@@ -56,3 +56,7 @@ export const extractIdFromSlug = (slug: string) => {
   return id;
 }
 
+export const checkNullUndefined = (o: any): boolean => { // for handle case that you dont want 0 to be false value
+  return o === null || o === undefined;
+}
+
