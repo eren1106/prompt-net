@@ -17,7 +17,11 @@ export const GET = async (req: NextRequest, { params }: RequestParams) => {
         id: Number(id),
       },
       include: {
-        prompts: true,
+        prompts: {
+          include: {
+            tags: true,
+          }
+        },
       }
     });
     return getApiResponse(prompt);

@@ -1,8 +1,12 @@
 import ListCard from '@/components/ListCard'
 import { Button } from '@/components/ui/button'
+import { PromptList } from '@/models/prompt-list.model'
+import { getAllPromptLists } from '@/services/prompt-list.service'
 import React from 'react'
 
-const ListsPage = () => {
+const ListsPage = async () => {
+  const lists: PromptList[] = await getAllPromptLists();
+
   return (
     <div className='w-full'>
       <div className='flex justify-between mb-3'>
@@ -16,9 +20,9 @@ const ListsPage = () => {
       </div>
 
       <div className='flex flex-col gap-3'>
-        <ListCard />
-        <ListCard />
-        <ListCard />
+        {
+          lists.map((list: PromptList) => <ListCard promptList={list} />)
+        }
       </div>
     </div>
   )
