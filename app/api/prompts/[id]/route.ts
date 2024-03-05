@@ -18,6 +18,7 @@ export const GET = async (req: NextRequest, { params }: RequestParams) => {
       },
       include: {
         tags: true,
+        author: true,
       }
     });
     return getApiResponse(prompt);

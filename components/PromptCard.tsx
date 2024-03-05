@@ -7,6 +7,8 @@ import { getPlatformByName } from '@/services/prompt.service';
 import { convertDateToTimeAgoStr, convertIdTitleToSlug } from '@/lib/utils';
 import { Tag } from '@prisma/client';
 import TagWrapper from './TagWrapper';
+import ProfileAvatar from './custom/ProfileAvatar';
+import { DEFAULT_PROFILE_PIC_PATH } from '@/constants/constants';
 
 interface PromptCardProps {
   promptData: Prompt;
@@ -36,7 +38,16 @@ const PromptCard = ({ promptData }: PromptCardProps) => {
 
           {/* BOTTOM SECTION */}
           <section className='flex items-center justify-between mt-auto'>
-            <p className='text-xs text-gray-500'>{convertDateToTimeAgoStr(promptData.createdDatetime)}</p>
+            <div className='flex items-center gap-2'>
+              <div className='flex items-center gap-2'>
+                <ProfileAvatar
+                  src={promptData.author.profilePicUri ?? DEFAULT_PROFILE_PIC_PATH}
+                  size="xs"
+                />
+                <p className='text-xs'>{promptData.author.fullname}</p>
+              </div>
+              <p className='text-xs text-gray-500'>{convertDateToTimeAgoStr(promptData.createdDatetime)}</p>
+            </div>
             <div className='flex gap-1 items-center'>
               <StarIcon />
               <p>69</p>

@@ -7,6 +7,7 @@ export const GET = async () => {
     const prompts = await prisma.prompt.findMany({
       include: {
         tags: true,
+        author: true,
       },
     });
     return getApiResponse(prompts);
