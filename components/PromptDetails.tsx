@@ -20,6 +20,8 @@ import { convertDateToTimeAgoStr, convertIdTitleToSlug } from '@/lib/utils';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
 import { useRouter } from 'next/navigation';
 import useLoading from '@/hooks/loading.hook';
+import ProfileAvatar from './custom/ProfileAvatar';
+import { DEFAULT_PROFILE_PIC_PATH } from '@/constants/constants';
 
 interface PromptDetailsProps {
   promptData: Prompt;
@@ -135,8 +137,17 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
       {/* DESCRIPTION */}
       <p>{promptData.description}</p>
 
-      {/* TAGS */}
-      <div className='flex gap-2'>
+      {/* AUTHOR & TAGS */}
+      <div className='flex gap-2 items-center'>
+        <Link href={`/${promptData.author.username}`}>
+          <div className='flex items-center gap-2'>
+            <ProfileAvatar
+              src={promptData.author.profilePicUri ?? DEFAULT_PROFILE_PIC_PATH}
+              size="sm"
+            />
+            <p className='text-sm hover:underline'>{promptData.author.fullname}</p>
+          </div>
+        </Link>
         {
           promptData.tags.map((tag: Tag) => <TagWrapper>{tag.name}</TagWrapper>)
         }
@@ -239,7 +250,7 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
         <Separator className='my-3' />
         <p>{promptData.sampleOutput}</p>
       </Card>
-    </div>
+    </div >
   )
 }
 
