@@ -9,13 +9,7 @@ import { useForm } from 'react-hook-form'
 import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from '../ui/use-toast'
 import AuthFormWrapper from './AuthFormWrapper'
-
-const SignupSchema = z.object({
-  username: z.string().min(2, "Username must be at least 2 characters."),
-  fullname: z.string().min(2, "Fullname must be at least 2 characters."),
-  email: z.string().email("This is not a valid email."),
-  password: z.string().min(6),
-});
+import { SignupSchema } from '@/schemas'
 
 const SignupForm = () => {
   const form = useForm<z.infer<typeof SignupSchema>>({
