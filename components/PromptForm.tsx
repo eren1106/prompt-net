@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import AutoResizeTextarea from '@/components/custom/AutoResizeTextarea';
@@ -15,7 +15,7 @@ import { platformSelectItems } from '@/constants';
 import TagsSelector from './TagsSelector';
 import { Tag } from '@prisma/client';
 import DialogButton from './custom/DialogButton';
-import { Eye, Loader2 } from 'lucide-react';
+import { Eye } from 'lucide-react';
 import { createPrompt, getInputsFromPrompt, replacePlaceholders, updatePrompt } from '@/services/prompt.service';
 import { Prompt } from '@/models/prompt.model';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
@@ -75,7 +75,6 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
           promptText: data.promptValue,
           inputs: inputValues,
           sampleOutput: data.sampleResponse,
-          authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
           platform: data.platform,
           tagIdList: data.tagIdList,
         });

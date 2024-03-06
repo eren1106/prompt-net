@@ -50,6 +50,11 @@ export const theme = {
         DEFAULT: "hsl(var(--card))",
         foreground: "hsl(var(--card-foreground))",
       },
+      // ADDED BY ME
+      grey: {
+        DEFAULT: "grey",
+        foreground: "grey",
+      }
     },
     borderRadius: {
       lg: "var(--radius)",

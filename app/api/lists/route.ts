@@ -22,7 +22,6 @@ export const POST = async (req: NextRequest) => {
       title,
       description,
       authorId,
-      promptIdList,
     } = await req.json();
 
     const newList = await prisma.promptList.create({
@@ -30,9 +29,6 @@ export const POST = async (req: NextRequest) => {
         title,
         description,
         authorId,
-        prompts: {
-          connect: promptIdList.map((promptId: number) => ({ id: promptId })),
-        },
       },
     })
     return postApiResponse(newList, 'prompt list');

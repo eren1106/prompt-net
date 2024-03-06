@@ -38,7 +38,6 @@ export const PUT = async (req: NextRequest, { params }: any) => {
       promptText,
       inputs,
       sampleOutput,
-      authorId,
       tagIdList,
       platform,
     } = await req.json();
@@ -53,7 +52,6 @@ export const PUT = async (req: NextRequest, { params }: any) => {
         promptText,
         inputs,
         sampleOutput,
-        authorId,
         platform,
         // pass in list of object with only id property instead of list of whole object
         tags: {

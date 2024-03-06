@@ -1,6 +1,6 @@
 import ProfilePage from '@/containers/user-profile-page'
 import React from 'react'
 
-const Page = () => <ProfilePage />
+const Page = ({params}: any) => <ProfilePage params={params} />
 
 export default Page

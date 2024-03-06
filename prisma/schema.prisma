@@ -37,7 +37,6 @@ model PromptList {
   starUsers       User[]   @relation("user_star_list")
   createdDatetime DateTime @default(now())
   updateDatetime  DateTime @updatedAt
-  userId          String?
 }
 
 model User {

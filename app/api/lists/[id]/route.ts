@@ -19,6 +19,7 @@ export const GET = async (req: NextRequest, { params }: RequestParams) => {
       include: {
         prompts: {
           include: {
+            author: true,
             tags: true,
           }
         },
@@ -38,8 +39,6 @@ export const PUT = async (req: NextRequest, { params }: any) => {
     const {
       title,
       description,
-      authorId,
-      promptIdList,
     } = await req.json();
 
     const updatedList = await prisma.promptList.update({
@@ -49,10 +48,6 @@ export const PUT = async (req: NextRequest, { params }: any) => {
       data: {
         title,
         description,
-        authorId,
-        prompts: {
-          connect: promptIdList.map((promptId: number) => ({ id: promptId })),
-        },
       },
     })
     return putApiResponse(updatedList, 'prompt list');

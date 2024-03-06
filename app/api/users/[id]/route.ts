@@ -9,8 +9,17 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
     const user = await prisma.user.findFirst({
       where: {OR: [{id: id},{username: id}]}, // FIND BY UUID OR USERNAME
       include: {
-        createdPrompts: true,
-        promptLists: true,
+        createdPrompts: {
+          include: {
+            tags: true,
+            author: true
+          }
+        },
+        promptLists: {
+          include: {
+            prompts: true
+          }
+        },
       }
     });
     return getApiResponse(user);

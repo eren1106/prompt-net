@@ -8,6 +8,7 @@ interface DialogButtonProps {
   title?: string;
   description?: string;
   className?: string;
+  variant?: "link" | "default" | "destructive" | "outline" | "secondary" | "ghost";
 }
 
 const DialogButton = ({
@@ -15,12 +16,13 @@ const DialogButton = ({
     content,
     title,
     description,
-    className
+    className,
+    variant,
   }: DialogButtonProps) => {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant="outline" className={className}>{children}</Button>
+        <Button variant={variant} className={className}>{children}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
