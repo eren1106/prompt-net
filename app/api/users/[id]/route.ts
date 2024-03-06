@@ -6,12 +6,14 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
   const { id } = params;
 
   try {
-    const prompt = await prisma.user.findUnique({
-      where: {
-        id: id,
-      },
+    const user = await prisma.user.findFirst({
+      where: {OR: [{id: id},{username: id}]}, // FIND BY UUID OR USERNAME
+      include: {
+        createdPrompts: true,
+        promptLists: true,
+      }
     });
-    return getApiResponse(prompt);
+    return getApiResponse(user);
   }
   catch (err) {
     return errorResponse(err);
