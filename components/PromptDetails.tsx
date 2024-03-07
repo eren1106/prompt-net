@@ -16,7 +16,7 @@ import { Separator } from './ui/separator';
 import Link from 'next/link';
 import MultipleSelectDropdown from './custom/MultipleSelectDropdown';
 import { mockDropdownItems } from '@/constants';
-import { convertDateToTimeAgoStr, convertIdTitleToSlug, replaceNewlinesWithBr } from '@/utils';
+import { convertDateToTimeAgoStr, convertIdTitleToSlug } from '@/utils';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
 import { useRouter } from 'next/navigation';
 import useLoading from '@/hooks/loading.hook';
@@ -248,7 +248,7 @@ const PromptDetails = ({ promptData }: PromptDetailsProps) => {
       <Card>
         <h2>Sample response</h2>
         <Separator className='my-3' />
-        <p>{promptData.sampleOutput}</p>
+        <pre>{promptData.sampleOutput}</pre>
       </Card>
     </div >
   )
