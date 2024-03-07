@@ -25,6 +25,7 @@ model Prompt {
   platform        String
   createdDatetime DateTime     @default(now())
   updateDatetime  DateTime     @updatedAt
+  comments        Comment[]
 }
 
 model PromptList {
@@ -58,12 +59,14 @@ model Comment {
   id              Int               @id @default(autoincrement())
   author          User              @relation(fields: [authorId], references: [id])
   authorId        String
+  prompt          Prompt            @relation(fields: [promptId], references: [id])
+  promptId        Int
   value           String
   createdDatetime DateTime          @default(now())
   updateDatetime  DateTime          @updatedAt
   subComments     Comment[]         @relation("SubComments")
   parentComment   Comment?          @relation("SubComments", fields: [parentCommentId], references: [id])
-  parentCommentId Int
+  parentCommentId Int?
   likes           UserLikeComment[]
 }
 
