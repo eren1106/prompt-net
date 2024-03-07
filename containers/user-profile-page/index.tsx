@@ -3,6 +3,7 @@ import PromptCard from '@/components/PromptCard'
 import PromptListForm from '@/components/PromptListForm'
 import DialogButton from '@/components/custom/DialogButton'
 import ProfileAvatar from '@/components/custom/ProfileAvatar'
+import { DEFAULT_PROFILE_PIC_PATH } from '@/constants'
 import { PromptList } from '@/models/prompt-list.model'
 import { Prompt } from '@/models/prompt.model'
 import { User } from '@/models/user.model'
@@ -20,7 +21,7 @@ const ProfilePage = async ({ params }: any) => {
       <div className='flex flex-col gap-2'>
         <ProfileAvatar
           size="4xl"
-          src="https://github.com/shadcn.png"
+          src={user.profilePicUri ?? DEFAULT_PROFILE_PIC_PATH}
         />
         <div>
           <h1>{user.fullname}</h1>
