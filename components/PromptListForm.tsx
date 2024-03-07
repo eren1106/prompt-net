@@ -11,7 +11,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '
 import { toast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
 import useLoading from '@/hooks/loading.hook';
-import { convertIdTitleToSlug } from '@/lib/utils';
+import { convertIdTitleToSlug } from '@/utils/utils';
 import { PromptList } from '@/models/prompt-list.model';
 import { createPromptList, updatePromptList } from '@/services/prompt-list.service';
 

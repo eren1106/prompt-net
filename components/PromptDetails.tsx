@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent } from 'react'
 import AutoResizeTextarea from './custom/AutoResizeTextarea'
 import PromptInput from './PromptInput'
 import { Card } from './ui/card';
@@ -10,18 +10,18 @@ import TagWrapper from './TagWrapper';
 import { Button } from './ui/button';
 import { deletePrompt, getInputsFromPrompt, getPlatformByName, replacePlaceholders } from '@/services/prompt.service';
 import { useToast } from './ui/use-toast';
-import { BookmarkIcon, Copy, Eye, Loader2, Pencil, PlusIcon, RotateCcw, StarIcon, Trash2 } from 'lucide-react';
+import { BookmarkIcon, Copy, Eye, Pencil, PlusIcon, RotateCcw, StarIcon, Trash2 } from 'lucide-react';
 import DialogButton from './custom/DialogButton';
 import { Separator } from './ui/separator';
 import Link from 'next/link';
 import MultipleSelectDropdown from './custom/MultipleSelectDropdown';
 import { mockDropdownItems } from '@/constants';
-import { convertDateToTimeAgoStr, convertIdTitleToSlug } from '@/lib/utils';
+import { convertDateToTimeAgoStr, convertIdTitleToSlug, replaceNewlinesWithBr } from '@/utils';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
 import { useRouter } from 'next/navigation';
 import useLoading from '@/hooks/loading.hook';
 import ProfileAvatar from './custom/ProfileAvatar';
-import { DEFAULT_PROFILE_PIC_PATH } from '@/constants/constants';
+import { DEFAULT_PROFILE_PIC_PATH } from '@/constants';
 
 interface PromptDetailsProps {
   promptData: Prompt;

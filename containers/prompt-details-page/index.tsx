@@ -2,7 +2,7 @@ import React from 'react'
 import PromptDetails from '@/components/PromptDetails';
 import { getPromptById } from '@/services/prompt.service';
 import CommentSection from '@/components/CommentSection';
-import { extractIdFromSlug } from '@/lib/utils';
+import { extractIdFromSlug } from '@/utils/utils';
 import { notFound } from 'next/navigation';
 
 const PromptDetailPage = async ({ params }: any) => {

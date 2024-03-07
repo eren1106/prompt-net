@@ -2,7 +2,7 @@ import PromptCardList from '@/components/PromptCardList'
 import PromptListForm from '@/components/PromptListForm';
 import DialogButton from '@/components/custom/DialogButton';
 import { Button } from '@/components/ui/button';
-import { extractIdFromSlug } from '@/lib/utils';
+import { extractIdFromSlug } from '@/utils/utils';
 import { PromptList } from '@/models/prompt-list.model';
 import { getPromptListById } from '@/services/prompt-list.service';
 import { Pencil } from 'lucide-react';

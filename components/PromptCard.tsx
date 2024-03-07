@@ -4,11 +4,11 @@ import { StarIcon } from '@radix-ui/react-icons';
 import { Card } from './ui/card';
 import { Prompt } from '@/models/prompt.model';
 import { getPlatformByName } from '@/services/prompt.service';
-import { convertDateToTimeAgoStr, convertIdTitleToSlug } from '@/lib/utils';
+import { convertDateToTimeAgoStr, convertIdTitleToSlug } from '@/utils/utils';
 import { Tag } from '@prisma/client';
 import TagWrapper from './TagWrapper';
 import ProfileAvatar from './custom/ProfileAvatar';
-import { DEFAULT_PROFILE_PIC_PATH } from '@/constants/constants';
+import { DEFAULT_PROFILE_PIC_PATH } from '@/constants';
 
 interface PromptCardProps {
   promptData: Prompt;

@@ -22,7 +22,7 @@ const DialogButton = ({
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button variant={variant} className={className}>{children}</Button>
+        <Button variant={variant ?? "outline"} className={className}>{children}</Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>

@@ -22,7 +22,7 @@ import usePromptTemplateData from '@/hooks/prompt-template.hook';
 import { useToast } from './ui/use-toast';
 import { useRouter } from 'next/navigation';
 import useLoading from '@/hooks/loading.hook';
-import { convertIdTitleToSlug } from '@/lib/utils';
+import { convertIdTitleToSlug } from '@/utils/utils';
 
 const PromptFormSchema = z.object({
   title: z.string().min(12),
