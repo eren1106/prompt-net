@@ -1,6 +1,7 @@
 import { IPlatform } from "@/models/platform.model";
 import { getResponseData } from "./api.service";
 import { platformSelectItems } from "@/constants";
+import { Comment } from "@/models/comment.model";
 
 // TODO: seperate utils and REST into different files
 
@@ -73,4 +74,9 @@ export const deletePrompt = async (id: number) => {
       'Content-Type': 'application/json',
     },
   });
+}
+
+export const getAllPromptComments = async (id: number): Promise<Comment[]> => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/prompts/${id}/comments`, { cache: 'no-store' });
+  return getResponseData(res);
 }

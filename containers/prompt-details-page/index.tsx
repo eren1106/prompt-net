@@ -18,7 +18,7 @@ const PromptDetailPage = async ({ params }: any) => {
       <PromptDetails promptData={prompt} />
 
       {/* COMMENT SECTION */}
-      <CommentSection />
+      <CommentSection promptId={promptId} />
     </div>
   )
 }

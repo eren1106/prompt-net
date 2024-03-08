@@ -19,11 +19,11 @@ export const GET = async (req: NextRequest, { params }: RequestParams) => {
       include: {
         tags: true,
         author: true,
-        comments: {
-          include: {
-            parentComment: true,
-          }
-        },
+        // comments: {
+        //   include: {
+        //     parentComment: true,
+        //   }
+        // },
       }
     });
     return getApiResponse(prompt);

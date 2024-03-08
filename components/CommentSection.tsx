@@ -1,12 +1,39 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import ProfileAvatar from './custom/ProfileAvatar'
 import AutoResizeTextarea from './custom/AutoResizeTextarea'
 import { Button } from './ui/button'
-import Comment from './Comment'
+import CommentComponent from './Comment'
+import { Comment } from '@/models/comment.model'
+import { getAllPromptComments } from '@/services/prompt.service'
+import useLoading from '@/hooks/loading.hook'
+import { DEFAULT_PROFILE_PIC_PATH } from '@/constants'
 
-const CommentSection = () => {
+interface CommentSectionProps {
+  promptId: number
+}
+
+const CommentSection = ({ promptId }: CommentSectionProps) => {
+  // TODO: improvement => remove state & useEffect (can try to make everything inside a hook)
+  const [comments, setComments] = useState<Comment[]>([]);
+  const { loading, setLoading, Loader } = useLoading();
+
+  useEffect(() => {
+    setLoading(true);
+    getAllPromptComments(promptId)
+      .then((fetchedComments: Comment[]) => {
+        setComments(fetchedComments);
+      })
+      .catch((err) => {
+        console.log("Error on fetching comments: ", err);
+        // TODO: show error toast
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, []);
+
   return (
     <section>
       <h1 className='mb-3'>Comments</h1>
@@ -29,14 +56,25 @@ const CommentSection = () => {
 
       {/* ALL COMMENTS */}
       <div className='flex flex-col gap-3 mt-10'>
-        <Comment
+        {
+          loading ? <Loader /> : comments.map((comment: Comment) =>
+            <CommentComponent
+              id={comment.id}
+              profilePicUri={comment.author.profilePicUri ?? DEFAULT_PROFILE_PIC_PATH}
+              name={comment.author.fullname}
+              text={comment.value}
+              likes={comment.likes.length}
+            />
+          )
+        }
+        {/* <CommentComponent
           id={1}
           profilePicUri='https://github.com/shadcn.png'
           name='Your name'
           text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?'
           likes={100}
         />
-        <Comment
+        <CommentComponent
           id={2}
           profilePicUri='https://github.com/shadcn.png'
           name='Your name'
@@ -59,13 +97,13 @@ const CommentSection = () => {
             }
           ]}
         />
-        <Comment
+        <CommentComponent
           id={5}
           profilePicUri='https://github.com/shadcn.png'
           name='Your name'
           text='Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, necessitatibus aspernatur quisquam eligendi ducimus cumque?'
           likes={100}
-        />
+        /> */}
       </div>
     </section>
   )

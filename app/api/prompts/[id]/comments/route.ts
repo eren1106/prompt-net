@@ -1,6 +1,27 @@
 import prisma from "@/lib/prisma";
-import { errorResponse, postApiResponse } from "@/utils";
+import { errorResponse, getApiResponse, postApiResponse } from "@/utils";
 import { NextRequest } from "next/server";
+
+export const GET = async (req: NextRequest, { params }: any) => {
+  const { id: promptId } = params;
+
+  try {
+    const comments = await prisma.comment.findMany({
+      where: {
+        promptId: Number(promptId),
+      },
+      include: {
+        parentComment: true,
+        author: true,
+        likes: true,
+      }
+    })
+    return getApiResponse(comments);
+  }
+  catch (err) {
+    return errorResponse(err);
+  }
+}
 
 export const POST = async (req: NextRequest, { params }: any) => {
   const { id: promptId } = params;
