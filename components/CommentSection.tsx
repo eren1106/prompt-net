@@ -24,6 +24,9 @@ interface CommentSectionProps {
 const CommentSection = ({ promptId }: CommentSectionProps) => {
   const form = useForm<z.infer<typeof CommentSchema>>({
     resolver: zodResolver(CommentSchema),
+    defaultValues: {
+      commentValue: "",
+    }
   })
 
   // TODO: improvement => remove state & useEffect (can try to make everything inside a hook)
@@ -56,6 +59,7 @@ const CommentSection = ({ promptId }: CommentSectionProps) => {
       authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
     })
       .then(() => {
+        form.reset();
         toast({
           title: 'Comment posted successfully',
           duration: 2000,
