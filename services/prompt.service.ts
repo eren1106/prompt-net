@@ -80,3 +80,13 @@ export const getAllPromptComments = async (id: number): Promise<Comment[]> => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/prompts/${id}/comments`, { cache: 'no-store' });
   return getResponseData(res);
 }
+
+export const createComment = async (promptId: number | string, body: any) => {
+  await fetch(`/api/prompts/${promptId}/comments`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  });
+}

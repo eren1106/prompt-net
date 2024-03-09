@@ -62,7 +62,7 @@ const Comment = ({
           {/* REPLY TEXT FIELD */}
           {
             (replyingCommentId === id) &&
-            <div className='flex gap-1'>
+            <div className='flex gap-2'>
               <Input placeholder={`Reply to ${name}...`} />
               <Button onClick={handleSendReply}>Send</Button>
               <Button

@@ -11,3 +11,7 @@ export const SignupSchema = z.object({
   email: z.string().email("This is not a valid email."),
   password: z.string().min(6),
 });
+
+export const CommentSchema = z.object({
+  commentValue: z.string().min(1, "Comment must be at least 1 character"),
+});
