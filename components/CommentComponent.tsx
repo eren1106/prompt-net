@@ -13,11 +13,10 @@ import { CommentSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form'
 import { Comment } from '@/models/comment.model'
-import { createComment } from '@/services/prompt.service'
+import { createComment, deleteComment } from '@/services/prompt.service'
 import { useToast } from './ui/use-toast'
 import { DEFAULT_PROFILE_PIC_PATH } from '@/constants'
 import Spinner from './custom/Spinner'
-import AutoResizeTextarea from './custom/AutoResizeTextarea'
 
 interface CommentComponentProps {
   commentData: Comment;
@@ -55,6 +54,27 @@ const CommentComponent = ({
     else handleSetReplyId(commentData.id);
   }
 
+  const handleClickDelete = async () => {
+    try {
+      await deleteComment(commentData.promptId, commentData.id);
+      toast({
+        title: 'Comment deleted successfully',
+        duration: 2000,
+      })
+
+      // TODO: think a better way to refresh data
+      location.reload();
+    }
+    catch (err) {
+      console.log("Error: ", err);
+      toast({
+        title: "Failed: " + err,
+        duration: 2000,
+        variant: "destructive",
+      })
+    }
+  }
+
   const checkIsSub = (): boolean => {
     return !!commentData.parentCommentId
   }
@@ -63,28 +83,33 @@ const CommentComponent = ({
     return form.formState.isSubmitting;
   }
 
+  const checkIsCurrentUser = (): boolean => {
+    // TODO: check whether the author of the comment is current user
+    return true;
+  }
+
   const onSubmit = async (data: z.infer<typeof CommentSchema>) => {
-    await createComment({
-      promptId: commentData.promptId,
-      value: data.commentValue,
-      authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
-      parentCommentId: commentData.parentCommentId ?? commentData.id,
-    })
-      .then(() => {
-        form.reset();
-        toast({
-          title: 'Comment posted successfully',
-          duration: 2000,
-        })
-        handleResetReplyId();
+    try {
+      await createComment({
+        promptId: commentData.promptId,
+        value: data.commentValue,
+        authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
+        parentCommentId: commentData.parentCommentId ?? commentData.id,
+      });
+      toast({
+        title: 'Comment posted successfully',
+        duration: 2000,
       })
-      .catch((err) => {
-        toast({
-          title: "Failed: " + err,
-          duration: 2000,
-          variant: "destructive",
-        })
+      form.reset();
+      handleResetReplyId();
+    }
+    catch (err) {
+      toast({
+        title: "Failed: " + err,
+        duration: 2000,
+        variant: "destructive",
       })
+    }
   }
 
   return (
@@ -105,6 +130,16 @@ const CommentComponent = ({
             <Dot />
             <p>{`${commentData.likes.length} likes`}</p>
             <AiOutlineLike className='cursor-pointer' />
+            {
+              checkIsCurrentUser() &&
+              <>
+                <Dot />
+                <p
+                  className='hover:underline cursor-pointer'
+                  onClick={handleClickDelete}
+                >Delete</p>
+              </>
+            }
           </div>
 
           {/* REPLY TEXT FIELD */}

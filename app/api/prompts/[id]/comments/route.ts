@@ -9,6 +9,7 @@ export const GET = async (req: NextRequest, { params }: any) => {
     const comments = await prisma.comment.findMany({
       where: {
         promptId: Number(promptId),
+        parentCommentId: null, // only fetch the parent comment
       },
       include: {
         parentComment: true,

@@ -102,3 +102,13 @@ export const createComment = async (body: any) => {
     body: JSON.stringify(body),
   });
 }
+
+export const deleteComment = async (promptId: number, commentId: number) => {
+  // TODO: think a way to make the api better, now the promptId is not needed
+  await fetch(`/api/prompts/${promptId}/comments/${commentId}`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  });
+}
