@@ -4,11 +4,10 @@ import React, { useEffect, useState } from 'react'
 import ProfileAvatar from './custom/ProfileAvatar'
 import AutoResizeTextarea from './custom/AutoResizeTextarea'
 import { Button } from './ui/button'
-import CommentComponent from './Comment'
+import CommentComponent from './CommentComponent'
 import { Comment } from '@/models/comment.model'
 import { createComment, getAllPromptComments } from '@/services/prompt.service'
 import useLoading from '@/hooks/loading.hook'
-import { DEFAULT_PROFILE_PIC_PATH } from '@/constants'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod';
 import { CommentSchema } from '@/schemas'
@@ -54,7 +53,8 @@ const CommentSection = ({ promptId }: CommentSectionProps) => {
   }
 
   const onSubmit = async (data: z.infer<typeof CommentSchema>) => {
-    await createComment(promptId, {
+    await createComment({
+      promptId: promptId,
       value: data.commentValue,
       authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
     })
@@ -120,11 +120,12 @@ const CommentSection = ({ promptId }: CommentSectionProps) => {
         {
           loading ? <Loader /> : comments.map((comment: Comment) =>
             <CommentComponent
-              id={comment.id}
-              profilePicUri={comment.author.profilePicUri ?? DEFAULT_PROFILE_PIC_PATH}
-              name={comment.author.fullname}
-              text={comment.value}
-              likes={comment.likes.length}
+              commentData={comment}
+              // id={comment.id}
+              // profilePicUri={comment.author.profilePicUri ?? DEFAULT_PROFILE_PIC_PATH}
+              // name={comment.author.fullname}
+              // text={comment.value}
+              // likes={comment.likes.length}
             />
           )
         }

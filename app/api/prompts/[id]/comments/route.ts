@@ -12,6 +12,13 @@ export const GET = async (req: NextRequest, { params }: any) => {
       },
       include: {
         parentComment: true,
+        subComments: {
+          include: {
+            parentComment: true,
+            author: true,
+            likes: true,
+          }
+        },
         author: true,
         likes: true,
       }

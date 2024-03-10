@@ -81,7 +81,19 @@ export const getAllPromptComments = async (id: number): Promise<Comment[]> => {
   return getResponseData(res);
 }
 
-export const createComment = async (promptId: number | string, body: any) => {
+export const createComment = async (body: any) => {
+  const { promptId, parentCommentId } = body;
+  
+  if(parentCommentId) {
+    await fetch(`/api/prompts/${promptId}/comments/${parentCommentId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+    return;
+  }
   await fetch(`/api/prompts/${promptId}/comments`, {
     method: 'POST',
     headers: {
