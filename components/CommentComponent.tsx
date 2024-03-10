@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Dot from '@/components/custom/Dot'
 import { AiOutlineLike } from 'react-icons/ai'
 import ProfileAvatar from '@/components/custom/ProfileAvatar'
@@ -13,10 +13,11 @@ import { CommentSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form'
 import { Comment } from '@/models/comment.model'
-import { createComment, deleteComment } from '@/services/prompt.service'
+import { createComment, deleteComment, updateComment } from '@/services/prompt.service'
 import { useToast } from './ui/use-toast'
 import { DEFAULT_PROFILE_PIC_PATH } from '@/constants'
 import Spinner from './custom/Spinner'
+import CommentForm from './CommentForm'
 
 interface CommentComponentProps {
   commentData: Comment;
@@ -40,6 +41,8 @@ const CommentComponent = ({
   // isSub = false,
   // subComments = [],
 }: CommentComponentProps) => {
+
+  // STATES & HOOKS
   const form = useForm<z.infer<typeof CommentSchema>>({
     resolver: zodResolver(CommentSchema),
     defaultValues: {
@@ -48,7 +51,10 @@ const CommentComponent = ({
   })
   const { toast } = useToast();
   const { replyingCommentId, setId: handleSetReplyId, resetId: handleResetReplyId } = useReplyingCommentStore();
+  const [isEdit, setIsEdit] = useState<boolean>(false);
 
+
+  // HANDLE FUNCTION
   const handleClickReply = () => {
     form.setValue('commentValue', `@${commentData.author.fullname} `);
     if (replyingCommentId === commentData.id) handleResetReplyId();
@@ -77,10 +83,13 @@ const CommentComponent = ({
   }
 
   const handleClickEdit = () => {
-    // edit comment logic
+    form.setValue('commentValue', commentData.value);
     handleResetReplyId();
+    setIsEdit(true);
   }
 
+
+  // HELPER FUNCTION
   const checkIsSub = (): boolean => {
     return !!commentData.parentCommentId
   }
@@ -94,20 +103,37 @@ const CommentComponent = ({
     return true;
   }
 
+
+  // FORM SUBMIT
   const onSubmit = async (data: z.infer<typeof CommentSchema>) => {
     try {
-      await createComment({ // reply comment
-        promptId: commentData.promptId,
-        value: data.commentValue,
-        authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
-        parentCommentId: commentData.parentCommentId ?? commentData.id,
-      });
-      toast({
-        title: 'Comment posted successfully',
-        duration: 2000,
-      })
+      if (isEdit) { // edit commet
+        await updateComment(commentData.promptId, commentData.id, {
+          value: data.commentValue,
+          authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
+        });
+        toast({
+          title: 'Comment edited successfully',
+          duration: 2000,
+        })
+        setIsEdit(false);
+      }
+      else {
+        await createComment({ // reply comment
+          promptId: commentData.promptId,
+          value: data.commentValue,
+          authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
+          parentCommentId: commentData.parentCommentId ?? commentData.id,
+        });
+        toast({
+          title: 'Comment posted successfully',
+          duration: 2000,
+        })
+      }
       form.reset();
       handleResetReplyId();
+      // TODO: think a better way to refresh data
+      location.reload();
     }
     catch (err) {
       toast({
@@ -126,70 +152,89 @@ const CommentComponent = ({
           src={commentData.author.profilePicUri || DEFAULT_PROFILE_PIC_PATH}
         />
         <div className='w-full flex flex-col gap-2'>
-          <h2>{commentData.author.fullname}</h2>
-          <p>{commentData.value}</p>
-          <div className='flex gap-2 items-center'>
-            <p
-              className='hover:underline cursor-pointer'
-              onClick={handleClickReply}
-            >Reply</p>
-            <Dot />
-            <p>{`${commentData.likes.length} likes`}</p>
-            <AiOutlineLike className='cursor-pointer' />
-            {
-              checkIsCurrentUser() &&
-              <>
-                <Dot />
-                <p
-                  className='hover:underline cursor-pointer'
-                  onClick={handleClickEdit}
-                >Edit</p>
-                <Dot />
-                <p
-                  className='hover:underline cursor-pointer'
-                  onClick={handleClickDelete}
-                >Delete</p>
+          {
+            isEdit ?
+              <CommentForm
+                form={form}
+                onSubmit={onSubmit}
+                isSubmitting={checkIsSubmitting()}
+                onResetReplyId={handleResetReplyId}
+                editComment
+              />
+              : <>
+                <h2>{commentData.author.fullname}</h2>
+                <p>{commentData.value}</p>
+                <div className='flex gap-2 items-center'>
+                  <p
+                    className='hover:underline cursor-pointer'
+                    onClick={handleClickReply}
+                  >Reply</p>
+                  <Dot />
+                  <p>{`${commentData.likes.length} likes`}</p>
+                  <AiOutlineLike className='cursor-pointer' />
+                  {
+                    checkIsCurrentUser() &&
+                    <>
+                      <Dot />
+                      <p
+                        className='hover:underline cursor-pointer'
+                        onClick={handleClickEdit}
+                      >Edit</p>
+                      <Dot />
+                      <p
+                        className='hover:underline cursor-pointer'
+                        onClick={handleClickDelete}
+                      >Delete</p>
+                    </>
+                  }
+                </div>
               </>
-            }
-          </div>
+          }
 
           {/* REPLY TEXT FIELD */}
           {
             (replyingCommentId === commentData.id) &&
-            <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className='flex gap-2'>
-                <FormField
-                  control={form.control}
-                  name="commentValue"
-                  render={({ field }) => (
-                    <FormItem className='w-full'>
-                      {/* <FormLabel className='text-md'>Comment*</FormLabel> */}
-                      <FormControl>
-                        <Input
-                          placeholder={`Reply to ${commentData.author.fullname}...`}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+            <CommentForm
+              form={form}
+              onSubmit={onSubmit}
+              isSubmitting={checkIsSubmitting()}
+              onResetReplyId={handleResetReplyId}
+              replyTo={commentData.author.fullname}
+            />
+            // <Form {...form}>
+            //   <form onSubmit={form.handleSubmit(onSubmit)} className='flex gap-2'>
+            //     <FormField
+            //       control={form.control}
+            //       name="commentValue"
+            //       render={({ field }) => (
+            //         <FormItem className='w-full'>
+            //           {/* <FormLabel className='text-md'>Comment*</FormLabel> */}
+            //           <FormControl>
+            //             <Input
+            //               placeholder={`Reply to ${commentData.author.fullname}...`}
+            //               {...field}
+            //             />
+            //           </FormControl>
+            //           <FormMessage />
+            //         </FormItem>
+            //       )}
+            //     />
 
-                <Button
-                  type="submit"
-                  disabled={checkIsSubmitting()}
-                >
-                  {
-                    checkIsSubmitting() ? <Spinner /> : "Post"
-                  }
-                </Button>
-                <Button
-                  onClick={handleResetReplyId}
-                  variant="secondary"
-                  disabled={checkIsSubmitting()}
-                >Cancel</Button>
-              </form>
-            </Form>
+            //     <Button
+            //       type="submit"
+            //       disabled={checkIsSubmitting()}
+            //     >
+            //       {
+            //         checkIsSubmitting() ? <Spinner /> : "Post"
+            //       }
+            //     </Button>
+            //     <Button
+            //       onClick={handleResetReplyId}
+            //       variant="secondary"
+            //       disabled={checkIsSubmitting()}
+            //     >Cancel</Button>
+            //   </form>
+            // </Form>
           }
 
           {/* SUB COMMENTS */}

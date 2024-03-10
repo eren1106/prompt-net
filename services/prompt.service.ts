@@ -82,15 +82,18 @@ export const getAllPromptComments = async (id: number): Promise<Comment[]> => {
 }
 
 export const createComment = async (body: any) => {
-  const { promptId, parentCommentId } = body;
-  
-  if(parentCommentId) {
+  const { promptId, parentCommentId, value, authorId } = body;
+
+  if (parentCommentId) {
     await fetch(`/api/prompts/${promptId}/comments/${parentCommentId}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify({
+        value: value,
+        authorId: authorId,
+      }),
     });
     return;
   }
@@ -99,7 +102,10 @@ export const createComment = async (body: any) => {
     headers: {
       'Content-Type': 'application/json',
     },
-    body: JSON.stringify(body),
+    body: JSON.stringify({
+      value: value,
+      authorId: authorId,
+    }),
   });
 }
 
@@ -110,5 +116,19 @@ export const deleteComment = async (promptId: number, commentId: number) => {
     headers: {
       'Content-Type': 'application/json',
     },
+  });
+}
+
+export const updateComment = async (promptId: number, commentId: number, body: any) => {
+  // TODO: think a way to make the api better, now the promptId is not needed
+  await fetch(`/api/prompts/${promptId}/comments/${commentId}`, {
+    method: 'PUT',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      value: body.value,
+      authorId: body.authorId,
+    }),
   });
 }
