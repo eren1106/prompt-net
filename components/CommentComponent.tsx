@@ -50,6 +50,7 @@ const CommentComponent = ({
   const { replyingCommentId, setId: handleSetReplyId, resetId: handleResetReplyId } = useReplyingCommentStore();
 
   const handleClickReply = () => {
+    form.setValue('commentValue', `@${commentData.author.fullname} `);
     if (replyingCommentId === commentData.id) handleResetReplyId();
     else handleSetReplyId(commentData.id);
   }
@@ -75,6 +76,11 @@ const CommentComponent = ({
     }
   }
 
+  const handleClickEdit = () => {
+    // edit comment logic
+    handleResetReplyId();
+  }
+
   const checkIsSub = (): boolean => {
     return !!commentData.parentCommentId
   }
@@ -90,7 +96,7 @@ const CommentComponent = ({
 
   const onSubmit = async (data: z.infer<typeof CommentSchema>) => {
     try {
-      await createComment({
+      await createComment({ // reply comment
         promptId: commentData.promptId,
         value: data.commentValue,
         authorId: '401b4067-44aa-4a11-b71a-d7f5acc7ab80', // mock
@@ -133,6 +139,11 @@ const CommentComponent = ({
             {
               checkIsCurrentUser() &&
               <>
+                <Dot />
+                <p
+                  className='hover:underline cursor-pointer'
+                  onClick={handleClickEdit}
+                >Edit</p>
                 <Dot />
                 <p
                   className='hover:underline cursor-pointer'
