@@ -1,23 +1,20 @@
 'use client'
 
-import React, { useState } from 'react'
+import React from 'react'
 import Dot from '@/components/custom/Dot'
 import { AiOutlineLike } from 'react-icons/ai'
 import ProfileAvatar from '@/components/custom/ProfileAvatar'
-import { Input } from './ui/input'
-import { Button } from './ui/button'
 import { useCommentStore } from '@/lib/store'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod';
 import { CommentSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form'
 import { Comment } from '@/models/comment.model'
 import { createComment, deleteComment, updateComment } from '@/services/prompt.service'
 import { useToast } from './ui/use-toast'
 import { DEFAULT_PROFILE_PIC_PATH } from '@/constants'
-import Spinner from './custom/Spinner'
 import CommentForm from './CommentForm'
+import { checkIsEdited, convertDateToTimeAgoStr } from '@/utils'
 
 interface CommentComponentProps {
   commentData: Comment;
@@ -163,7 +160,13 @@ const CommentComponent = ({
               />
               : <>
                 <h2>{commentData.author.fullname}</h2>
-                <p>{commentData.value}</p>
+                <div className='flex gap-2 items-center'>
+                  <p>{commentData.value}</p>
+                  {
+                    checkIsEdited(commentData.createdDatetime, commentData.updateDatetime)
+                    && <p className='italic text-xs text-grey'>(Edited)</p>
+                  }
+                </div>
                 <div className='flex gap-2 items-center'>
                   <p
                     className='hover:underline cursor-pointer'
@@ -187,6 +190,7 @@ const CommentComponent = ({
                       >Delete</p>
                     </>
                   }
+                  <p className='text-grey text-sm'>{convertDateToTimeAgoStr(commentData.createdDatetime)}</p>
                 </div>
               </>
           }

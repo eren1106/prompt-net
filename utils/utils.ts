@@ -60,3 +60,10 @@ export const checkNullUndefined = (o: any): boolean => { // for handle case that
   return o === null || o === undefined;
 }
 
+export const checkIsEdited = (createdDate: Date | string, updatedDate: Date | string): boolean => {
+  const created = new Date(createdDate);
+  const updated = new Date(updatedDate);
+
+  return created.getTime() !== updated.getTime();
+}
+
