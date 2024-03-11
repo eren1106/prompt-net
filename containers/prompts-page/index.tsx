@@ -1,5 +1,5 @@
 import React from 'react'
-import PromptCardList from '@/components/PromptCardList'
+import PromptCardList from '@/components/prompts/PromptCardList'
 import { FaSort } from "react-icons/fa";
 import Searchbar from '@/components/custom/Searchbar';
 import RadioSelectDropdown from '@/components/custom/RadioSelectDropdown';

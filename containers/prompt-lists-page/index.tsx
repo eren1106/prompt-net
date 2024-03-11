@@ -1,4 +1,4 @@
-import ListCard from '@/components/ListCard'
+import ListCard from '@/components/prompts/ListCard'
 import { Button } from '@/components/ui/button'
 import { PromptList } from '@/models/prompt-list.model'
 import { getAllPromptLists } from '@/services/prompt-list.service'

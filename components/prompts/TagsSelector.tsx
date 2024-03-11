@@ -1,8 +1,8 @@
 import { getAllPromptTags } from '@/services/prompt.service';
 import React, { ReactNode, Suspense } from 'react'
-import DropdownMenuButton from './custom/DropdownMenuButton';
+import DropdownMenuButton from '../custom/DropdownMenuButton';
 import { Tag } from '@prisma/client';
-import { Button } from './ui/button';
+import { Button } from '../ui/button';
 import { Cross2Icon } from '@radix-ui/react-icons';
 import TagWrapper from './TagWrapper';
 

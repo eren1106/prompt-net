@@ -1,7 +1,7 @@
 import React from 'react'
-import PromptDetails from '@/components/PromptDetails';
+import PromptDetails from '@/containers/prompt-details-page/components/PromptDetails';
 import { getPromptById } from '@/services/prompt.service';
-import CommentSection from '@/components/CommentSection';
+import CommentSection from '@/containers/prompt-details-page/components/CommentSection';
 import { extractIdFromSlug } from '@/utils/utils';
 import { notFound } from 'next/navigation';
 

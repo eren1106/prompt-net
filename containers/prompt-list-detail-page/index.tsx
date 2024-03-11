@@ -1,5 +1,5 @@
-import PromptCardList from '@/components/PromptCardList'
-import PromptListForm from '@/components/PromptListForm';
+import PromptCardList from '@/components/prompts/PromptCardList'
+import PromptListForm from '@/components/prompts/PromptListForm';
 import DialogButton from '@/components/custom/DialogButton';
 import { Button } from '@/components/ui/button';
 import { extractIdFromSlug } from '@/utils/utils';

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card } from './ui/card'
+import { Card } from '../ui/card'
 import Link from 'next/link'
 import { convertIdTitleToSlug } from '@/utils/utils';
 import { PromptList } from '@/models/prompt-list.model';

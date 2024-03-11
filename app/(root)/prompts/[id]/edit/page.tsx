@@ -1,4 +1,4 @@
-import PromptForm from '@/components/PromptForm';
+import PromptForm from '@/components/prompts/PromptForm';
 import { extractIdFromSlug } from '@/utils/utils';
 import { getAllPromptTags, getPromptById } from '@/services/prompt.service';
 import React from 'react'

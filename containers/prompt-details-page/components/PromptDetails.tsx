@@ -1,26 +1,26 @@
 'use client'
 
 import React, { ChangeEvent } from 'react'
-import AutoResizeTextarea from './custom/AutoResizeTextarea'
-import PromptInput from './PromptInput'
-import { Card } from './ui/card';
+import AutoResizeTextarea from '../../../components/custom/AutoResizeTextarea'
+import PromptInput from '../../../components/prompts/PromptInput'
+import { Card } from '../../../components/ui/card';
 import { Prompt } from '@/models/prompt.model';
 import { Tag } from '@prisma/client';
-import TagWrapper from './TagWrapper';
-import { Button } from './ui/button';
+import TagWrapper from '../../../components/prompts/TagWrapper';
+import { Button } from '../../../components/ui/button';
 import { deletePrompt, getInputsFromPrompt, getPlatformByName, replacePlaceholders } from '@/services/prompt.service';
-import { useToast } from './ui/use-toast';
+import { useToast } from '../../../components/ui/use-toast';
 import { BookmarkIcon, Copy, Eye, Pencil, PlusIcon, RotateCcw, StarIcon, Trash2 } from 'lucide-react';
-import DialogButton from './custom/DialogButton';
-import { Separator } from './ui/separator';
+import DialogButton from '../../../components/custom/DialogButton';
+import { Separator } from '../../../components/ui/separator';
 import Link from 'next/link';
-import MultipleSelectDropdown from './custom/MultipleSelectDropdown';
+import MultipleSelectDropdown from '../../../components/custom/MultipleSelectDropdown';
 import { mockDropdownItems } from '@/constants';
 import { convertDateToTimeAgoStr, convertIdTitleToSlug } from '@/utils';
 import usePromptTemplateData from '@/hooks/prompt-template.hook';
 import { useRouter } from 'next/navigation';
 import useLoading from '@/hooks/loading.hook';
-import ProfileAvatar from './custom/ProfileAvatar';
+import ProfileAvatar from '../../../components/custom/ProfileAvatar';
 import { DEFAULT_PROFILE_PIC_PATH } from '@/constants';
 
 interface PromptDetailsProps {

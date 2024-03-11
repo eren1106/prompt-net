@@ -1,8 +1,8 @@
 import React from 'react'
-import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form';
-import { Input } from './ui/input';
-import { Button } from './ui/button';
-import Spinner from './custom/Spinner';
+import { Form, FormControl, FormField, FormItem, FormMessage } from '../../../components/ui/form';
+import { Input } from '../../../components/ui/input';
+import { Button } from '../../../components/ui/button';
+import Spinner from '../../../components/custom/Spinner';
 
 interface CommentFormProps {
   form: any; // TODO: put type of form

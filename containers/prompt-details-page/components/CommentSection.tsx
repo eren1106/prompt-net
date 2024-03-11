@@ -1,9 +1,9 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
-import ProfileAvatar from './custom/ProfileAvatar'
-import AutoResizeTextarea from './custom/AutoResizeTextarea'
-import { Button } from './ui/button'
+import ProfileAvatar from '../../../components/custom/ProfileAvatar'
+import AutoResizeTextarea from '../../../components/custom/AutoResizeTextarea'
+import { Button } from '../../../components/ui/button'
 import CommentComponent from './CommentComponent'
 import { Comment } from '@/models/comment.model'
 import { createComment, getAllPromptComments } from '@/services/prompt.service'
@@ -12,9 +12,9 @@ import { useForm } from 'react-hook-form'
 import * as z from 'zod';
 import { CommentSchema } from '@/schemas'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Form, FormControl, FormField, FormItem, FormMessage } from './ui/form'
-import Spinner from './custom/Spinner'
-import { useToast } from './ui/use-toast'
+import { Form, FormControl, FormField, FormItem, FormMessage } from '../../../components/ui/form'
+import Spinner from '../../../components/custom/Spinner'
+import { useToast } from '../../../components/ui/use-toast'
 
 interface CommentSectionProps {
   promptId: number
