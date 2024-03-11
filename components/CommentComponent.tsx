@@ -2,7 +2,7 @@
 
 import React from 'react'
 import Dot from '@/components/custom/Dot'
-import { AiOutlineLike } from 'react-icons/ai'
+import { AiFillLike, AiOutlineLike } from 'react-icons/ai'
 import ProfileAvatar from '@/components/custom/ProfileAvatar'
 import { useCommentStore } from '@/lib/store'
 import { useForm } from 'react-hook-form'
@@ -100,6 +100,11 @@ const CommentComponent = ({
     return true;
   }
 
+  const checkIfUserLikedComment = (): boolean => {
+    const currentUserId = "401b4067-44aa-4a11-b71a-d7f5acc7ab80"; // mock
+    return commentData.likes.some((like) => like.userId === currentUserId);
+  }
+
 
   // FORM SUBMIT
   const onSubmit = async (data: z.infer<typeof CommentSchema>) => {
@@ -174,7 +179,7 @@ const CommentComponent = ({
                   >Reply</p>
                   <Dot />
                   <p>{`${commentData.likes.length} likes`}</p>
-                  <AiOutlineLike className='cursor-pointer' />
+                  {checkIfUserLikedComment() ? <AiFillLike className='cursor-pointer' /> : <AiOutlineLike className='cursor-pointer' />}
                   {
                     checkIsCurrentUser() &&
                     <>
