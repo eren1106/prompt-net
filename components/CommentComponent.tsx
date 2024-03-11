@@ -6,7 +6,7 @@ import { AiOutlineLike } from 'react-icons/ai'
 import ProfileAvatar from '@/components/custom/ProfileAvatar'
 import { Input } from './ui/input'
 import { Button } from './ui/button'
-import { useReplyingCommentStore } from '@/lib/store'
+import { useCommentStore } from '@/lib/store'
 import { useForm } from 'react-hook-form'
 import * as z from 'zod';
 import { CommentSchema } from '@/schemas'
@@ -50,15 +50,15 @@ const CommentComponent = ({
     }
   })
   const { toast } = useToast();
-  const { replyingCommentId, setId: handleSetReplyId, resetId: handleResetReplyId } = useReplyingCommentStore();
-  const [isEdit, setIsEdit] = useState<boolean>(false);
+  const { commentId, setId: handleSetSelectedCommentId, resetId: handleResetSelectedCommentId, isEdit } = useCommentStore();
+  // const [isEdit, setIsEdit] = useState<boolean>(false);
 
 
   // HANDLE FUNCTION
   const handleClickReply = () => {
     form.setValue('commentValue', `@${commentData.author.fullname} `);
-    if (replyingCommentId === commentData.id) handleResetReplyId();
-    else handleSetReplyId(commentData.id);
+    if (commentId === commentData.id) handleResetSelectedCommentId();
+    else handleSetSelectedCommentId(commentData.id);
   }
 
   const handleClickDelete = async () => {
@@ -84,8 +84,8 @@ const CommentComponent = ({
 
   const handleClickEdit = () => {
     form.setValue('commentValue', commentData.value);
-    handleResetReplyId();
-    setIsEdit(true);
+    if (commentId === commentData.id) handleResetSelectedCommentId();
+    else handleSetSelectedCommentId(commentData.id, true);
   }
 
 
@@ -116,7 +116,7 @@ const CommentComponent = ({
           title: 'Comment edited successfully',
           duration: 2000,
         })
-        setIsEdit(false);
+        // setIsEdit(false);
       }
       else {
         await createComment({ // reply comment
@@ -131,7 +131,7 @@ const CommentComponent = ({
         })
       }
       form.reset();
-      handleResetReplyId();
+      handleResetSelectedCommentId();
       // TODO: think a better way to refresh data
       location.reload();
     }
@@ -153,12 +153,12 @@ const CommentComponent = ({
         />
         <div className='w-full flex flex-col gap-2'>
           {
-            isEdit ?
+            ((commentId === commentData.id) && isEdit) ?
               <CommentForm
                 form={form}
                 onSubmit={onSubmit}
                 isSubmitting={checkIsSubmitting()}
-                onResetReplyId={handleResetReplyId}
+                onResetReplyId={handleResetSelectedCommentId}
                 editComment
               />
               : <>
@@ -193,12 +193,12 @@ const CommentComponent = ({
 
           {/* REPLY TEXT FIELD */}
           {
-            (replyingCommentId === commentData.id) &&
+            ((commentId === commentData.id) && !isEdit) &&
             <CommentForm
               form={form}
               onSubmit={onSubmit}
               isSubmitting={checkIsSubmitting()}
-              onResetReplyId={handleResetReplyId}
+              onResetReplyId={handleResetSelectedCommentId}
               replyTo={commentData.author.fullname}
             />
             // <Form {...form}>
@@ -229,7 +229,7 @@ const CommentComponent = ({
             //       }
             //     </Button>
             //     <Button
-            //       onClick={handleResetReplyId}
+            //       onClick={handleResetSelectedCommentId}
             //       variant="secondary"
             //       disabled={checkIsSubmitting()}
             //     >Cancel</Button>

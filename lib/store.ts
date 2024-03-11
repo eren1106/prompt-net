@@ -1,13 +1,15 @@
 import { create } from 'zustand'
 
-type ReplyingCommentStore = {
-  replyingCommentId: number | null,
-  setId: (id: number) => void,
+type CommentStore = {
+  commentId: number | null,
+  isEdit: boolean,
+  setId: (id: number, isEdit?: boolean) => void,
   resetId: () => void,
 }
 
-export const useReplyingCommentStore = create<ReplyingCommentStore>((set) => ({
-  replyingCommentId: 0,
-  setId: (id: number) => set({ replyingCommentId: id }),
-  resetId: () => set({ replyingCommentId: null })
+export const useCommentStore = create<CommentStore>((set) => ({
+  commentId: 0,
+  isEdit: false,
+  setId: (id: number, isEdit?: boolean) => set({ commentId: id, isEdit: isEdit ?? false }),
+  resetId: () => set({ commentId: null })
 }));
