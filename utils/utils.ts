@@ -9,8 +9,7 @@ export function cn(...inputs: ClassValue[]) {
 
 
 export const convertDateToTimeAgoStr = (date: Date | string): string => {
-  const receivedDate = typeof date === 'string' ? new Date(date) : date;
-  return moment(receivedDate).fromNow();
+  return moment(date).fromNow();
 }
 
 export const convertIdTitleToSlug = (id: number, title: string) => {
