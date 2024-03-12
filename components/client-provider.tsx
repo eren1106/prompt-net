@@ -1,8 +1,9 @@
 'use client'
 
 import { SessionProvider } from "next-auth/react"
+import { AppProgressBar as ProgressBar } from 'next-nprogress-bar';
 
-export default function Provider ({
+export default function Provider({
   children,
   session
 }: {
@@ -10,6 +11,7 @@ export default function Provider ({
   session: any
 }): React.ReactNode {
   return <SessionProvider session={session}>
+    <ProgressBar />
     {children}
   </SessionProvider>
 }
