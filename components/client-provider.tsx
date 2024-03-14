@@ -11,7 +11,10 @@ export default function Provider({
   session: any
 }): React.ReactNode {
   return <SessionProvider session={session}>
-    <ProgressBar />
+    <ProgressBar
+      color="hsl(var(--primary))"
+      options={{ showSpinner: false }}
+    />
     {children}
   </SessionProvider>
 }
