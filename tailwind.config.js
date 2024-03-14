@@ -5,6 +5,7 @@ export const content = [
   './components/**/*.{ts,tsx}',
   './app/**/*.{ts,tsx}',
   './src/**/*.{ts,tsx}',
+  './containers/**/*.{ts,tsx}' // added by me, for applying tailwind to all files under containers folder
 ];
 export const prefix = "";
 export const theme = {
