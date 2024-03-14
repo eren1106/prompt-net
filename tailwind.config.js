@@ -51,12 +51,8 @@ export const theme = {
         DEFAULT: "hsl(var(--card))",
         foreground: "hsl(var(--card-foreground))",
       },
-      // ADDED BY ME
-      grey: {
-        DEFAULT: "grey",
-        foreground: "grey",
-      }
     },
+    textColor: {}, // have to do this to include all default color of tailwind
     borderRadius: {
       lg: "var(--radius)",
       md: "calc(var(--radius) - 2px)",

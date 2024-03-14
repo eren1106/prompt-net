@@ -16,7 +16,7 @@ const PromptCardList: React.FC<PromptCardListProps> = ({ list, max }: PromptCard
           key={prompt.id}
           promptData={prompt}
         />
-      ) : <p className='italic text-grey'>Dont have any prompt yet!</p>
+      ) : <p className='italic text-gray-500'>Dont have any prompt yet!</p>
       }
     </div>
   )
