@@ -44,6 +44,7 @@ export const authOptions: AuthOptions = {
         return null;
       }
     })],
+  secret: process.env.SECRET,
   session: { strategy: "jwt" }
 }
 
