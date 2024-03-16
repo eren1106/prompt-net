@@ -41,7 +41,7 @@ const RadioSelectDropdown: FC<RadioSelectDropdownProps> = ({
         <DropdownMenuRadioGroup value={selectedValue} onValueChange={setSelectedValue}>
           {
             items.map((item: IDropdownItem) =>
-              <DropdownMenuRadioItem value={item.key} key={item.key}>{item.label}</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value={item.key?.toString() ?? ""} key={item.key}>{item.label}</DropdownMenuRadioItem>
             )
           }
         </DropdownMenuRadioGroup>
