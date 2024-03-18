@@ -61,7 +61,7 @@ const TagsSelector = ({
         })
       }
       {
-        selectedTagIdList.length < 3 && (
+        selectedTagIdList.length < maxSelectedItem && (
           <DropdownMenuButton
             title="Tags"
             items={

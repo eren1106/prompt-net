@@ -28,10 +28,9 @@ const PromptFormSchema = z.object({
   title: z.string().min(12),
   description: z.string().min(20),
   promptValue: z.string().min(40),
-  // inputValues: z.array(z.string()),
   sampleResponse: z.string(),
   platform: z.string(),
-  tagIdList: z.array(z.number()).max(3),
+  tagIdList: z.array(z.number()).min(1, "Must have at least one tag").max(3),
 });
 
 interface PromptFormProps {
@@ -49,7 +48,6 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
     title: promptData?.title ?? "",
     description: promptData?.description ?? "",
     promptValue: promptData?.promptText ?? "",
-    // inputValues: [],
     sampleResponse: promptData?.sampleOutput ?? "",
     platform: promptData?.platform ?? platformSelectItems[0].name,
     tagIdList: promptData?.tags.map((tag) => tag.id) ?? [],
