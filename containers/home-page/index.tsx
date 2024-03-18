@@ -5,6 +5,7 @@ import StarParticles from './components/StarParticles'
 import PromptCardList from '@/components/prompts/PromptCardList'
 import { getAllPrompts } from '@/services/prompt.service'
 import LinkButton from '@/components/custom/LinkButton'
+import ThemeImage from '@/components/custom/ThemeImage'
 
 const HomePage = async () => {
   const prompts = await getAllPrompts();
@@ -58,7 +59,7 @@ const HomePage = async () => {
 
             {/* right */}
             <div className='flex-1 flex justify-center'>
-              <img
+              {/* <img
                 className="hidden dark:block h-96"
                 src="/images/prompt-illu-dark.png"
                 alt="prompt"
@@ -67,6 +68,12 @@ const HomePage = async () => {
                 className="block dark:hidden h-96"
                 src="/images/prompt-illu-light.png"
                 alt="prompt"
+              /> */}
+              <ThemeImage
+                className="h-96"
+                src="/images/prompt-illu-light.png"
+                darkThemeSrc='/images/prompt-illu-dark.png'
+                alt="prompt"
               />
             </div>
           </div>
@@ -74,13 +81,40 @@ const HomePage = async () => {
 
         {/* COLLECTIONS SECTION */}
         <section className='landing-section'>
-          Save your favourite prompts to collections
+          <div className='flex gap-6'>
+            {/* left */}
+            <div className='flex-1 flex justify-center'>
+              <img
+                className="hidden dark:block h-96"
+                src="/images/list-dark.png"
+                alt="list"
+              />
+              <img
+                className="block dark:hidden h-96"
+                src="/images/list-light.png"
+                alt="list"
+              />
+            </div>
+
+            {/* right */}
+            <div className='flex-1 flex flex-col gap-6'>
+              <h2 className='text-4xl font-bold'>
+                Create Your Own List
+              </h2>
+              <p className='text-lg'>
+                With PromptNet, you can create your own list of favorite prompt templates to boost productivity. Just select prompts from your list and paste them into ChatGPT, instead of writing the same prompt over and over again. Additionally, you can explore lists created by other users for new ideas.
+              </p>
+              <LinkButton href="/user" size="lg" className='text-xl font-bold w-min'>
+                Create list
+              </LinkButton>
+            </div>
+          </div>
         </section>
 
         {/* GET PROMPT TIPS SECTION */}
-        <section className='landing-section'>
+        {/* <section className='landing-section'>
           Prompt Engineering Tips
-        </section>
+        </section> */}
       </div>
     </StarParticles>
   )
