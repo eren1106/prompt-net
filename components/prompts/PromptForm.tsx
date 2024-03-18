@@ -216,6 +216,7 @@ const PromptForm = ({ promptData, tags }: PromptFormProps) => {
                       tags={tags}
                       selectedTagIdList={tagIdList}
                       onToggleItem={handleToggleTagItem}
+                      {...field}
                     // {...form.register('tagIdList')}
                     />
                   </FormControl>

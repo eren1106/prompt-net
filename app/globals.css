@@ -19,6 +19,15 @@ h2 {
   @apply rounded-lg;
 }
 
+.landing-section {
+  /* full screen height minus topbar height */
+  @apply flex;
+  @apply flex-col;
+  @apply items-center;
+  @apply justify-center;
+  @apply py-12;
+}
+
 #star-particles {
   z-index: -10;
   /* height: 100%;
