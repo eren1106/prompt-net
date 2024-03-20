@@ -45,6 +45,7 @@ model User {
   username        String            @unique
   email           String            @unique
   fullname        String
+  password        String?
   bio             String?
   profilePicUri   String?
   createdPrompts  Prompt[]          @relation("prompt_author")

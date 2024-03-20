@@ -7,7 +7,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string }
 
   try {
     const user = await prisma.user.findFirst({
-      where: {OR: [{id: id},{username: id}]}, // FIND BY UUID OR USERNAME
+      where: {OR: [{email: id},{username: id}]}, // FIND BY USERNAME OR EMAIL
       include: {
         createdPrompts: {
           include: {

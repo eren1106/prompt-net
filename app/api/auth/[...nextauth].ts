@@ -1,7 +1,10 @@
+import { LoginSchema } from "@/schemas";
 import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
+import bcrypt from 'bcrypt';
+import { getUserByUsernameOrEmail } from "@/services/user.service";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -25,21 +28,21 @@ export const authOptions: AuthOptions = {
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials, req) {
-        // const validatedFields = LoginSchema.safeParse(credentials);
+        const validatedFields = LoginSchema.safeParse(credentials);
 
-        // if (validatedFields.success) {
-        //   const { email, password } = validatedFields.data;
+        if (validatedFields.success) {
+          const { usernameOrEmail, password } = validatedFields.data;
 
-        //   const user = await getUserByEmail(email);
-        //   if (!user || !user.password) return null;
+          const user = await getUserByUsernameOrEmail(usernameOrEmail);
+          if (!user || !user.password) return null;
 
-        //   const passwordsMatch = await bcrypt.compare(
-        //     password,
-        //     user.password,
-        //   );
+          const passwordsMatch = await bcrypt.compare(
+            password,
+            user.password,
+          );
 
-        //   if (passwordsMatch) return user;
-        // }
+          if (passwordsMatch) return user;
+        }
 
         return null;
       }

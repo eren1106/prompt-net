@@ -10,8 +10,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { toast } from '../ui/use-toast'
 import AuthFormWrapper from './AuthFormWrapper'
 import { SignupSchema } from '@/schemas'
+import { signupUser } from '@/services/auth.service'
+import { useRouter } from 'next/navigation'
+import useLoading from '@/hooks/loading.hook'
 
 const SignupForm = () => {
+  const router = useRouter();
+  const { loading, setLoading, Loader } = useLoading();
+
   const form = useForm<z.infer<typeof SignupSchema>>({
     resolver: zodResolver(SignupSchema),
     // defaultValues: {
@@ -21,15 +27,28 @@ const SignupForm = () => {
     // },
   })
 
-  const onSubmit = (data: z.infer<typeof SignupSchema>) => {
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    })
+  const onSubmit = async (data: z.infer<typeof SignupSchema>) => {
+    setLoading(true);
+    try {
+      await signupUser({
+        username: data.username,
+        fullname: data.fullname,
+        email: data.email,
+        password: data.password,
+      });
+      toast({
+        title: "Signup successfully",
+      })
+      router.push('/prompts');
+    }
+    catch (err) {
+      console.log("Signup error: ", err);
+      toast({
+        title: "Signup error: " + err,
+        variant: "destructive",
+      })
+    }
+    setLoading(false);
   }
 
   return (
@@ -94,8 +113,9 @@ const SignupForm = () => {
             )}
           />
 
-          <Button type="submit" className='w-full'>
-            Log In
+          <Button type="submit" className='w-full' disabled={loading}>
+            <Loader />
+            Sign Up
           </Button>
         </form>
       </Form>
