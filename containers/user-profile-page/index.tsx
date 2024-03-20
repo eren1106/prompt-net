@@ -7,13 +7,13 @@ import { DEFAULT_PROFILE_PIC_PATH } from '@/constants'
 import { PromptList } from '@/models/prompt-list.model'
 import { Prompt } from '@/models/prompt.model'
 import { User } from '@/models/user.model'
-import { getUserByUsernameOrEmail } from '@/services/user.service'
+import { getUserByUsername } from '@/services/user.service'
 import { Plus } from 'lucide-react'
 import React from 'react'
 
 const ProfilePage = async ({ params }: any) => {
   const { id } = params;
-  const user: User = await getUserByUsernameOrEmail(id);
+  const user: User = await getUserByUsername(id);
 
   return (
     <div className='flex gap-4'>

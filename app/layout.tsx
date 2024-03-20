@@ -2,7 +2,7 @@ import './globals.css'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { getServerSession } from 'next-auth'
-import { authOptions } from "@/app/api/auth/[...nextauth]"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import Provider from '@/components/client-provider'
 
 export const metadata = {

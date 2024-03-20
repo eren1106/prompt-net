@@ -4,7 +4,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import bcrypt from 'bcrypt';
-import { getUserByUsernameOrEmail } from "@/services/user.service";
+import { getUserByEmail } from "@/services/user.service";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -24,16 +24,18 @@ export const authOptions: AuthOptions = {
       // e.g. domain, username, password, 2FA token, etc.
       // You can pass any HTML attribute to the <input> tag through the object.
       credentials: {
-        username: { label: "Username", type: "text", placeholder: "jsmith" },
-        password: { label: "Password", type: "password" }
+        // email: { label: "Username / Email", type: "text", placeholder: "yourname / youremail.your.com" },
+        // password: { label: "Password", type: "password" }
+        email: {},
+        password: {},
       },
       async authorize(credentials, req) {
         const validatedFields = LoginSchema.safeParse(credentials);
 
         if (validatedFields.success) {
-          const { usernameOrEmail, password } = validatedFields.data;
+          const { email, password } = validatedFields.data;
 
-          const user = await getUserByUsernameOrEmail(usernameOrEmail);
+          const user = await getUserByEmail(email);
           if (!user || !user.password) return null;
 
           const passwordsMatch = await bcrypt.compare(

@@ -2,14 +2,13 @@ import prisma from "@/lib/prisma";
 import { errorResponse, getApiResponse } from "@/utils/api-response";
 import { NextRequest } from "next/server";
 
-export const GET = async (req: NextRequest, { params }: { params: { id: string } }) => {
-  const { id } = params;
+export const GET = async (req: NextRequest, { params }: { params: { username: string } }) => {
+  const { username } = params;
 
   try {
     const user = await prisma.user.findFirst({
-      // where: {OR: [{email: id},{username: id}]}, // FIND BY USERNAME OR EMAIL
       where: {
-        id,
+        username,
       },
       include: {
         createdPrompts: {
