@@ -19,7 +19,7 @@ const ThemeImage = ({
       {
         darkThemeSrc && <img
           className={cn("hidden dark:block", className)}
-          src={src}
+          src={darkThemeSrc}
           alt={alt}
         />
       }

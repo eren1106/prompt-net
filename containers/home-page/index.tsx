@@ -59,16 +59,6 @@ const HomePage = async () => {
 
             {/* right */}
             <div className='flex-1 flex justify-center'>
-              {/* <img
-                className="hidden dark:block h-96"
-                src="/images/prompt-illu-dark.png"
-                alt="prompt"
-              />
-              <img
-                className="block dark:hidden h-96"
-                src="/images/prompt-illu-light.png"
-                alt="prompt"
-              /> */}
               <ThemeImage
                 className="h-96"
                 src="/images/prompt-illu-light.png"
@@ -84,14 +74,10 @@ const HomePage = async () => {
           <div className='flex gap-6'>
             {/* left */}
             <div className='flex-1 flex justify-center'>
-              <img
-                className="hidden dark:block h-96"
-                src="/images/list-dark.png"
-                alt="list"
-              />
-              <img
-                className="block dark:hidden h-96"
+              <ThemeImage
+                className="h-96"
                 src="/images/list-light.png"
+                darkThemeSrc='/images/list-dark.png'
                 alt="list"
               />
             </div>
