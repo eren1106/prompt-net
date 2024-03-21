@@ -2,8 +2,8 @@ import './globals.css'
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
 import { getServerSession } from 'next-auth'
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import Provider from '@/components/client-provider'
+import { authOptions } from '@/lib/authOptions'
 
 export const metadata = {
   title: 'PromptNet',
