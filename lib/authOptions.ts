@@ -5,6 +5,7 @@ import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import bcrypt from 'bcrypt';
 import { getUserByEmail } from "@/services/user.service";
+import { oauthSignUpUser } from "@/services/auth.service";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -48,7 +49,29 @@ export const authOptions: AuthOptions = {
 
         return null;
       }
-    })],
+    })
+  ],
   secret: process.env.SECRET,
-  session: { strategy: "jwt" }
+  session: { strategy: "jwt" },
+  callbacks: {
+    async signIn({ user, account }) {
+      if (account?.provider === "google" || account?.provider === "github") {
+        if (user.email) {
+          //check if user is in database
+          const userExist = await getUserByEmail(user.email);
+          if (userExist) {
+            /* TODO: check if the user's signup method is google
+              if yes => sign in user, if no => throw error that user had registered */
+
+            return true;
+          }
+          await oauthSignUpUser({
+            fullname: user.name,
+            email: user.email,
+          });
+        }
+      }
+      return true
+    }
+  }
 }

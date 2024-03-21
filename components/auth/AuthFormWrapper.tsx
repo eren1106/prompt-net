@@ -1,10 +1,8 @@
 import React, { ReactNode } from 'react'
 import { Card } from '../ui/card'
 import SeparatorWithText from '../custom/SeparatorWithText'
-import { Button } from '../ui/button'
-import { FcGoogle } from 'react-icons/fc'
-import { FaGithub } from 'react-icons/fa'
 import Link from 'next/link'
+import { GithubAuthButton, GoogleAuthButton } from './authButtons'
 
 interface AuthFormWrapperProps {
   isSignup?: boolean;
@@ -18,12 +16,8 @@ const AuthFormWrapper = ({isSignup=false, children}: AuthFormWrapperProps) => {
       {children}
       <SeparatorWithText text="OR" />
       <div className='flex gap-3'>
-        <Button variant="outline" className='w-full'>
-          <FcGoogle size={20} />
-        </Button>
-        <Button variant="outline" className='w-full'>
-          <FaGithub size={20} />
-        </Button>
+        <GoogleAuthButton />
+        <GithubAuthButton />
       </div>
       {
         isSignup
