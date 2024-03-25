@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react'
+import React from 'react'
 import PromptsPage from '@/containers/prompts-page';
 
 const Page = () => {
