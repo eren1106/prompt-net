@@ -1,9 +1,21 @@
+'use client'
+
 import React from 'react'
 import { ModeToggle } from './ModeToggle'
 import Link from 'next/link'
 import LinkButton from './custom/LinkButton'
+import { useCurrentUser } from '@/hooks/current-user.hook'
+import { Button } from './ui/button'
+import { signOut } from 'next-auth/react'
 
 const Topbar = () => {
+  const user = useCurrentUser();
+  console.log("USER", user);
+
+  const handleLogout = () => {
+    signOut({ callbackUrl: '/login' });
+  }
+
   return (
     <div className='h-16 border-b border-gray px-3 flex justify-between items-center bg-background'>
       <div>
@@ -13,7 +25,10 @@ const Topbar = () => {
       </div>
       <div className='flex gap-3'>
         <ModeToggle />
-        <LinkButton href='login'>Log In</LinkButton>
+        {user ?
+          <Button onClick={handleLogout}>Log Out</Button>
+          : <LinkButton href='login'>Log In</LinkButton>
+        }
       </div>
     </div>
   )

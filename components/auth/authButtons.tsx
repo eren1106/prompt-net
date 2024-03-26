@@ -5,10 +5,8 @@ import { Button } from '../ui/button'
 import { FcGoogle } from 'react-icons/fc'
 import { FaGithub } from 'react-icons/fa'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 
 export const GoogleAuthButton = () => {
-  const router = useRouter();
   const handleClickGoogle = async () => {
     await signIn("google", { callbackUrl: '/prompts' });
     // router.push('/prompts');
@@ -22,7 +20,6 @@ export const GoogleAuthButton = () => {
 }
 
 export const GithubAuthButton = () => {
-  const router = useRouter();
   const handleClickGithub = async () => {
     await signIn("github", { callbackUrl: '/prompts' });
     // router.push('/prompts');

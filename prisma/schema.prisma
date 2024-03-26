@@ -54,6 +54,15 @@ model User {
   promptLists     PromptList[]      @relation("user_create_list")
   starredLists    PromptList[]      @relation("user_star_list")
   UserLikeComment UserLikeComment[]
+  sessions        Session[]
+}
+
+model Session {
+  id           Int      @id @default(autoincrement())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id])
 }
 
 model Comment {

@@ -4,8 +4,8 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import Github from "next-auth/providers/github";
 import Google from "next-auth/providers/google";
 import bcrypt from 'bcrypt';
-import { getUserByEmail } from "@/services/user.service";
-import { oauthSignUpUser } from "@/services/auth.service";
+// import { oauthSignUpUser } from "@/services/auth.service";
+import { createUserWithFullNameEmail, getUserByEmail } from "@/data/user";
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -65,13 +65,48 @@ export const authOptions: AuthOptions = {
 
             return true;
           }
-          await oauthSignUpUser({
-            fullname: user.name,
-            email: user.email,
-          });
+          // await oauthSignUpUser({
+          //   fullname: user.name,
+          //   email: user.email,
+          // });
+
+          await createUserWithFullNameEmail(user?.name ?? '', user.email);
         }
       }
       return true
-    }
+    },
+    // The returned value will be encrypted, and it is stored in a cookie.
+    async jwt({ token, user }) {
+      console.log("-- TOKEN --");
+      console.log("TOKEN: ", token);
+      console.log("USER: ", user);
+
+      // if(user) {
+      //   token.user = user;
+      // }
+
+      return token;
+    },
+    // make above returned data (jwt) available to the client. ref: https://next-auth.js.org/configuration/callbacks
+    async session({ session, token, user }) {
+      console.log("-- SESSION --");
+      console.log("TOKEN: ", token);
+      console.log("SESSION: ", session);
+      console.log("USER: ", user);
+
+      // Send properties to the client, like an access_token and user id from a provider.
+      // session.accessToken = token.accessToken
+      // session.user.id = token.id
+
+      // if(token.user) {
+      //   session.user = token.user;
+      // }
+
+      const existingUser = await getUserByEmail(session.user.email);
+
+      if(existingUser) session.user = existingUser;
+      
+      return session;
+    },
   }
 }
