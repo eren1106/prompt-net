@@ -17,7 +17,7 @@ const Topbar = () => {
   }
 
   return (
-    <div className='h-16 border-b border-gray px-3 flex justify-between items-center bg-background'>
+    <div className='fixed top-0 w-full z-10 h-16 border-b border-gray px-3 flex justify-between items-center bg-background'>
       <div>
         <Link href="/">
           <h1 className='text-xl font-extrabold'>PromptNet</h1>
